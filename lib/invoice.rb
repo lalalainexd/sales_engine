@@ -49,4 +49,8 @@ class Invoice
   def self.find_by_created_at date
     @@invoices.find{|invoice| invoice.created_at == date}
   end
+
+  def self.find_by_updated_at date
+    @@invoices.find{|invoice| invoice.updated_at == date}
+  end
 end

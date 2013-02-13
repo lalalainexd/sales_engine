@@ -108,6 +108,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
     date = "2012-03-25 09:54:09 UTC"
     invoice = Invoice.find_by_created_at(date)
     assert_equal date, invoice.created_at
+
+    date = "2012-03-13 16:54:10 UTC"
+    invoice = Invoice.find_by_created_at(date)
+    assert_equal date, invoice.created_at
   end
 
+  def test_it_find_an_invoice_with_update_at
+    CsvLoader.load_invoices
+    date = "2012-03-13 16:54:10 UTC"
+    invoice = Invoice.find_by_updated_at(date)
+    assert_equal date, invoice.updated_at
+  end
 end
