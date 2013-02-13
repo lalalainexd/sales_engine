@@ -69,10 +69,31 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_with_id
-   invoice = Invoice.find_by_id("1")
-   assert_equal "1", invoice.id
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_id("1")
+    assert_equal "1", invoice.id
+
+    invoice = Invoice.find_by_id("2")
+    assert_equal "2", invoice.id
   end
 
+  def test_it_finds_an_invoice_with_customer_id
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_customer_id("1")
+    assert_equal "1", invoice.customer_id
 
+    invoice = Invoice.find_by_customer_id("2")
+    assert_equal "2", invoice.customer_id
 
+  end
+
+  def test_it_finds_an_invoice_with_merchant_id
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_merchant_id("26")
+    assert_equal "26", invoice.merchant_id
+
+    invoice = Invoice.find_by_merchant_id("75")
+    assert_equal "75", invoice.merchant_id
+
+  end
 end

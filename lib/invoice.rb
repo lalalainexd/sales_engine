@@ -33,4 +33,12 @@ class Invoice
   def self.find_by_id id
     @@invoices.find{|invoice| invoice.id == id}
   end
+
+  def self.find_by_customer_id customer_id
+    @@invoices.find{|invoice| invoice.customer_id == customer_id}
+  end
+
+  def self.find_by_merchant_id merchant_id
+    @@invoices.find{|invoice| invoice.merchant_id == merchant_id}
+  end
 end
