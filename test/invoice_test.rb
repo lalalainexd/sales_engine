@@ -96,4 +96,11 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal "75", invoice.merchant_id
 
   end
+
+  def test_it_find_an_invoice_with_status
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_status("shipped")
+    assert_equal "shipped", invoice.status
+
+  end
 end

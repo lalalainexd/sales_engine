@@ -41,4 +41,8 @@ class Invoice
   def self.find_by_merchant_id merchant_id
     @@invoices.find{|invoice| invoice.merchant_id == merchant_id}
   end
+
+  def self.find_by_status status
+    @@invoices.find{|invoice| invoice.status == status}
+  end
 end
