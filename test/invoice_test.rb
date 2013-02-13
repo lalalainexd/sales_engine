@@ -101,6 +101,13 @@ class InvoiceTest < MiniTest::Unit::TestCase
     CsvLoader.load_invoices
     invoice = Invoice.find_by_status("shipped")
     assert_equal "shipped", invoice.status
-
   end
+
+  def test_it_find_an_invoice_with_created_at
+    CsvLoader.load_invoices
+    date = "2012-03-25 09:54:09 UTC"
+    invoice = Invoice.find_by_created_at(date)
+    assert_equal date, invoice.created_at
+  end
+
 end

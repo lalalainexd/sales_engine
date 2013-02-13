@@ -45,4 +45,8 @@ class Invoice
   def self.find_by_status status
     @@invoices.find{|invoice| invoice.status == status}
   end
+
+  def self.find_by_created_at date
+    @@invoices.find{|invoice| invoice.created_at == date}
+  end
 end
