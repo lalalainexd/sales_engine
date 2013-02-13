@@ -1,6 +1,8 @@
 
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'minitest/mock'
+
 
 require './lib/invoice'
 
@@ -56,5 +58,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal 1, Invoice.size
 
   end
+
+  def test_it_returns_a_random_invoice
+    CsvLoader.load_invoices
+
+    result1 = Invoice.random
+    result2 = Invoice.random
+
+    refute_equal result1, result2
+  end
+
+
 
 end

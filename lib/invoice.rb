@@ -25,4 +25,8 @@ class Invoice
   def self.size
     @@invoices.size
   end
+
+  def self.random
+  @@invoices.sample
+  end
 end
