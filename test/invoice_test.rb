@@ -68,7 +68,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
     refute_equal result1, result2
   end
 
-  def test_it_finds_an_invoice_with_id
+  def test_it_finds_an_invoice_by_id
     CsvLoader.load_invoices
     invoice = Invoice.find_by_id("1")
     assert_equal "1", invoice.id
@@ -77,7 +77,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal "2", invoice.id
   end
 
-  def test_it_finds_an_invoice_with_customer_id
+  def test_it_finds_an_invoice_by_customer_id
     CsvLoader.load_invoices
     invoice = Invoice.find_by_customer_id("1")
     assert_equal "1", invoice.customer_id
@@ -87,7 +87,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
   end
 
-  def test_it_finds_an_invoice_with_merchant_id
+  def test_it_finds_an_invoice_by_merchant_id
     CsvLoader.load_invoices
     invoice = Invoice.find_by_merchant_id("26")
     assert_equal "26", invoice.merchant_id
@@ -97,13 +97,13 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
   end
 
-  def test_it_find_an_invoice_with_status
+  def test_it_finds_an_invoice_by_status
     CsvLoader.load_invoices
     invoice = Invoice.find_by_status("shipped")
     assert_equal "shipped", invoice.status
   end
 
-  def test_it_find_an_invoice_with_created_at
+  def test_it_finds_an_invoice_by_created_at
     CsvLoader.load_invoices
     date = "2012-03-25 09:54:09 UTC"
     invoice = Invoice.find_by_created_at(date)
@@ -114,10 +114,14 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal date, invoice.created_at
   end
 
-  def test_it_find_an_invoice_with_update_at
+  def test_it_finds_an_invoice_by_update_at
     CsvLoader.load_invoices
     date = "2012-03-13 16:54:10 UTC"
     invoice = Invoice.find_by_updated_at(date)
     assert_equal date, invoice.updated_at
+  end
+
+  def test_it_finds_all_invoices_by_id
+
   end
 end
