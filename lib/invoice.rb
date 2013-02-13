@@ -29,4 +29,8 @@ class Invoice
   def self.random
   @@invoices.sample
   end
+
+  def self.find_by_id id
+    @@invoices.find{|invoice| invoice.id == id}
+  end
 end

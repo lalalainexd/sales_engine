@@ -68,6 +68,11 @@ class InvoiceTest < MiniTest::Unit::TestCase
     refute_equal result1, result2
   end
 
+  def test_it_finds_an_invoice_with_id
+   invoice = Invoice.find_by_id("1")
+   assert_equal "1", invoice.id
+  end
+
 
 
 end
