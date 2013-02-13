@@ -53,4 +53,16 @@ class Invoice
   def self.find_by_updated_at date
     @@invoices.find{|invoice| invoice.updated_at == date}
   end
+
+  def self.find_all_by_customer_id customer_id
+    @@invoices.find_all{|invoice| invoice.customer_id == customer_id}
+  end
+
+  def self.find_all_by_merchant_id merchant_id
+    @@invoices.find_all{|invoice| invoice.merchant_id == merchant_id}
+  end
+
+  def self.find_all_by_created_at date
+    @@invoices.find_all{|invoice| invoice.created_at == date}
+  end
 end

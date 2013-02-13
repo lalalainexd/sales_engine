@@ -121,7 +121,57 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal date, invoice.updated_at
   end
 
-  def test_it_finds_all_invoices_by_id
+  def test_it_finds_all_by_customer_id
+    CsvLoader.load_invoices
+    customer_id = "1"
+    invoices = Invoice.find_all_by_customer_id customer_id
+    assert_equal 8, invoices.size
+    assert_equal customer_id, invoices.sample.customer_id
 
+    customer_id = "2"
+    invoices = Invoice.find_all_by_customer_id customer_id
+    assert_equal 1, invoices.size
+    assert_equal customer_id, invoices.sample.customer_id
+
+  end
+
+  def test_returns_empty_array_with_non_existing_customer_id
+    customer_id = "0"
+    invoices = Invoice.find_all_by_customer_id customer_id
+    assert_equal 0, invoices.size
+
+  end
+
+  def test_it_finds_all_by_merchant_id
+    CsvLoader.load_invoices
+    merchant_id = "1"
+    invoices = Invoice.find_all_by_merchant_id merchant_id
+    assert_equal 59, invoices.size
+    assert_equal merchant_id, invoices.sample.merchant_id
+
+    merchant_id = "2"
+    invoices = Invoice.find_all_by_merchant_id merchant_id
+    assert_equal 49, invoices.size
+    assert_equal merchant_id, invoices.sample.merchant_id
+  end
+
+  def test_returns_empty_array_with_non_existing_merchant
+    merchant = "0"
+    invoices = Invoice.find_all_by_merchant_id merchant
+    assert_equal 0, invoices.size
+
+  end
+
+  def test_it_finds_all_by_created_at
+    CsvLoader.load_invoices
+    date = "2012-03-06 14:54:15 UTC"
+    invoices = Invoice.find_all_by_created_at date
+    assert_equal 1, invoices.size
+    assert_equal date, invoices.sample.created_at
+
+    date = "2012-03-06 15:55:33 UTC"
+    invoices = Invoice.find_all_by_created_at date
+    assert_equal 1, invoices.size
+    assert_equal date, invoices.sample.created_at
   end
 end
