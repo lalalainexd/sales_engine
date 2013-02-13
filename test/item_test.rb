@@ -2,14 +2,14 @@ require './lib/csv_loader'
 require './lib/item'
 
 class ItemTest < MiniTest::Unit::TestCase
-  
+
   def test_it_exists
     item = Item.new({})
      assert_kind_of = Item, item
   end
-  
+
   def test_it_is_initialized_from_a_hash_of_data
-    item = Item.new( 
+    item = Item.new(
                     id: 'id', name: 'name', description: 'description',
                     unit_price: 'unit_price', merchant_id: 'merchant_id',
                     created_at: 'created_at', updated_at: 'updated_at' )
@@ -21,7 +21,7 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal 'created_at', item.created_at
     assert_equal 'updated_at', item.updated_at
 
-    item = Item.new( 
+    item = Item.new(
                     id: 'id2', name: 'name2', description: 'description2',
                     unit_price: 'unit_price2', merchant_id: 'merchant_id2',
                     created_at: 'created_at2', updated_at: 'updated_at2' )
@@ -34,13 +34,22 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal 'updated_at2', item.updated_at
   end
 
-   def test_it_stores_items_from_an_array
-   data = [Item.new( 
+  def test_it_stores_items_from_an_array
+   data = [Item.new(
                     id: 'id', name: 'name', description: 'description',
                     unit_price: 'unit_price', merchant_id: 'merchant_id',
                     created_at: 'created_at', updated_at: 'updated_at' )]
     Item.add(data)
     assert_equal 1, Item.size
    end
+
+  def test_it_returns_a_random_item
+		CsvLoader.load_items
+
+    item1 = Item.random
+    item2 = Item.random
+		refute_equal item1, item2
+
+  end
 
 end

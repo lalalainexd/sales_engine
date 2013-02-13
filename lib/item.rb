@@ -13,11 +13,15 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   end
 
   def self.add(array_of_data)
-    @@item = array_of_data
+    @@items = array_of_data
   end
 
   def self.size
-    @@item.size
+    @@items.size
+  end
+
+  def self.random
+    @@items.sample
   end
 
 end
