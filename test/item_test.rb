@@ -243,4 +243,15 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal 0, items.size
 
   end
+
+  def test_it_returns_a_colloection_of_associated_invoice_items
+    item = Item.find_by_id '1'
+    assert_equal 2, item.invoice_items
+  end
+
+  def test_it_returns_the_associated_merchant
+    item = Item.find_by_id '1'
+    merchant = Merchant.find_by_id '1'
+    assert_equal merchant, item.merchant
+  end
 end
