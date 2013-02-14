@@ -1,4 +1,4 @@
-
+require 'date'
 
 class Customer
 
@@ -8,8 +8,10 @@ class Customer
     @id = input[:id]
     @first_name = input[:first_name]
     @last_name = input[:last_name]
-    @created_at = input[:created_at]
-    @updated_at = input[:updated_at]
+    created_date = input[:created_at]
+    updated_date = input[:updated_at]
+    @created_at = DateTime.parse created_date  unless created_date.nil?
+    @updated_at = DateTime.parse updated_date unless updated_date.nil?
   end
 
     def self.add(array_of_data)

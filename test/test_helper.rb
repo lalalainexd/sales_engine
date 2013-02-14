@@ -1,5 +1,6 @@
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'date'
 
 require './lib/csv_loader'
 require './lib/merchant'

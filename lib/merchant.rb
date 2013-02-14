@@ -1,3 +1,4 @@
+require 'date'
 class Merchant
 
 attr_accessor :id, :name, :created_at, :updated_at
@@ -5,8 +6,11 @@ attr_accessor :id, :name, :created_at, :updated_at
   def initialize(input)
     @id = input[:id]
     @name = input[:name]
-    @created_at = input[:created_at]
-    @updated_at = input[:updated_at]
+
+    created_date = input[:created_at]
+    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    updated_date = input[:updated_at]
+    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
   def self.add(array_of_data)

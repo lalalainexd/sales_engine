@@ -13,35 +13,57 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_is_initialized_from_a_hash_of_data
     item = Item.new(
-                    id: 'id', name: 'name', description: 'description',
-                    unit_price: 'unit_price', merchant_id: 'merchant_id',
-                    created_at: 'created_at', updated_at: 'updated_at' )
+      id: 'id',
+      name: 'name',
+      description: 'description',
+      unit_price: 'unit_price',
+      merchant_id: 'merchant_id',
+      created_at: '2012-03-27 14:53:59 UTC',
+      updated_at: '2012-03-27 14:53:59 UTC'
+    )
+
+    date = DateTime.parse('2012-03-27 14:53:59 UTC')
+
     assert_equal 'id', item.id
     assert_equal 'name', item.name
     assert_equal 'description', item.description
     assert_equal 'unit_price', item.unit_price
     assert_equal 'merchant_id', item.merchant_id
-    assert_equal 'created_at', item.created_at
-    assert_equal 'updated_at', item.updated_at
+    assert_equal date, item.created_at
+    assert_equal date, item.updated_at
 
     item = Item.new(
-                    id: 'id2', name: 'name2', description: 'description2',
-                    unit_price: 'unit_price2', merchant_id: 'merchant_id2',
-                    created_at: 'created_at2', updated_at: 'updated_at2' )
+      id: 'id2',
+      name: 'name2',
+      description: 'description2',
+      unit_price: 'unit_price2',
+      merchant_id: 'merchant_id2',
+      created_at: '2012-03-28 14:53:59 UTC',
+      updated_at: '2012-03-28 14:53:59 UTC'
+    )
+
+    date = DateTime.parse('2012-03-28 14:53:59 UTC')
+
     assert_equal 'id2', item.id
     assert_equal 'name2', item.name
     assert_equal 'description2', item.description
     assert_equal 'unit_price2', item.unit_price
     assert_equal 'merchant_id2', item.merchant_id
-    assert_equal 'created_at2', item.created_at
-    assert_equal 'updated_at2', item.updated_at
+    assert_equal date, item.created_at
+    assert_equal date, item.updated_at
   end
 
   def test_it_stores_items_from_an_array
-   data = [Item.new(
-                    id: 'id', name: 'name', description: 'description',
-                    unit_price: 'unit_price', merchant_id: 'merchant_id',
-                    created_at: 'created_at', updated_at: 'updated_at' )]
+    data = [Item.new(
+      id: 'id',
+      name: 'name',
+      description: 'description',
+      unit_price: 'unit_price',
+      merchant_id: 'merchant_id',
+      created_at: '2012-03-28 14:53:59 UTC',
+      updated_at: '2012-03-28 14:53:59 UTC'
+   )]
+
     Item.add(data)
     assert_equal 1, Item.size
    end
@@ -183,12 +205,12 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    date = "2012-03-27 14:53:59 UTC"
+    date = DateTime.parse("2012-03-27 14:53:59 UTC")
     items = Item.find_all_by_created_at date
     assert_equal 8, items.size
     assert_equal date, items.sample.created_at
 
-    date = "2012-03-27 14:54:08 UTC"
+    date = DateTime.parse("2012-03-27 14:54:08 UTC")
     items = Item.find_all_by_created_at date
     assert_equal 1, items.size
     assert_equal date, items.sample.created_at
@@ -196,19 +218,19 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_returns_empty_array_with_non_existing_created_date
     merchant = "0"
-    date = "1999-03-06 15:55:33 UTC"
+    date = DateTime.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_created_at date
     assert_equal 0, items.size
 
   end
 
   def test_it_finds_all_by_updated_at
-    date = "2012-03-27 14:53:59 UTC"
+    date = DateTime.parse "2012-03-27 14:53:59 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 8, items.size
     assert_equal date, items.sample.updated_at
 
-    date = "2012-03-27 14:54:00 UTC"
+    date = DateTime.parse "2012-03-27 14:54:00 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 1, items.size
     assert_equal date, items.sample.updated_at
@@ -216,7 +238,7 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_returns_empty_array_with_non_existing_updated_date
     merchant = "0"
-    date = "1999-03-06 15:55:33 UTC"
+    date = DateTime.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 0, items.size
 

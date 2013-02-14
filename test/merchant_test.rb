@@ -11,21 +11,38 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_it_is_initialized_from_a_hash_of_data
-    merchant = Merchant.new( id: 'id', name: 'name', created_at: 'date', updated_at: 'another_date' )
+    merchant = Merchant.new(
+      id: 'id',
+      name: 'name',
+      created_at: '2012-03-27 14:53:59 UTC',
+      updated_at: '2012-03-27 14:53:59 UTC'
+    )
+
+    date = DateTime.parse '2012-03-27 14:53:59 UTC'
     assert_equal 'id', merchant.id
     assert_equal 'name', merchant.name
-    assert_equal 'date', merchant.created_at
-    assert_equal 'another_date', merchant.updated_at
+    assert_equal date, merchant.created_at
+    assert_equal date, merchant.updated_at
 
-    merchant = Merchant.new( id: 'id2', name: 'name2', created_at: 'date2', updated_at: 'another_date2' )
+    merchant = Merchant.new(
+      id: 'id2',
+      name: 'name2',
+      created_at: '2012-03-28 14:53:59 UTC',
+      updated_at: '2012-03-28 14:53:59 UTC'
+    )
+    date = DateTime.parse '2012-03-28 14:53:59 UTC'
+
     assert_equal 'id2', merchant.id
     assert_equal 'name2', merchant.name
-    assert_equal 'date2', merchant.created_at
-    assert_equal 'another_date2', merchant.updated_at
+    assert_equal date, merchant.created_at
+    assert_equal date, merchant.updated_at
   end
 
   def test_it_stores_merchants_from_an_array
-    data = [Merchant.new( id: 'id', name: 'name', created_at: 'date', updated_at: 'another_date' )]
+    data = [Merchant.new(
+      id: 'id',
+      name: 'name',
+    )]
     Merchant.add data
     assert_equal 1, Merchant.size
   end

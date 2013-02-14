@@ -1,3 +1,5 @@
+require 'date'
+
 class Item
 
 attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at
@@ -8,8 +10,11 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     @description = input[:description]
     @unit_price = input[:unit_price]
     @merchant_id = input[:merchant_id]
-    @created_at = input[:created_at]
-    @updated_at = input[:updated_at]
+
+    created_date = input[:created_at]
+    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    updated_date = input[:updated_at]
+    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
 
     #parse dates in date or datetime, whichever it is
   end

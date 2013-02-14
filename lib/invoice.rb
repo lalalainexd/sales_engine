@@ -1,4 +1,4 @@
-
+require 'date'
 class Invoice
 
   attr_accessor :id,
@@ -13,8 +13,12 @@ class Invoice
     @customer_id = input[:customer_id]
     @merchant_id = input[:merchant_id]
     @status = input[:status]
-    @created_at = input[:created_at]
-    @updated_at = input[:updated_at]
+
+    created_date = input[:created_at]
+    @created_at = DateTime.parse(created_date) unless created_date.nil?
+
+    updated_date = input[:updated_at]
+    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
 

@@ -1,4 +1,4 @@
-
+require 'date'
 class InvoiceItem
 
   attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at
@@ -9,8 +9,12 @@ class InvoiceItem
     @invoice_id = input[:invoice_id]
     @quantity = input[:quantity]
     @unit_price = input[:unit_price]
-    @created_at = input[:created_at]
-    @updated_at = input[:updated_at]
+
+    created_date = input[:created_at]
+    @created_at = DateTime.parse(created_date) unless created_date.nil?
+
+    updated_date = input[:updated_at]
+    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
   def self.add(array_of_data)
