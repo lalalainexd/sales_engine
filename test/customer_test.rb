@@ -2,7 +2,7 @@ require './test/test_helper'
 
 class CustomerTest < MiniTest::Unit::TestCase
   def setup
-    @customers = CsvLoader.load_customers
+    @customers = CsvLoader.load_customers('./test/support/customers.csv')
   end
 
   def test_it_exists
@@ -41,7 +41,7 @@ class CustomerTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_a_random_customer_when_random_is_called
-    assert_equal 1000, @customers.size
+    assert_equal 10, @customers.size
 
     random_customer1 = Customer.random
     assert_kind_of Customer, random_customer1
@@ -49,13 +49,13 @@ class CustomerTest < MiniTest::Unit::TestCase
   end
 
   def test_it_can_find_a_customer_by_first_name
-    customer = Customer.find_by_first_name("Mariah")
-    assert_equal "Mariah", customer.first_name
+    customer = Customer.find_by_first_name("Sylvester")
+    assert_equal "Sylvester", customer.first_name
   end
 
 #### HOW DO I TEST FOR MULTIPLE RETURNS?
   def test_it_can_find_ALL_customers_by_first_name
-    found_customers = Customer.find_all_by_first_name("Beverly")
+    found_customers = Customer.find_all_by_first_name("Mariah")
     assert_equal 2 , found_customers.length
   end
 
@@ -72,7 +72,7 @@ class CustomerTest < MiniTest::Unit::TestCase
 #### HOW DO I TEST FOR MULTIPLE RETURNS?
   def test_it_can_find_ALL_customers_by_last_name
     found_customers = Customer.find_all_by_last_name("Upton")
-    assert_equal 7 , found_customers.length
+    assert_equal 2 , found_customers.length
   end
 end
 

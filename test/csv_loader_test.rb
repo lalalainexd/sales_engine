@@ -3,8 +3,8 @@ require './test/test_helper'
 class CsvLoaderTest < MiniTest::Unit::TestCase
 
   def test_it_loads_merchants
-    merchants = CsvLoader.load_merchants
-    assert_equal 100, merchants.size
+    merchants = CsvLoader.load_merchants('./test/support/merchants.csv')
+    assert_equal 10, merchants.size
 
     assert_kind_of Merchant, merchants.first
   end
@@ -13,13 +13,13 @@ class CsvLoaderTest < MiniTest::Unit::TestCase
   #should we move this to merchant_test?
   #testing implementation vs. output?
   def test_it_stores_merchants
-    merchants = CsvLoader.load_merchants
-    assert_equal 100, Merchant.size
+    merchants = CsvLoader.load_merchants('./test/support/merchants.csv')
+    assert_equal 10, Merchant.size
   end
 
   def test_it_loads_invoices
-    invoices = CsvLoader.load_invoices
-    assert_equal 4843, Invoice.size
+    invoices = CsvLoader.load_invoices('./test/support/invoices.csv')
+    assert_equal 10, Invoice.size
 
     assert_kind_of Invoice, invoices.first
   end
@@ -28,13 +28,13 @@ class CsvLoaderTest < MiniTest::Unit::TestCase
   #should we move this to merchant_test?
   #testing implementation vs. output?
   def test_it_stores_invoices
-    invoices = CsvLoader.load_invoices
-    assert_equal 4843, Invoice.size
+    invoices = CsvLoader.load_invoices('./test/support/invoices.csv')
+    assert_equal 10, Invoice.size
   end
 
   def test_it_loads_invoice_items
-    invoice_items = CsvLoader.load_invoice_items
-    assert_equal 21687, invoice_items.size
+    invoice_items = CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    assert_equal 10, invoice_items.size
 
     assert_kind_of InvoiceItem, invoice_items.first
   end
@@ -43,13 +43,13 @@ class CsvLoaderTest < MiniTest::Unit::TestCase
   #should we move this to merchant_test?
   #testing implementation vs. output?
   def test_it_stores_invoice_items
-    invoice_items = CsvLoader.load_invoice_items
-    assert_equal 21687, InvoiceItem.size
+    invoice_items = CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    assert_equal 10, InvoiceItem.size
   end
 
   def test_it_loads_items
-    items = CsvLoader.load_items
-    assert_equal 2483, items.size
+    items = CsvLoader.load_items('./test/support/items.csv')
+    assert_equal 9, items.size
 
     assert_kind_of Item, items.first
   end
@@ -58,13 +58,13 @@ class CsvLoaderTest < MiniTest::Unit::TestCase
   #should we move this to merchant_test?
   #testing implementation vs. output?
   def test_it_stores_items
-    items = CsvLoader.load_items
-    assert_equal 2483, Item.size
+    items = CsvLoader.load_items('./test/support/items.csv')
+    assert_equal 9, Item.size
   end
 
   def test_it_loads_transactions
-    transactions = CsvLoader.load_transactions
-    assert_equal 5595, transactions.size
+    transactions = CsvLoader.load_transactions('./test/support/transactions.csv')
+    assert_equal 12, transactions.size
 
     assert_kind_of Transaction, transactions.first
   end
@@ -73,13 +73,13 @@ class CsvLoaderTest < MiniTest::Unit::TestCase
   #should we move this to merchant_test?
   #testing implementation vs. output?
   def test_it_stores_transactions
-    transactions = CsvLoader.load_transactions
-    assert_equal 5595, Transaction.size
+    transactions = CsvLoader.load_transactions('./test/support/transactions.csv')
+    assert_equal 12, Transaction.size
   end
 
   def test_it_loads_customers
-    customers = CsvLoader.load_customers
-    assert_equal 1000, customers.size
+    customers = CsvLoader.load_customers('./test/support/customers.csv')
+    assert_equal 10, customers.size
 
     assert_kind_of Customer, customers.first
   end
@@ -88,7 +88,7 @@ class CsvLoaderTest < MiniTest::Unit::TestCase
   #should we move this to merchant_test?
   #testing implementation vs. output?
   def test_it_stores_customers
-    customers = CsvLoader.load_customers
-    assert_equal 1000, Customer.size
+    customers = CsvLoader.load_customers('./test/support/customers.csv')
+    assert_equal 10, Customer.size
   end
 end

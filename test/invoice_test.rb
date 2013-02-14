@@ -3,7 +3,7 @@ require './test/test_helper'
 class InvoiceTest < MiniTest::Unit::TestCase
 
   def setup
-    CsvLoader.load_invoices
+    CsvLoader.load_invoices('./test/support/invoices.csv')
   end
 
   def test_it_exists
@@ -133,14 +133,14 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_merchant_id
-    merchant_id = "1"
+    merchant_id = "76"
     invoices = Invoice.find_all_by_merchant_id merchant_id
-    assert_equal 59, invoices.size
+    assert_equal 1, invoices.size
     assert_equal merchant_id, invoices.sample.merchant_id
 
-    merchant_id = "2"
+    merchant_id = "26"
     invoices = Invoice.find_all_by_merchant_id merchant_id
-    assert_equal 49, invoices.size
+    assert_equal 1, invoices.size
     assert_equal merchant_id, invoices.sample.merchant_id
   end
 
@@ -152,12 +152,12 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    date = "2012-03-06 14:54:15 UTC"
+    date = "2012-03-25 09:54:09 UTC"
     invoices = Invoice.find_all_by_created_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.created_at
 
-    date = "2012-03-06 15:55:33 UTC"
+    date = "2012-03-09 01:54:10 UTC"
     invoices = Invoice.find_all_by_created_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.created_at
@@ -172,12 +172,12 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_updated_at
-    date = "2012-03-23 02:58:15 UTC"
+    date = "2012-03-12 05:54:09 UTC"
     invoices = Invoice.find_all_by_updated_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.updated_at
 
-    date = "2012-03-27 00:58:15 UTC"
+    date = "2012-03-07 12:54:10 UTC"
     invoices = Invoice.find_all_by_updated_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.updated_at
