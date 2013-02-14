@@ -28,7 +28,11 @@ class InvoiceItem
   end
 
   def self.clear
-    @@invoice_itmes = nil
+    @@invoice_items = nil
+  end
+
+  def self.find_by_id(id)
+    @@invoice_items.find {|invoice_item| invoice_item.id == id}
   end
 
   def self.find_all_by_item_id(item_id)
@@ -40,6 +44,6 @@ class InvoiceItem
   end
 
   def invoice
-    Invoice.find_by_id @id
+    Invoice.find_by_id(@invoice_id)
   end
 end

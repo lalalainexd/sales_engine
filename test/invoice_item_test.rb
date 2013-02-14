@@ -79,16 +79,9 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal 1, found_invoice_items.size
   end
 
-  # def test_it_returns_the_invoice_associated_with_the_invoice_item
-  #   invoice_item = InvoiceItem.new(
-  #                                 id: 'id',
-  #                                 item_id: 'item_id',
-  #                                 invoice_id: '1',
-  #                                 quantity: 'quantity',
-  #                                 unit_price: 'unit_price',
-  #                                 created_at: '2012-03-27 14:54:09 UTC',
-  #                                 updated_at: '2012-03-27 14:54:09 UTC'
-  #                               )
-  #   assert equal 1, invoice_item.invoice.size
-  # end 
+  def test_it_returns_the_invoice_associated_with_the_invoice_item
+    invoice_item = InvoiceItem.find_by_id '1'
+    invoice = Invoice.find_by_id '1'
+    assert_equal  invoice, invoice_item.invoice
+  end 
 end
