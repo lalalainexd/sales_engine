@@ -176,4 +176,64 @@ class ItemTest < MiniTest::Unit::TestCase
     items = Item.find_all_by_unit_price unit_price
     assert items.empty?
   end
+
+  def test_it_find_all_items_by_description
+    CsvLoader.load_items
+
+    description = "A aut ab autem rerum voluptas. Facere qui rerum dolore architecto recusandae nesciunt enim. Est voluptatem labore dolor autem. Doloremque ea amet aut et animi doloribus. Aut distinctio quidem dolores officiis architecto."
+    items = Item.find_all_by_description description
+    assert_equal 1, items.size
+  end
+
+  def test_it_returns_empty_for_nonexistant_description
+    CsvLoader.load_items
+
+    description = "dadadad dadadad"
+    items = Item.find_all_by_description description
+    assert items.empty?
+  end
+
+  def test_it_finds_all_by_created_at
+    CsvLoader.load_items
+    date = "2012-03-27 14:54:09 UTC"
+    items = Item.find_all_by_created_at date
+    assert_equal 180, items.size
+    assert_equal date, items.sample.created_at
+
+    date = "2012-03-27 14:54:08 UTC"
+    items = Item.find_all_by_created_at date
+    assert_equal 234, items.size
+    assert_equal date, items.sample.created_at
+  end
+
+  def test_returns_empty_array_with_non_existing_created_date
+    CsvLoader.load_items
+    merchant = "0"
+    date = "1999-03-06 15:55:33 UTC"
+    items = Item.find_all_by_created_at date
+    assert_equal 0, items.size
+
+  end
+
+  def test_it_finds_all_by_updated_at
+    CsvLoader.load_items
+    date = "2012-03-27 14:53:59 UTC"
+    items = Item.find_all_by_updated_at date
+    assert_equal 170, items.size
+    assert_equal date, items.sample.updated_at
+
+    date = "2012-03-27 14:54:00 UTC"
+    items = Item.find_all_by_updated_at date
+    assert_equal 234, items.size
+    assert_equal date, items.sample.updated_at
+  end
+
+  def test_returns_empty_array_with_non_existing_updated_date
+    CsvLoader.load_items
+    merchant = "0"
+    date = "1999-03-06 15:55:33 UTC"
+    items = Item.find_all_by_updated_at date
+    assert_equal 0, items.size
+
+  end
 end

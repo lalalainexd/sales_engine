@@ -55,4 +55,16 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   def self.find_all_by_unit_price unit_price
     @@items.find_all{|item|item.unit_price == unit_price}
   end
+
+  def self.find_all_by_description description
+    @@items.find_all{|item|item.description == description}
+  end
+
+  def self.find_all_by_created_at date
+    @@items.find_all{|invoice| invoice.created_at == date}
+  end
+
+  def self.find_all_by_updated_at date
+    @@items.find_all{|invoice| invoice.updated_at == date}
+  end
 end
