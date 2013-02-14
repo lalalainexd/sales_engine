@@ -3,6 +3,11 @@ require './lib/item'
 
 class ItemTest < MiniTest::Unit::TestCase
 
+  def setup
+    CsvLoader.load_items
+    #remove the other stuffs
+  end
+
   def test_it_exists
     item = Item.new({})
      assert_kind_of = Item, item

@@ -10,6 +10,8 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
     @merchant_id = input[:merchant_id]
     @created_at = input[:created_at]
     @updated_at = input[:updated_at]
+
+    #parse dates in date or datetime, whichever it is
   end
 
   def self.add(array_of_data)
