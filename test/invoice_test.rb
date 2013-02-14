@@ -8,6 +8,10 @@ require './lib/invoice'
 
 class InvoiceTest < MiniTest::Unit::TestCase
 
+  def setup
+    CsvLoader.load_invoices
+  end
+
   def test_it_exists
     invoice = Invoice.new({})
     assert_kind_of Invoice, invoice
@@ -60,7 +64,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_a_random_invoice
-    CsvLoader.load_invoices
 
     result1 = Invoice.random
     result2 = Invoice.random
@@ -69,7 +72,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_by_id
-    CsvLoader.load_invoices
     invoice = Invoice.find_by_id("1")
     assert_equal "1", invoice.id
 
@@ -78,7 +80,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_by_customer_id
-    CsvLoader.load_invoices
     invoice = Invoice.find_by_customer_id("1")
     assert_equal "1", invoice.customer_id
 
@@ -88,7 +89,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_by_merchant_id
-    CsvLoader.load_invoices
     invoice = Invoice.find_by_merchant_id("26")
     assert_equal "26", invoice.merchant_id
 
@@ -98,13 +98,11 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_by_status
-    CsvLoader.load_invoices
     invoice = Invoice.find_by_status("shipped")
     assert_equal "shipped", invoice.status
   end
 
   def test_it_finds_an_invoice_by_created_at
-    CsvLoader.load_invoices
     date = "2012-03-25 09:54:09 UTC"
     invoice = Invoice.find_by_created_at(date)
     assert_equal date, invoice.created_at
@@ -115,14 +113,12 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_by_update_at
-    CsvLoader.load_invoices
     date = "2012-03-13 16:54:10 UTC"
     invoice = Invoice.find_by_updated_at(date)
     assert_equal date, invoice.updated_at
   end
 
   def test_it_finds_all_by_customer_id
-    CsvLoader.load_invoices
     customer_id = "1"
     invoices = Invoice.find_all_by_customer_id customer_id
     assert_equal 8, invoices.size
@@ -136,7 +132,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_customer_id
-    CsvLoader.load_invoices
     customer_id = "0"
     invoices = Invoice.find_all_by_customer_id customer_id
     assert_equal 0, invoices.size
@@ -144,7 +139,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_merchant_id
-    CsvLoader.load_invoices
     merchant_id = "1"
     invoices = Invoice.find_all_by_merchant_id merchant_id
     assert_equal 59, invoices.size
@@ -157,7 +151,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_merchant_id
-    CsvLoader.load_invoices
     merchant = "0"
     invoices = Invoice.find_all_by_merchant_id merchant
     assert_equal 0, invoices.size
@@ -165,7 +158,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    CsvLoader.load_invoices
     date = "2012-03-06 14:54:15 UTC"
     invoices = Invoice.find_all_by_created_at date
     assert_equal 1, invoices.size
@@ -178,7 +170,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_created_date
-    CsvLoader.load_invoices
     merchant = "0"
     date = "1999-03-06 15:55:33 UTC"
     invoices = Invoice.find_all_by_created_at date
@@ -187,7 +178,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_updated_at
-    CsvLoader.load_invoices
     date = "2012-03-23 02:58:15 UTC"
     invoices = Invoice.find_all_by_updated_at date
     assert_equal 1, invoices.size
@@ -200,7 +190,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_updated_date
-    CsvLoader.load_invoices
     merchant = "0"
     date = "1999-03-06 15:55:33 UTC"
     invoices = Invoice.find_all_by_updated_at date
@@ -208,3 +197,4 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
   end
 end
+
