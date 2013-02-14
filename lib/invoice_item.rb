@@ -1,4 +1,6 @@
 require 'date'
+require './lib/item'
+
 class InvoiceItem
 
   attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at
@@ -18,11 +20,26 @@ class InvoiceItem
   end
 
   def self.add(array_of_data)
-    @@invoice_item = array_of_data
+    @@invoice_items = array_of_data
   end
 
   def self.size
-    @@invoice_item.size
+    @@invoice_items.size
   end
 
+  def self.clear
+    @@invoice_itmes = nil
+  end
+
+  def self.find_all_by_item_id(item_id)
+    @@invoice_items.find_all {|invoice_item| invoice_item.item_id == item_id}
+  end
+
+  def self.find_all_by_invoice_id(invoice_id)
+     @@invoice_items.find_all {|invoice_item| invoice_item.invoice_id == invoice_id}
+  end
+
+  def invoice
+    Invoice.find_by_id @id
+  end
 end

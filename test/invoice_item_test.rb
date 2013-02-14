@@ -3,7 +3,11 @@ require './test/test_helper'
 class InvoiceItemTest < MiniTest::Unit::TestCase
 
   def setup
+    CsvLoader.load_invoices('./test/support/invoice_items.csv')
+  end
 
+  def teardown
+    InvoiceItem.clear
   end
 
   def test_it_exists
@@ -55,8 +59,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
 
   def test_it_stores_invoice_items_from_an_array
     data = [InvoiceItem.new( id: 'id2',
-                            item_id: 'item_id2',
-                            invoice_id: 'invoice_id2',
+                            item_id: 'item_id4',
+                            invoice_id: 'invoice_id4',
                             quantity: 'quantity2',
                             unit_price: 'unit_price2',
                             created_at: '2012-03-28 14:54:09 UTC',
@@ -65,4 +69,26 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal 1, InvoiceItem.size
   end
 
+  def test_it_returns_all_invoice_items_by_invoice_id
+    found_invoice_items = InvoiceItem.find_all_by_invoice_id("1")
+    assert_equal 8, found_invoice_items.size
+  end
+
+  def test_it_returns_all_invoice_items_by_item_id
+    found_invoice_items = InvoiceItem.find_all_by_item_id("539")
+    assert_equal 1, found_invoice_items.size
+  end
+
+  # def test_it_returns_the_invoice_associated_with_the_invoice_item
+  #   invoice_item = InvoiceItem.new(
+  #                                 id: 'id',
+  #                                 item_id: 'item_id',
+  #                                 invoice_id: '1',
+  #                                 quantity: 'quantity',
+  #                                 unit_price: 'unit_price',
+  #                                 created_at: '2012-03-27 14:54:09 UTC',
+  #                                 updated_at: '2012-03-27 14:54:09 UTC'
+  #                               )
+  #   assert equal 1, invoice_item.invoice.size
+  # end 
 end
