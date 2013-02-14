@@ -1,0 +1,11 @@
+require 'minitest/autorun'
+require 'minitest/pride'
+
+require './lib/csv_loader'
+require './lib/merchant'
+require './lib/transaction'
+require './lib/invoice'
+require './lib/invoice_item'
+require './lib/item'
+require './lib/customer'
+require './sales_engine'
