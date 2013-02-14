@@ -65,4 +65,15 @@ class TransactionTest < MiniTest::Unit::TestCase
 
   end
 
+  def test_it_can_find_a_transaction_by_id
+    transaction = Transaction.find_by_id '1'
+    assert_equal '1', transaction.id
+  end
+
+  def test_it_returns_an_assoiated_invoice
+    transaction = Transaction.find_by_id '1'
+    invoice = Invoice.find_by_id '1'
+    assert_equal invoice, transaction.invoice
+  end
+
 end
