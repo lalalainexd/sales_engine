@@ -5,7 +5,6 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def setup
     CsvLoader.load_items
-    #remove the other stuffs
   end
 
   def test_it_exists
@@ -49,7 +48,6 @@ class ItemTest < MiniTest::Unit::TestCase
    end
 
   def test_it_returns_a_random_item
-    CsvLoader.load_items
 
     item1 = Item.random
     item2 = Item.random
@@ -58,7 +56,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_item_by_id
-    CsvLoader.load_items
 
     id = "1"
     item = Item.find_by_id id
@@ -70,7 +67,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_item_by_name
-    CsvLoader.load_items
 
     name = "Item Qui Esse"
     item = Item.find_by_name name
@@ -82,7 +78,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_item_by_description
-    CsvLoader.load_items
 
     description = "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro."
     item = Item.find_by_description description
@@ -95,7 +90,6 @@ class ItemTest < MiniTest::Unit::TestCase
 
 
   def test_it_finds_an_item_by_unit_price
-    CsvLoader.load_items
 
     unit_price = "75107"
     item = Item.find_by_unit_price unit_price
@@ -107,7 +101,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_item_by_merchant_id
-    CsvLoader.load_items
 
     merchant_id = "1"
     item = Item.find_by_merchant_id merchant_id
@@ -119,7 +112,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_find_all_items_by_name
-    CsvLoader.load_items
 
     name = "Item Qui Esse"
     items = Item.find_all_by_name name
@@ -132,7 +124,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_empty_for_nonexistant_name
-    CsvLoader.load_items
 
     name = "blah"
     items = Item.find_all_by_name name
@@ -141,7 +132,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_find_all_items_by_merchant_id
-    CsvLoader.load_items
 
     merchant_id = "1"
     items = Item.find_all_by_merchant_id merchant_id
@@ -154,7 +144,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_empty_for_nonexistant_merchant_id
-    CsvLoader.load_items
 
     merchant_id = "blah"
     items = Item.find_all_by_merchant_id merchant_id
@@ -162,7 +151,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_find_all_items_by_unit_price
-    CsvLoader.load_items
 
     unit_price = "99028"
     items = Item.find_all_by_unit_price unit_price
@@ -175,7 +163,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_empty_for_nonexistant_unit_price
-    CsvLoader.load_items
 
     unit_price = "23589012301"
     items = Item.find_all_by_unit_price unit_price
@@ -183,7 +170,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_find_all_items_by_description
-    CsvLoader.load_items
 
     description = "A aut ab autem rerum voluptas. Facere qui rerum dolore architecto recusandae nesciunt enim. Est voluptatem labore dolor autem. Doloremque ea amet aut et animi doloribus. Aut distinctio quidem dolores officiis architecto."
     items = Item.find_all_by_description description
@@ -191,7 +177,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_empty_for_nonexistant_description
-    CsvLoader.load_items
 
     description = "dadadad dadadad"
     items = Item.find_all_by_description description
@@ -199,7 +184,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    CsvLoader.load_items
     date = "2012-03-27 14:54:09 UTC"
     items = Item.find_all_by_created_at date
     assert_equal 180, items.size
@@ -212,7 +196,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_created_date
-    CsvLoader.load_items
     merchant = "0"
     date = "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_created_at date
@@ -221,7 +204,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_updated_at
-    CsvLoader.load_items
     date = "2012-03-27 14:53:59 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 170, items.size
@@ -234,7 +216,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_updated_date
-    CsvLoader.load_items
     merchant = "0"
     date = "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_updated_at date

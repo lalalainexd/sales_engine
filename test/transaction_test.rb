@@ -10,12 +10,6 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_kind_of Transaction, transaction
   end
 
-  # def test_it_can_create_merchants
-  #   data = [{id: 'id', name: 'name', created_at: 'date', updated_at: 'another_date'}]
-  #   merchant = Merchant.populate data
-  #   assert_equals 'id', merchant.id
-  # end
-
   def test_it_is_initialized_from_a_hash_of_data
     transaction = Transaction.new(
                                id: 'id',

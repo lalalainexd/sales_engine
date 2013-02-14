@@ -5,16 +5,20 @@ require './lib/csv_loader'
 require './lib/invoice_item'
 
 class InvoiceItemTest < MiniTest::Unit::TestCase
-  
+
+  def setup
+
+  end
+
   def test_it_exists
     invoice_item = InvoiceItem.new({})
     assert_kind_of = InvoiceItem, invoice_item
   end
-  
+
   def test_it_is_initialized_from_a_hash_of_data
-    invoice_item = InvoiceItem.new( 
-                                  id: 'id', item_id: 'item_id', invoice_id: 'invoice_id', 
-                                  quantity: 'quantity', unit_price: 'unit_price', 
+    invoice_item = InvoiceItem.new(
+                                  id: 'id', item_id: 'item_id', invoice_id: 'invoice_id',
+                                  quantity: 'quantity', unit_price: 'unit_price',
                                   created_at: 'created_at', updated_at: 'updated_at')
     assert_equal 'id', invoice_item.id
     assert_equal 'item_id', invoice_item.item_id
@@ -25,8 +29,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal 'updated_at', invoice_item.updated_at
 
     invoice_item = InvoiceItem.new(
-                            id: 'id2', item_id: 'item_id2', invoice_id: 'invoice_id2', 
-                            quantity: 'quantity2', unit_price: 'unit_price2', 
+                            id: 'id2', item_id: 'item_id2', invoice_id: 'invoice_id2',
+                            quantity: 'quantity2', unit_price: 'unit_price2',
                             created_at: 'created_at2', updated_at: 'updated_at2')
     assert_equal 'id2', invoice_item.id
     assert_equal 'item_id2', invoice_item.item_id
@@ -38,8 +42,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_stores_invoice_items_from_an_array
-   data = [InvoiceItem.new( id: 'id2', item_id: 'item_id2', invoice_id: 'invoice_id2', 
-                            quantity: 'quantity2', unit_price: 'unit_price2', 
+   data = [InvoiceItem.new( id: 'id2', item_id: 'item_id2', invoice_id: 'invoice_id2',
+                            quantity: 'quantity2', unit_price: 'unit_price2',
                             created_at: 'created_at2', updated_at: 'updated_at2')]
     InvoiceItem.add data
     assert_equal 1, InvoiceItem.size
