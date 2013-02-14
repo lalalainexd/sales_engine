@@ -3,7 +3,7 @@ require './test/test_helper'
 class MerchantTest < MiniTest::Unit::TestCase
 
   def setup
-    CsvLoader.load_merchants
+    CsvLoader.load_merchants('./test/support/merchants.csv')
   end
   def test_it_exists
     merchant = Merchant.new({})
@@ -42,8 +42,8 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_if_returns_a_merchant_by_name
-    found_merchant = Merchant.find_by_name("Schuster Group")
-    assert_equal "Schuster Group", found_merchant.name
+    found_merchant = Merchant.find_by_name("Cummings-Thiel")
+    assert_equal "Cummings-Thiel", found_merchant.name
   end
 
   def test_it_returns_all_merchants_by_name

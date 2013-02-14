@@ -3,7 +3,7 @@ require './test/test_helper'
 class ItemTest < MiniTest::Unit::TestCase
 
   def setup
-    CsvLoader.load_items
+    CsvLoader.load_items('./test/support/items.csv')
   end
 
   def test_it_exists
@@ -94,7 +94,7 @@ class ItemTest < MiniTest::Unit::TestCase
     item = Item.find_by_unit_price unit_price
     assert_equal unit_price, item.unit_price
 
-    unit_price = "67076"
+    unit_price = "68723"
     item = Item.find_by_unit_price unit_price
     assert_equal unit_price, item.unit_price
   end
@@ -134,11 +134,11 @@ class ItemTest < MiniTest::Unit::TestCase
 
     merchant_id = "1"
     items = Item.find_all_by_merchant_id merchant_id
-    assert_equal 15, items.size
+    assert_equal 8, items.size
 
     merchant_id = "2"
     items = Item.find_all_by_merchant_id merchant_id
-    assert_equal 38, items.size
+    assert_equal 1, items.size
 
   end
 
@@ -151,13 +151,13 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_find_all_items_by_unit_price
 
-    unit_price = "99028"
+    unit_price = "75107"
     items = Item.find_all_by_unit_price unit_price
     assert_equal 2, items.size
 
-    unit_price = "98005"
+    unit_price = "68723"
     items = Item.find_all_by_unit_price unit_price
-    assert_equal 1, items.size
+    assert_equal 2, items.size
 
   end
 
@@ -170,7 +170,7 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_find_all_items_by_description
 
-    description = "A aut ab autem rerum voluptas. Facere qui rerum dolore architecto recusandae nesciunt enim. Est voluptatem labore dolor autem. Doloremque ea amet aut et animi doloribus. Aut distinctio quidem dolores officiis architecto."
+    description = "Sunt officia eum qui molestiae. Nesciunt quidem cupiditate reiciendis est commodi non. Atque eveniet sed. Illum excepturi praesentium reiciendis voluptatibus eveniet odit perspiciatis. Odio optio nisi rerum nihil ut."
     items = Item.find_all_by_description description
     assert_equal 1, items.size
   end
@@ -183,14 +183,14 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    date = "2012-03-27 14:54:09 UTC"
+    date = "2012-03-27 14:53:59 UTC"
     items = Item.find_all_by_created_at date
-    assert_equal 180, items.size
+    assert_equal 8, items.size
     assert_equal date, items.sample.created_at
 
     date = "2012-03-27 14:54:08 UTC"
     items = Item.find_all_by_created_at date
-    assert_equal 234, items.size
+    assert_equal 1, items.size
     assert_equal date, items.sample.created_at
   end
 
@@ -205,12 +205,12 @@ class ItemTest < MiniTest::Unit::TestCase
   def test_it_finds_all_by_updated_at
     date = "2012-03-27 14:53:59 UTC"
     items = Item.find_all_by_updated_at date
-    assert_equal 170, items.size
+    assert_equal 8, items.size
     assert_equal date, items.sample.updated_at
 
     date = "2012-03-27 14:54:00 UTC"
     items = Item.find_all_by_updated_at date
-    assert_equal 234, items.size
+    assert_equal 1, items.size
     assert_equal date, items.sample.updated_at
   end
 
