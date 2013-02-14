@@ -188,6 +188,11 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal 0, invoices.size
 
   end
+
+  def test_it_returns_transactions_associated_with_an_invoice
+    invoice = Invoice.find_by_id("1")
+    assert_equal 1 , invoice.transactions.size
+  end
 end
 
 

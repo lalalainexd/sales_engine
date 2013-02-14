@@ -62,7 +62,10 @@ class TransactionTest < MiniTest::Unit::TestCase
       data = [transaction]
       Transaction.add data
       assert_equal 1, Transaction.size
-
   end
 
+  def test_it_finds_all_transactions_by_invoice_id
+    transactions = Transaction.find_all_by_invoice_id("12")
+    assert_equal 3 , transactions.size
+  end
 end

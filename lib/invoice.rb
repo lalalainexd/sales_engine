@@ -73,4 +73,8 @@ class Invoice
   def self.find_all_by_updated_at date
     @@invoices.find_all{|invoice| invoice.updated_at == date}
   end
+
+  def transactions
+    Transaction.find_all_by_invoice_id @id
+  end
 end
