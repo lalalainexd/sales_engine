@@ -22,39 +22,39 @@ class CsvLoader
     CSV.open(filename, headers: true, header_converters: :symbol)
   end
 
-  def self.load_merchants
-    contents = parse ('./data/merchants.csv')
+  def self.load_merchants(filepath = './data/merchants.csv')
+    contents = parse(filepath)
     merchants = contents.collect { |row| Merchant.new(row.to_hash) }
     Merchant.add merchants
   end
 
 
-  def self.load_invoice_items
-    contents = parse ('./data/invoice_items.csv')
+  def self.load_invoice_items(filepath = './data/invoice_items.csv')
+    contents = parse (filepath)
     invoice_items = contents.collect { |row| InvoiceItem.new(row.to_hash) }
     InvoiceItem.add invoice_items
   end
 
-  def self.load_items
-    contents = parse('./data/items.csv')
+  def self.load_items(filepath = './data/items.csv')
+    contents = parse(filepath)
     items = contents.collect { |row| Item.new(row.to_hash) }
     Item.add items
   end
 
-  def self.load_transactions
-    contents = parse('./data/transactions.csv')
+  def self.load_transactions(filepath = './data/transactions.csv')
+    contents = parse(filepath)
     transactions = contents.collect { |row| Transaction.new(row.to_hash) }
     Transaction.add transactions
   end
 
-  def self.load_invoices
-    contents = parse('./data/invoices.csv')
+  def self.load_invoices(filepath = './data/invoices.csv')
+    contents = parse(filepath)
     invoice = contents.collect { |row| Invoice.new(row.to_hash) }
     Invoice.add invoice
   end
 
-  def self.load_customers
-    contents = parse('./data/customers.csv')
+  def self.load_customers(filepath = './data/customers.csv')
+    contents = parse(filepath)
     customers = contents.collect { |row| Customer.new(row.to_hash) }
     Customer.add customers
   end
