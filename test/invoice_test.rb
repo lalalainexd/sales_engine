@@ -1,6 +1,8 @@
 
 require 'minitest/autorun'
 require 'minitest/pride'
+require 'minitest/mock'
+
 
 require './lib/invoice'
 
@@ -57,4 +59,65 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
   end
 
+  def test_it_returns_a_random_invoice
+    CsvLoader.load_invoices
+
+    result1 = Invoice.random
+    result2 = Invoice.random
+
+    refute_equal result1, result2
+  end
+
+  def test_it_finds_an_invoice_with_id
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_id("1")
+    assert_equal "1", invoice.id
+
+    invoice = Invoice.find_by_id("2")
+    assert_equal "2", invoice.id
+  end
+
+  def test_it_finds_an_invoice_with_customer_id
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_customer_id("1")
+    assert_equal "1", invoice.customer_id
+
+    invoice = Invoice.find_by_customer_id("2")
+    assert_equal "2", invoice.customer_id
+
+  end
+
+  def test_it_finds_an_invoice_with_merchant_id
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_merchant_id("26")
+    assert_equal "26", invoice.merchant_id
+
+    invoice = Invoice.find_by_merchant_id("75")
+    assert_equal "75", invoice.merchant_id
+
+  end
+
+  def test_it_find_an_invoice_with_status
+    CsvLoader.load_invoices
+    invoice = Invoice.find_by_status("shipped")
+    assert_equal "shipped", invoice.status
+  end
+
+  def test_it_find_an_invoice_with_created_at
+    CsvLoader.load_invoices
+    date = "2012-03-25 09:54:09 UTC"
+    invoice = Invoice.find_by_created_at(date)
+    assert_equal date, invoice.created_at
+
+    date = "2012-03-13 16:54:10 UTC"
+    invoice = Invoice.find_by_created_at(date)
+    assert_equal date, invoice.created_at
+  end
+
+  def test_it_find_an_invoice_with_update_at
+    CsvLoader.load_invoices
+    date = "2012-03-13 16:54:10 UTC"
+    invoice = Invoice.find_by_updated_at(date)
+    assert_equal date, invoice.updated_at
+  end
 end
