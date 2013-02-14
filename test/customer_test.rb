@@ -88,6 +88,10 @@ class CustomerTest < MiniTest::Unit::TestCase
     assert_equal 2 , found_customers.length
   end
 
+  def test_it_returns_invoices_associated_with_a_customer
+    customer = Customer.find_by_id("1")
+    assert_equal 8 , customer.invoices.size
+  end
 end
 
 

@@ -49,5 +49,8 @@ class Customer
     @@customers.find_all {|customer| customer.last_name == last_name}
   end
 
+  def invoices
+    Invoice.find_all_by_customer_id @id
+  end
 
 end
