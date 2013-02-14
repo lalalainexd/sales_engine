@@ -68,4 +68,14 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 2, found_merchants.length
   end
 
+  def test_it_returns_a_merchants_items_for_sale
+    merchant = Merchant.find_by_id("1")
+    assert_equal 8 , merchant.items.size
+  end
+
+  def test_it_returns_a_merchants_associated_invoices
+    merchant = Merchant.find_by_id("1")
+    assert_equal 1 , merchant.invoices.size
+  end
+
 end

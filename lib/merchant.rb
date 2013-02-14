@@ -1,4 +1,6 @@
 require 'date'
+require './lib/item'
+require "./lib/invoice"
 class Merchant
 
 attr_accessor :id, :name, :created_at, :updated_at
@@ -38,5 +40,13 @@ attr_accessor :id, :name, :created_at, :updated_at
 
   def self.find_all_by_name(name)
     @@merchants.find_all {|merchant| merchant.name == name}
+  end
+
+  def items
+    Item.find_all_by_merchant_id @id
+  end
+
+  def invoices
+    Invoice.find_all_by_merchant_id @id
   end
 end
