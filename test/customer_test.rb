@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-
-require './lib/customer'
+require './test/test_helper'
 
 class CustomerTest < MiniTest::Unit::TestCase
   def setup

@@ -1,8 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-
-require './lib/csv_loader'
-require './lib/invoice_item'
+require './test/test_helper'
 
 class InvoiceItemTest < MiniTest::Unit::TestCase
 

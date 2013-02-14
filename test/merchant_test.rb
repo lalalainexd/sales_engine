@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-
-require './lib/merchant'
+require './test/test_helper'
 
 class MerchantTest < MiniTest::Unit::TestCase
 

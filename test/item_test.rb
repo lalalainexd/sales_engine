@@ -1,5 +1,4 @@
-require './lib/csv_loader'
-require './lib/item'
+require './test/test_helper'
 
 class ItemTest < MiniTest::Unit::TestCase
 

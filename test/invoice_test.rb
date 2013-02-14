@@ -1,10 +1,4 @@
-
-require 'minitest/autorun'
-require 'minitest/pride'
-require 'minitest/mock'
-
-
-require './lib/invoice'
+require './test/test_helper'
 
 class InvoiceTest < MiniTest::Unit::TestCase
 

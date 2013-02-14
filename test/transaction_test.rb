@@ -1,7 +1,4 @@
-require 'minitest/autorun'
-require 'minitest/pride'
-
-require './lib/transaction'
+require './test/test_helper'
 
 class TransactionTest < MiniTest::Unit::TestCase
 
