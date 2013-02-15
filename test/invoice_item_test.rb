@@ -81,8 +81,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_all_invoice_items_by_item_id
-    CsvLoader.load_items './test/support/items.csv'
-    found_invoice_items = InvoiceItem.find_all_by_item_id("539")
+    #CsvLoader.load_items './test/support/items.csv'
+    found_invoice_items = InvoiceItem.find_all_by_item_id("534")
     assert_equal 1, found_invoice_items.size
   end
 
