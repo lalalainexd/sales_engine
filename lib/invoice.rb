@@ -84,5 +84,8 @@ class Invoice
     Customer.find_by_id @customer_id
   end
 
+  def transactions
+    Transaction.find_all_by_invoice_id @id
+  end
 end
 
