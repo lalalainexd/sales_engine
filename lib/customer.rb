@@ -2,6 +2,8 @@ require 'date'
 
 class Customer
 
+  @@customers = nil
+
   attr_accessor :id, :first_name, :last_name, :created_at, :updated_at
 
   def initialize(input)
@@ -14,8 +16,12 @@ class Customer
     @updated_at = DateTime.parse updated_date unless updated_date.nil?
   end
 
-    def self.add(array_of_data)
+  def self.add(array_of_data)
     @@customers = array_of_data
+  end
+
+  def self.clear
+    @@customers.clear unless @@customers.nil?
   end
 
   def self.size

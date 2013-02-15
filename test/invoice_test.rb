@@ -6,6 +6,10 @@ class InvoiceTest < MiniTest::Unit::TestCase
     CsvLoader.load_invoices('./test/support/invoices.csv')
   end
 
+  def teardown
+    clear_all
+  end
+
   def test_it_exists
     invoice = Invoice.new({})
     assert_kind_of Invoice, invoice

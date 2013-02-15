@@ -1,6 +1,8 @@
 require 'date'
 class Invoice
 
+  @@invoices = nil
+
   attr_accessor :id,
     :customer_id,
     :merchant_id,
@@ -24,6 +26,10 @@ class Invoice
 
   def self.add(array_of_data)
     @@invoices = array_of_data
+  end
+
+  def self.clear
+    @@invoices.clear unless @@invoices.nil?
   end
 
   def self.size
@@ -74,3 +80,4 @@ class Invoice
     @@invoices.find_all{|invoice| invoice.updated_at == date}
   end
 end
+

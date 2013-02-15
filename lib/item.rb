@@ -2,7 +2,9 @@ require 'date'
 
 class Item
 
-attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at
+  @@items = nil
+
+  attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at
 
   def initialize(input)
     @id =input[:id]
@@ -26,6 +28,10 @@ attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, 
   def self.size
     @@items.size
   end
+
+	def self.clear
+		@@items.clear unless @@items.nil?
+	end
 
   def self.random
     @@items.sample

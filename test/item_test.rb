@@ -6,6 +6,10 @@ class ItemTest < MiniTest::Unit::TestCase
     CsvLoader.load_items('./test/support/items.csv')
   end
 
+  def teardown
+    clear_all
+  end
+
   def test_it_exists
     item = Item.new({})
      assert_kind_of = Item, item

@@ -5,6 +5,10 @@ class CustomerTest < MiniTest::Unit::TestCase
     @customers = CsvLoader.load_customers('./test/support/customers.csv')
   end
 
+	def teardown
+		clear_all
+	end
+
   def test_it_exists
     customer = Customer.new({})
     assert_kind_of Customer, customer

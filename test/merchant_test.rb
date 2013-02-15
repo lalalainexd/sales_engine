@@ -5,6 +5,11 @@ class MerchantTest < MiniTest::Unit::TestCase
   def setup
     CsvLoader.load_merchants('./test/support/merchants.csv')
   end
+
+  def teardown
+    clear_all
+  end
+
   def test_it_exists
     merchant = Merchant.new({})
     assert_kind_of Merchant, merchant
@@ -69,11 +74,13 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_a_merchants_items_for_sale
+    CsvLoader.load_items './test/support/items.csv'
     merchant = Merchant.find_by_id("1")
     assert_equal 8 , merchant.items.size
   end
 
   def test_it_returns_a_merchants_associated_invoices
+    CsvLoader.load_invoices './test/support/invoices.csv'
     merchant = Merchant.find_by_id("1")
     assert_equal 1 , merchant.invoices.size
   end

@@ -3,7 +3,9 @@ require './lib/item'
 require "./lib/invoice"
 class Merchant
 
-attr_accessor :id, :name, :created_at, :updated_at
+  @@merchants = nil
+
+  attr_accessor :id, :name, :created_at, :updated_at
 
   def initialize(input)
     @id = input[:id]
@@ -17,6 +19,10 @@ attr_accessor :id, :name, :created_at, :updated_at
 
   def self.add(array_of_data)
     @@merchants = array_of_data
+  end
+
+  def self.clear
+    @@merchants.clear unless @@merchants.nil?
   end
 
   def self.size

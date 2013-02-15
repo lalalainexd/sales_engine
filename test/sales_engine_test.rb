@@ -2,6 +2,10 @@ require './test/test_helper'
 
 class SalesEngineTest < Minitest::Unit::TestCase
 
+  def teardown
+    clear_all
+  end
+
   def test_it_loads_all_data_when_startup_called
     SalesEngine.startup
     assert_equal 100, Merchant.size

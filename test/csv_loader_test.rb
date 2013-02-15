@@ -2,6 +2,11 @@ require './test/test_helper'
 
 class CsvLoaderTest < MiniTest::Unit::TestCase
 
+
+  def teardown
+    clear_all
+  end
+
   def test_it_loads_merchants
     merchants = CsvLoader.load_merchants('./test/support/merchants.csv')
     assert_equal 10, merchants.size

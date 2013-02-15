@@ -2,6 +2,8 @@ require 'date'
 
 class Transaction
 
+  @@transactions = nil
+
   attr_accessor :id,
     :invoice_id,
     :credit_card_number,
@@ -27,6 +29,10 @@ class Transaction
   def self.add(array_of_data)
     @@transactions = array_of_data
   end
+
+	def self.clear
+		@@transactions.clear unless @@transactions.nil?
+	end
 
   def self.size
     @@transactions.size

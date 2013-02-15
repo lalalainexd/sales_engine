@@ -7,6 +7,10 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_kind_of Transaction, transaction
   end
 
+  def teardown
+    clear_all
+  end
+
   def test_it_is_initialized_from_a_hash_of_data
     transaction = Transaction.new(
       id: 'id',

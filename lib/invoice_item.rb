@@ -1,9 +1,18 @@
 require 'date'
 require './lib/item'
+require './lib/invoice'
 
 class InvoiceItem
 
-  attr_accessor :id, :item_id, :invoice_id, :quantity, :unit_price, :created_at, :updated_at
+  @@invoice_items = nil
+
+  attr_accessor :id,
+    :item_id,
+    :invoice_id,
+    :quantity,
+    :unit_price,
+    :created_at,
+    :updated_at
 
   def initialize(input)
     @id =input[:id]
@@ -28,7 +37,7 @@ class InvoiceItem
   end
 
   def self.clear
-    @@invoice_items = nil
+    @@invoice_items.clear unless @@invoice_items.nil?
   end
 
   def self.find_by_id(id)

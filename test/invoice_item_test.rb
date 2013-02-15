@@ -3,16 +3,22 @@ require './test/test_helper'
 class InvoiceItemTest < MiniTest::Unit::TestCase
 
   def setup
-    CsvLoader.load_invoices('./test/support/invoice_items.csv')
+    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
   end
 
   def teardown
-    InvoiceItem.clear
+    clear_all
   end
+
 
   def test_it_exists
     invoice_item = InvoiceItem.new({})
     assert_kind_of = InvoiceItem, invoice_item
+  end
+
+  def teardown
+    Invoice.clear
+    Item.clear
   end
 
   def test_it_is_initialized_from_a_hash_of_data
@@ -75,13 +81,16 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_all_invoice_items_by_item_id
+    CsvLoader.load_invoices './test/support/items.csv'
     found_invoice_items = InvoiceItem.find_all_by_item_id("539")
     assert_equal 1, found_invoice_items.size
   end
 
   def test_it_returns_the_invoice_associated_with_the_invoice_item
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
     invoice_item = InvoiceItem.find_by_id '1'
     invoice = Invoice.find_by_id '1'
     assert_equal  invoice, invoice_item.invoice
-  end 
+  end
 end

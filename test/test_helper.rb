@@ -10,3 +10,13 @@ require './lib/invoice_item'
 require './lib/item'
 require './lib/customer'
 require './sales_engine'
+
+
+def clear_all
+  Invoice.clear
+  Merchant.clear
+  Transaction.clear
+  InvoiceItem.clear
+  Item.clear
+  Customer.clear
+end
