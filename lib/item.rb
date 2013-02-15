@@ -1,4 +1,6 @@
 require 'date'
+require './lib/invoice_item'
+require './lib/merchant'
 
 class Item
 
@@ -79,5 +81,13 @@ class Item
 
   def self.find_all_by_updated_at date
     @@items.find_all{|invoice| invoice.updated_at == date}
+  end
+
+  def invoice_items
+    InvoiceItems.find_all_by_item_id @id
+  end
+
+  def merchant
+    Merchant.find_by_id @merchant_id
   end
 end

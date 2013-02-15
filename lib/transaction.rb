@@ -37,4 +37,12 @@ class Transaction
   def self.size
     @@transactions.size
   end
+
+  def self.find_by_id id
+    @@transactions.find {|transaction| transaction.id == id}
+  end
+
+  def invoice
+    Invoice.find_by_id @invoice_id
+  end
 end
