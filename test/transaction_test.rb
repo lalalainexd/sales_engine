@@ -2,6 +2,10 @@ require './test/test_helper'
 
 class TransactionTest < MiniTest::Unit::TestCase
 
+  def setup
+    @transactions = CsvLoader.load_transactions('./test/support/transactions.csv')
+  end
+
   def test_it_exists
     transaction = Transaction.new({})
     assert_kind_of Transaction, transaction
@@ -74,12 +78,14 @@ class TransactionTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_an_assoiated_invoice
+    CsvLoader.load_invoices('./test/support/invoices.csv')
     transaction = Transaction.find_by_id '1'
     invoice = Invoice.find_by_id '1'
     assert_equal invoice, transaction.invoice
   end
 
   def test_it_finds_all_transactions_by_invoice_id
+    CsvLoader.load_invoices('./test/support/invoices.csv')
     transactions = Transaction.find_all_by_invoice_id("12")
     assert_equal 3 , transactions.size
   end

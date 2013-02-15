@@ -193,11 +193,13 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_the_customer_associated_with_the_invoice
+    CsvLoader.load_customers('./test/support/customers.csv')
     invoice = Invoice.find_by_id("1")
     assert_equal "Joey" , invoice.customer.first_name
   end
 
   def test_it_returns_transactions_associated_with_an_invoice
+    CsvLoader.load_transactions('./test/support/transactions.csv')
     invoice = Invoice.find_by_id("1")
     assert_equal 1 , invoice.transactions.size
   end

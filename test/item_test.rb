@@ -248,12 +248,14 @@ class ItemTest < MiniTest::Unit::TestCase
 
   end
 
-  def test_it_returns_a_colloection_of_associated_invoice_items
+  def test_it_returns_a_collection_of_associated_invoice_items
+    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
     item = Item.find_by_id '1'
-    assert_equal 2, item.invoice_items
+    assert_equal 3, item.invoice_items.size
   end
 
   def test_it_returns_the_associated_merchant
+    CsvLoader.load_merchants('./test/support/merchants.csv')
     item = Item.find_by_id '1'
     merchant = Merchant.find_by_id '1'
     assert_equal merchant, item.merchant

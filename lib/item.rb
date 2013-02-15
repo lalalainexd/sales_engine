@@ -84,7 +84,7 @@ class Item
   end
 
   def invoice_items
-    InvoiceItems.find_all_by_item_id @id
+    InvoiceItem.find_all_by_item_id @id
   end
 
   def merchant
