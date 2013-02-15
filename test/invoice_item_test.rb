@@ -93,4 +93,11 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     invoice = Invoice.find_by_id '1'
     assert_equal  invoice, invoice_item.invoice
   end
+
+  def test_it_returns_an_item_associated_with_the_invoice_item
+    CsvLoader.load_items './test/support/items.csv'
+    invoice_item = InvoiceItem.find_by_id '1'
+    item = Item.find_by_id '1'
+    assert_equal  item, invoice_item.item
+  end
 end

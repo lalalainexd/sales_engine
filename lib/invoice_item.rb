@@ -55,4 +55,8 @@ class InvoiceItem
   def invoice
     Invoice.find_by_id(@invoice_id)
   end
+  
+  def item
+    Item.find_by_id(@item_id)
+  end
 end

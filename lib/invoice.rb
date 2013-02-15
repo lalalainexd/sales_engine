@@ -93,5 +93,9 @@ class Invoice
   def invoice_items
     InvoiceItem.find_all_by_invoice_id @id
   end
+
+  def items
+    invoice_items.inject([]){|items, invoice_item| items << Item.find_by_id(invoice_item.item_id)}
+  end
 end
 

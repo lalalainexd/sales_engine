@@ -209,6 +209,13 @@ class InvoiceTest < MiniTest::Unit::TestCase
      invoice = Invoice.find_by_id("2")
     assert_equal 2 , invoice.invoice_items.size
   end
+
+  def test_it_returns_a_collection_of_items_by_way_of_invoiceitem_objects
+    CsvLoader.load_items('./test/support/items.csv')
+    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    invoice = Invoice.find_by_id("2")
+    assert_equal 2 , invoice.items.size
+  end
 end
 
 
