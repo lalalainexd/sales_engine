@@ -190,7 +190,11 @@ class InvoiceTest < MiniTest::Unit::TestCase
     date = DateTime.parse("1999-03-06 15:55:33 UTC")
     invoices = Invoice.find_all_by_updated_at date
     assert_equal 0, invoices.size
+  end
 
+  def test_it_returns_the_customer_associated_with_the_invoice
+    invoice = Invoice.find_by_id("1")
+    assert_equal "Joey" , invoice.customer.first_name
   end
 end
 
