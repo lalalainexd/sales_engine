@@ -18,8 +18,8 @@ class InvoiceItem
     @id =input[:id]
     @item_id = input[:item_id]
     @invoice_id = input[:invoice_id]
-    @quantity = input[:quantity]
-    @unit_price = input[:unit_price]
+    @quantity = input[:quantity].to_i unless input[:quantity].nil?
+    @unit_price = input[:unit_price].to_i unless input[:unit_price].nil?
 
     created_date = input[:created_at]
     @created_at = DateTime.parse(created_date) unless created_date.nil?
@@ -55,7 +55,7 @@ class InvoiceItem
   def invoice
     Invoice.find_by_id(@invoice_id)
   end
-  
+
   def item
     Item.find_by_id(@item_id)
   end

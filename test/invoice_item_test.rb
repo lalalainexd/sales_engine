@@ -10,15 +10,9 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     clear_all
   end
 
-
   def test_it_exists
     invoice_item = InvoiceItem.new({})
     assert_kind_of = InvoiceItem, invoice_item
-  end
-
-  def teardown
-    Invoice.clear
-    Item.clear
   end
 
   def test_it_is_initialized_from_a_hash_of_data
@@ -26,8 +20,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
       id: 'id',
       item_id: 'item_id',
       invoice_id: 'invoice_id',
-      quantity: 'quantity',
-      unit_price: 'unit_price',
+      quantity: '2',
+      unit_price: '1',
       created_at: '2012-03-27 14:54:09 UTC',
       updated_at: '2012-03-27 14:54:09 UTC'
     )
@@ -37,8 +31,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal 'id', invoice_item.id
     assert_equal 'item_id', invoice_item.item_id
     assert_equal 'invoice_id', invoice_item.invoice_id
-    assert_equal 'quantity', invoice_item.quantity
-    assert_equal 'unit_price', invoice_item.unit_price
+    assert_equal 2, invoice_item.quantity
+    assert_equal 1, invoice_item.unit_price
     assert_equal date, invoice_item.created_at
     assert_equal date, invoice_item.updated_at
 
@@ -46,8 +40,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
       id: 'id2',
       item_id: 'item_id2',
       invoice_id: 'invoice_id2',
-      quantity: 'quantity2',
-      unit_price: 'unit_price2',
+      quantity: '1',
+      unit_price: '2',
       created_at: '2012-03-28 14:54:09 UTC',
       updated_at: '2012-03-28 14:54:09 UTC'
     )
@@ -57,8 +51,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal 'id2', invoice_item.id
     assert_equal 'item_id2', invoice_item.item_id
     assert_equal 'invoice_id2', invoice_item.invoice_id
-    assert_equal 'quantity2', invoice_item.quantity
-    assert_equal 'unit_price2', invoice_item.unit_price
+    assert_equal 1, invoice_item.quantity
+    assert_equal 2, invoice_item.unit_price
     assert_equal date, invoice_item.created_at
     assert_equal date, invoice_item.updated_at
   end
@@ -67,8 +61,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     data = [InvoiceItem.new( id: 'id2',
                             item_id: 'item_id4',
                             invoice_id: 'invoice_id4',
-                            quantity: 'quantity2',
-                            unit_price: 'unit_price2',
+                            quantity: '4',
+                            unit_price: '4',
                             created_at: '2012-03-28 14:54:09 UTC',
                             updated_at: '2012-03-28 14:54:09 UTC')]
     InvoiceItem.add data

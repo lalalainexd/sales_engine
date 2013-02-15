@@ -90,4 +90,14 @@ class Item
   def merchant
     Merchant.find_by_id @merchant_id
   end
+
+  def self.most_revenue num_items
+    @@items.sort_by{|item| item.total_revenue}.reverse[0, (num_items-1)]
+
+  end
+
+  def total_revenue
+    invoices = InvoiceItem.find_all_by_item_id @id
+    invoices.inject(0){|rev,invoice| rev + invoice.quantity * invoice.unit_price}
+  end
 end
