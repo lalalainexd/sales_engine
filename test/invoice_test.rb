@@ -170,7 +170,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
     date = "1999-03-06 15:55:33 UTC"
     invoices = Invoice.find_all_by_created_at date
     assert_equal 0, invoices.size
-
   end
 
   def test_it_finds_all_by_updated_at
@@ -202,6 +201,13 @@ class InvoiceTest < MiniTest::Unit::TestCase
     CsvLoader.load_transactions('./test/support/transactions.csv')
     invoice = Invoice.find_by_id("1")
     assert_equal 1 , invoice.transactions.size
+  end
+
+  def test_it_returns_a_collection_of_invoice_item_instances
+    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    #invoice_items= InvoiceItem.find_all_by_invoice_id("2")
+     invoice = Invoice.find_by_id("2")
+    assert_equal 2 , invoice.invoice_items.size
   end
 end
 
