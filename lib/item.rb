@@ -92,12 +92,26 @@ class Item
   end
 
   def self.most_revenue num_items
-    @@items.sort_by{|item| item.total_revenue}.reverse[0, (num_items-1)]
+    @@items.sort_by{|item| item.total_revenue}.reverse.take num_items
 
   end
 
   def total_revenue
-    invoices = InvoiceItem.find_all_by_item_id @id
-    invoices.inject(0){|rev,invoice| rev + invoice.quantity * invoice.unit_price}
+    invoice_items = InvoiceItem.find_all_by_item_id @id
+    invoice_items.inject(0) do |rev,invoice_item|
+      rev + invoice_item.quantity * invoice_item.unit_price if invoice_item.invoice.success?
+    end
+  end
+
+  def self.most_items num_items
+    @@items.sort_by{|item| item.total_sold}.reverse.take num_items
+
+  end
+
+  def total_sold
+    invoice_items = InvoiceItem.find_all_by_item_id @id
+    invoice_items.inject(0) do |total,invoice_item|
+      total + invoice_item.quantity if invoice_item.invoice.success?
+    end
   end
 end

@@ -89,7 +89,7 @@ class Invoice
   def transactions
     Transaction.find_all_by_invoice_id @id
   end
-  
+
   def invoice_items
     InvoiceItem.find_all_by_invoice_id @id
   end
@@ -97,5 +97,12 @@ class Invoice
   def items
     invoice_items.inject([]){|items, invoice_item| items << Item.find_by_id(invoice_item.item_id)}
   end
+
+  def success?
+    transactions = Transaction.find_all_by_invoice_id(@id)
+    transactions.any?{|transaction| transaction.result == 'success'}
+  end
+
+
 end
 

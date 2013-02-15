@@ -263,7 +263,9 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_the_highest_revenue_item
-    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
 
     items = Item.most_revenue(1)
 
@@ -272,14 +274,41 @@ class ItemTest < MiniTest::Unit::TestCase
 
   end
 
-  def test_it_returns_the_highest_revenue_item
+  def test_it_returns_the_three_highest_revenue_item
     CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
 
     items = Item.most_revenue(3)
 
-    assert_equal 2, items.size
+    assert_equal 3, items.size
     assert_equal '2', items.first.id
     assert_equal '1', items[1].id
+
+  end
+
+  def test_it_returns_the_most_sold_item
+    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
+    items = Item.most_items(1)
+
+    assert_equal 1, items.size
+    assert_equal '1', items.first.id
+
+  end
+
+  def test_it_returns_the_three_most_sold_items
+    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
+    items = Item.most_items(3)
+
+    assert_equal 3, items.size
+    assert_equal '1', items.first.id
+    assert_equal '2', items[1].id
 
   end
 end

@@ -89,4 +89,5 @@ class TransactionTest < MiniTest::Unit::TestCase
     transactions = Transaction.find_all_by_invoice_id("12")
     assert_equal 3 , transactions.size
   end
+
 end
