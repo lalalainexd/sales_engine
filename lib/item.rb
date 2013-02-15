@@ -114,4 +114,6 @@ class Item
       total + invoice_item.quantity if invoice_item.invoice.success?
     end
   end
+
+
 end
