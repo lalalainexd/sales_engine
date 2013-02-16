@@ -85,7 +85,7 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 1 , merchant.invoices.size
   end
   
-  def test_it_returns_a_merchants_revenue_total
+  def test_it_returns_a_merchants_total_revenue
     CsvLoader.load_invoices
     CsvLoader.load_invoice_items
     CsvLoader.load_transactions
@@ -94,13 +94,25 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 114839374 , merchant.revenue 
   end
 
-  def test_it_returns_top_X_merchants_by_revenue
-    CsvLoader.load_invoices
-    CsvLoader.load_invoice_items
-    CsvLoader.load_transactions
-    CsvLoader.load_merchants
-    top3 = Merchant.most_revenue(3)
-    assert_equal 3, Merchant.most_revenue(3).size
-    assert_equal "Dicki-Bednar" , top3[0].name
+  # def test_it_returns_a_merchants_total_revenue_for_a_specific_date
+  #   CsvLoader.load_invoices
+  #   CsvLoader.load_invoice_items
+  #   CsvLoader.load_transactions
+  #   CsvLoader.load_merchants
+  #   merchant = Merchant.find_by_name("Willms and Sons")
+  #   assert_equal 8373.29, merchant.revenue("Fri, 09 Mar 2012")
+  # end
+
+  # def test_it_returns_top_X_merchants_by_revenue
+  #   CsvLoader.load_invoices
+  #   CsvLoader.load_invoice_items
+  #   CsvLoader.load_transactions
+  #   CsvLoader.load_merchants
+  #   top3 = Merchant.most_revenue(3)
+  #   assert_equal 3, Merchant.most_revenue(3).size
+  #   assert_equal "Dicki-Bednar" , top3[0].name
+  # end
+
+  def test_it_returns_customers_with_pending_transactions_for_a_merchant
   end
 end

@@ -61,16 +61,18 @@ class Merchant
   end
 
   def revenue
-    @invoice_subtotal = 0
-    successful_invoices.each do |invoice|   
-      items_for_subtotaling = InvoiceItem.find_all_by_invoice_id(invoice.id)
-      items_for_subtotaling.each do |item|
-        item_subtotal = item.quantity.to_i * item.unit_price.to_i
-        @invoice_subtotal += item_subtotal
-      end
+    revenue = 0
+    successful_invoices.each do |invoice|
+      revenue += invoice.subtotal
     end
-    @invoice_subtotal
+    revenue
   end
+
+  # def revenue(date)
+  #   formatted_date = Date.parse(date)
+  #   invoices = successful_invoices.from_date(formatted_date)
+  #   #then, finish revenue cylce invoices to item subtotaling
+  # end
 
   def self.most_revenue(x)
     sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}

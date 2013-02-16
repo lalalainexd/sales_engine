@@ -102,5 +102,15 @@ class Invoice
     transactions = Transaction.find_all_by_invoice_id(@id)
     transactions.any?{|transaction| transaction.result == 'success'}
   end
+
+  def subtotal
+    @invoice_subtotal = 0
+    invoice_items.each do |item|
+      item_subtotal = item.quantity.to_i * item.unit_price.to_i
+      @invoice_subtotal += item_subtotal
+    end
+    @invoice_subtotal
+  end
+
 end
 
