@@ -1,4 +1,5 @@
 require 'date'
+require 'set'
 
 class Customer
 
@@ -58,5 +59,24 @@ class Customer
   def invoices
     Invoice.find_all_by_customer_id @id
   end
+
+  def transactions
+   invoices.collect{|invoice| invoice.transactions}
+  end
+
+  def favorite_merchant
+    merchants = invoices.collect{|invoice| Merchant.find_by_id invoice.merchant_id}
+    merchant_set = merchants & merchants
+    merchants = merchant_set.sort_by {|merchant| num_invoices_with_merchant merchant.id}
+
+    merchants.last
+
+
+  end
+
+  def num_invoices_with_merchant merchant_id
+    invoices.count{|invoice| invoice.merchant_id == merchant_id}
+  end
+
 
 end
