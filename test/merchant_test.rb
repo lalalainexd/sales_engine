@@ -93,4 +93,14 @@ class MerchantTest < MiniTest::Unit::TestCase
     merchant = Merchant.find_by_name("Dicki-Bednar")
     assert_equal 114839374 , merchant.revenue 
   end
+
+  def test_it_returns_top_X_merchants_by_revenue
+    CsvLoader.load_invoices
+    CsvLoader.load_invoice_items
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+    top3 = Merchant.most_revenue(3)
+    assert_equal 3, Merchant.most_revenue(3).size
+    assert_equal "Dicki-Bednar" , top3[0].name
+  end
 end

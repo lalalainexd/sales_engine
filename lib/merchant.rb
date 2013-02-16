@@ -71,4 +71,9 @@ class Merchant
     end
     @invoice_subtotal
   end
+
+  def self.most_revenue(x)
+    sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
+    sorted_merchants.take x
+  end
 end
