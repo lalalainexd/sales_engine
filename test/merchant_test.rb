@@ -84,5 +84,13 @@ class MerchantTest < MiniTest::Unit::TestCase
     merchant = Merchant.find_by_id("1")
     assert_equal 1 , merchant.invoices.size
   end
-
+  
+  def test_it_returns_a_merchants_revenue_total
+    CsvLoader.load_invoices
+    CsvLoader.load_invoice_items
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+    merchant = Merchant.find_by_name("Dicki-Bednar")
+    assert_equal 114839374 , merchant.revenue 
+  end
 end
