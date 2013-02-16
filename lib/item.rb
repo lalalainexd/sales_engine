@@ -1,4 +1,5 @@
 require 'date'
+require 'set'
 require './lib/invoice_item'
 require './lib/merchant'
 
@@ -115,5 +116,33 @@ class Item
     end
   end
 
+  def best_day
+    daily_revenues.max_by{|daily_revenue| daily_revenue.revenue}.date.to_date
+  end
+
+
+  def daily_revenues
+    invoice_items.collect{|i| DailyItemRevenue.new self, i.invoice.created_at}
+  end
+
+end
+
+class DailyItemRevenue
+
+  attr_reader :date
+
+  def initialize item, date
+    @item = item
+    @date = date
+  end
+
+  def revenue
+    invoice_items.inject(0){|revenue, i| revenue + (i.quantity * i.unit_price)}
+
+  end
+
+  def invoice_items
+    @item.invoice_items.find_all{|i| i.invoice.created_at == @date}
+  end
 
 end
