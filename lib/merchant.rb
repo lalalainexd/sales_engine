@@ -60,20 +60,12 @@ class Merchant
     invoices.find_all {|invoice| invoice.success? == true}
   end
 
-  def revenue
-    revenue = 0
-    successful_invoices.each do |invoice|
-      revenue += invoice.subtotal
-    end
-    revenue
-  end
-
   def revenue(date = nil)
     if date.nil?
       invoices = successful_invoices
     else
       formatted_date = Date.parse(date)
-      invoices = invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == formatted_date}
+      invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == formatted_date}
     end
     revenue = 0
     invoices.each do |invoice|
@@ -81,6 +73,20 @@ class Merchant
     end
     revenue
   end
+
+  # def self.revenue(date)
+  #   formatted_date = Date.parse(date)
+  #   daily_revenue = 0
+  #   @@merchants.each do |merchant|
+  #     merchant.revenue(date)
+  #   end
+  #   invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == formatted_date}
+  #   revenue = 0
+  #   invoices.each do |invoice|
+  #     revenue += invoice.subtotal
+  #   end
+  #   revenue
+  # end
 
   def self.most_revenue(x)
     sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}

@@ -103,6 +103,15 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 837329, merchant.revenue("Fri, 09 Mar 2012")
   end
 
+   def test_it_returns_customers_with_pending_transactions_for_a_merchant
+    CsvLoader.load_invoices
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+
+    merchant = Merchant.find_by_name("Parisian Group")
+    assert_equal 4, merchant.customers_with_pending_invoices.size
+  end
+
 ########### THIS IS COMMENTED OUT TO SHORTEN TEST TIME #############
   # def test_it_returns_top_X_merchants_by_revenue
   #   CsvLoader.load_invoices
@@ -114,12 +123,11 @@ class MerchantTest < MiniTest::Unit::TestCase
   #   assert_equal "Dicki-Bednar" , top3[0].name
   # end
 
-  def test_it_returns_customers_with_pending_transactions_for_a_merchant
+  def test_it_returns_total_revenue_for_a_specific_date_for_all_merchants
     CsvLoader.load_invoices
+    CsvLoader.load_invoice_items
     CsvLoader.load_transactions
     CsvLoader.load_merchants
-
-    merchant = Merchant.find_by_name("Parisian Group")
-    assert_equal 4, merchant.customers_with_pending_invoices.size
+    assert_equal 2549722.91, Merchant.revenue("Tue, 20 Mar 2012")
   end
 end
