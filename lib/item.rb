@@ -141,6 +141,11 @@ class DailyItemSales
 
   end
 
+  def reveneue
+    invoice_items.inject(0){|reveneue, i| reveneue + (i.revenue * i.quantity)}
+
+  end
+
   def invoice_items
     @item.invoice_items.find_all{|i| i.invoice.success? && i.invoice.created_at == @date}
   end
