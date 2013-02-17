@@ -114,5 +114,11 @@ class MerchantTest < MiniTest::Unit::TestCase
   # end
 
   def test_it_returns_customers_with_pending_transactions_for_a_merchant
+    CsvLoader.load_invoices
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+    
+    merchant = Merchant.find_by_name("Parisian Group")
+    assert_equal 4, merchant.customers_with_pending_invoices.size
   end
 end

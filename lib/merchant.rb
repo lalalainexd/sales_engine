@@ -78,4 +78,8 @@ class Merchant
     sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
     sorted_merchants.take x
   end
+
+  def customers_with_pending_invoices
+    invoices.find_all {|invoice| invoice.success? == false}
+  end
 end
