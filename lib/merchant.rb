@@ -86,6 +86,25 @@ class Merchant
     sorted_merchants.take x
   end
 
+  def self.most_items(x)
+    sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.total_items_sold <=> merchA.total_items_sold}
+    sorted_merchants. take x
+  end
+
+  def total_items_sold
+    invoices = successful_invoices
+    total_items = 0
+    invoices.each do |invoice|
+      items = invoice.invoice_items
+      invoice_total_items = 0
+      items.each do |item|
+        invoice_total_items += item.quantity
+      end
+      total_items +=invoice_total_items
+    end
+    total_items
+  end
+
   def customers_with_pending_invoices
     invoices.find_all {|invoice| invoice.success? == false}
   end

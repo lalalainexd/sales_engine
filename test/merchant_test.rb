@@ -132,7 +132,7 @@ class MerchantTest < MiniTest::Unit::TestCase
   #   CsvLoader.load_transactions
   #   CsvLoader.load_merchants
   #   top3 = Merchant.most_revenue(3)
-  #   assert_equal 3, Merchant.most_revenue(3).size
+  #   assert_equal 3, top3.size
   #   assert_equal "Dicki-Bednar" , top3[0].name
   # end
 
@@ -143,5 +143,16 @@ class MerchantTest < MiniTest::Unit::TestCase
     CsvLoader.load_merchants
     date =Date.parse("Tue, 20 Mar 2012")
     assert_equal 254972291, Merchant.revenue(date)
+  end
+
+  def test_it_returns_the_top_X_merchants_based_on_number_of_items_sold
+    CsvLoader.load_invoices
+    CsvLoader.load_invoice_items
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+    top5 = Merchant.most_items(5)
+    assert_equal 5, top5.size
+    assert_equal "Kassulke, O'Hara and Quitzon" , top5[0].name
+    assert_equal "Daugherty Group", top5[4].name
   end
 end
