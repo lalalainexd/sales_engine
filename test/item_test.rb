@@ -316,6 +316,7 @@ class ItemTest < MiniTest::Unit::TestCase
     CsvLoader.load_items
     CsvLoader.load_invoice_items
     CsvLoader.load_invoices
+		CsvLoader.load_transactions
 
     item = Item.find_by_name "Item Accusamus Ut"
     date = Date.parse "Sat, 24 Mar 2012"

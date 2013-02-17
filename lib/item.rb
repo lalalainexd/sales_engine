@@ -142,7 +142,7 @@ class DailyItemSales
   end
 
   def invoice_items
-    @item.invoice_items.find_all{|i| i.invoice.created_at == @date}
+    @item.invoice_items.find_all{|i| i.invoice.success? && i.invoice.created_at == @date}
   end
 
 end
