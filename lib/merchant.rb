@@ -68,11 +68,19 @@ class Merchant
     revenue
   end
 
-  # def revenue(date)
-  #   formatted_date = Date.parse(date)
-  #   invoices = successful_invoices.from_date(formatted_date)
-  #   #then, finish revenue cylce invoices to item subtotaling
-  # end
+  def revenue(date = nil)
+    if date.nil?
+      invoices = successful_invoices
+    else
+      formatted_date = Date.parse(date)
+      invoices = invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == formatted_date}
+    end
+    revenue = 0
+    invoices.each do |invoice|
+      revenue += invoice.subtotal
+    end
+    revenue
+  end
 
   def self.most_revenue(x)
     sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
