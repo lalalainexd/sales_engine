@@ -100,7 +100,8 @@ class MerchantTest < MiniTest::Unit::TestCase
     CsvLoader.load_transactions
     CsvLoader.load_merchants
     merchant = Merchant.find_by_name("Willms and Sons")
-    assert_equal 837329, merchant.revenue("Fri, 09 Mar 2012")
+    date = Date.parse("Fri, 09 Mar 2012")
+    assert_equal 837329, merchant.revenue(date)
   end
 
    def test_it_returns_customers_with_pending_transactions_for_a_merchant
@@ -128,6 +129,7 @@ class MerchantTest < MiniTest::Unit::TestCase
     CsvLoader.load_invoice_items
     CsvLoader.load_transactions
     CsvLoader.load_merchants
-    assert_equal 2549722.91, Merchant.revenue("Tue, 20 Mar 2012")
+    date =Date.parse("Tue, 20 Mar 2012")
+    assert_equal 254972291, Merchant.revenue(date)
   end
 end

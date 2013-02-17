@@ -69,6 +69,12 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal 1, InvoiceItem.size
   end
 
+  def test_it_returns_all_invoice_items_by_a_created_at_date
+    date = Date.parse("2012-03-27 14:54:09 UTC")
+    found_invoice_items = InvoiceItem.find_all_by_created_at(date)
+    assert_equal 10, found_invoice_items.size
+  end
+
   def test_it_returns_all_invoice_items_by_invoice_id
     found_invoice_items = InvoiceItem.find_all_by_invoice_id("1")
     assert_equal 8, found_invoice_items.size

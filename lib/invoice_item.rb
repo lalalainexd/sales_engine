@@ -52,6 +52,10 @@ class InvoiceItem
      @@invoice_items.find_all {|invoice_item| invoice_item.invoice_id == invoice_id}
   end
 
+  def self.find_all_by_created_at(date)
+    @@invoice_items.find_all {|invoice_item| invoice_item.created_at.to_date == date}
+  end
+
   def invoice
     Invoice.find_by_id(@invoice_id)
   end

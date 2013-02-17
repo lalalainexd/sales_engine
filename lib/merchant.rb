@@ -64,8 +64,7 @@ class Merchant
     if date.nil?
       invoices = successful_invoices
     else
-      formatted_date = Date.parse(date)
-      invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == formatted_date}
+      invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == date}
     end
     revenue = 0
     invoices.each do |invoice|
@@ -74,19 +73,27 @@ class Merchant
     revenue
   end
 
+
   # def self.revenue(date)
-  #   formatted_date = Date.parse(date)
-  #   daily_revenue = 0
-  #   @@merchants.each do |merchant|
-  #     merchant.revenue(date)
+  #   #find all invoice items that fit the date
+  #   items = InvoiceItem.find_all_by_created_at(date)
+  #   #for each item create daily sales, find revenue
+  #   puts "date: #{date}"
+  #   #puts "#{formatted_date} formated date"
+  #   total_revenue = 0
+  #   items.each do |item|
+  #     thing = DailyItemSales.new(item, date)
+  #     total_revenue += thing.reveneue
   #   end
-  #   invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == formatted_date}
-  #   revenue = 0
-  #   invoices.each do |invoice|
-  #     revenue += invoice.subtotal
-  #   end
-  #   revenue
+  #   total_revenue
   # end
+  def self.revenue(date)
+    daily_revenue = 0
+    @@merchants.each do |merchant|
+      daily_revenue += merchant.revenue(date)
+    end
+    daily_revenue
+  end
 
   def self.most_revenue(x)
     sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
