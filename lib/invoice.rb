@@ -89,7 +89,7 @@ class Invoice
   def transactions
     Transaction.find_all_by_invoice_id @id
   end
-  
+
   def invoice_items
     InvoiceItem.find_all_by_invoice_id @id
   end
@@ -111,6 +111,7 @@ class Invoice
     end
     @invoice_subtotal
   end
+
 
 end
 

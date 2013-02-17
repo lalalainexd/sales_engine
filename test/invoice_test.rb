@@ -216,7 +216,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
     invoice = Invoice.find_by_id("2")
     assert_equal 2 , invoice.items.size
   end
+
+  def test_it_knows_if_its_successful
+    CsvLoader.load_transactions './test/support/transactions.csv'
+
+    invoice = Invoice.find_by_id '1'
+    assert invoice.success?
+
+  end
 end
+
 
 
 

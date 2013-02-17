@@ -97,9 +97,25 @@ class CustomerTest < MiniTest::Unit::TestCase
     customer = Customer.find_by_id("1")
     assert_equal 8 , customer.invoices.size
   end
+
+  def test_it_returns_transactions_associated_with_the_customer
+    CsvLoader.load_customers #loading real data instead
+    CsvLoader.load_invoices
+    CsvLoader.load_transactions
+
+    customer = Customer.find_by_id('2')
+    assert_equal 1, customer.transactions.size
+  end
+
+  def test_it_returns_the_customers_favorite_merchant
+    CsvLoader.load_customers #loading real data instead
+    CsvLoader.load_invoices
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+
+
+    customer = Customer.find_by_id('2')
+    merchant = Merchant.find_by_name 'Shields, Hirthe and Smith'
+    assert_equal merchant, customer.favorite_merchant
+  end
 end
-
-
-
-
-

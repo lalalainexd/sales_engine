@@ -12,7 +12,7 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_exists
     item = Item.new({})
-     assert_kind_of = Item, item
+    assert_kind_of = Item, item
   end
 
   def test_it_is_initialized_from_a_hash_of_data
@@ -66,11 +66,11 @@ class ItemTest < MiniTest::Unit::TestCase
       merchant_id: 'merchant_id',
       created_at: '2012-03-28 14:53:59 UTC',
       updated_at: '2012-03-28 14:53:59 UTC'
-   )]
+    )]
 
     Item.add(data)
     assert_equal 1, Item.size
-   end
+  end
 
   def test_it_returns_a_random_item
 
@@ -254,10 +254,74 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal 3, item.invoice_items.size
   end
 
+
   def test_it_returns_the_associated_merchant
     CsvLoader.load_merchants('./test/support/merchants.csv')
     item = Item.find_by_id '1'
     merchant = Merchant.find_by_id '1'
     assert_equal merchant, item.merchant
+  end
+
+  def test_it_returns_the_highest_revenue_item
+    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
+    items = Item.most_revenue(1)
+
+    assert_equal 1, items.size
+    assert_equal '2', items.first.id
+
+  end
+
+  def test_it_returns_the_three_highest_revenue_item
+    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
+    items = Item.most_revenue(3)
+
+    assert_equal 3, items.size
+    assert_equal '2', items.first.id
+    assert_equal '1', items[1].id
+
+  end
+
+  def test_it_returns_the_most_sold_item
+    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
+    items = Item.most_items(1)
+
+    assert_equal 1, items.size
+    assert_equal '1', items.first.id
+
+  end
+
+  def test_it_returns_the_three_most_sold_items
+    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
+    CsvLoader.load_transactions './test/support/transactions.csv'
+    CsvLoader.load_invoices './test/support/invoices.csv'
+
+    items = Item.most_items(3)
+
+    assert_equal 3, items.size
+    assert_equal '1', items.first.id
+    assert_equal '2', items[1].id
+
+  end
+
+  def test_it_returns_the_date_with_most_sales
+    CsvLoader.load_items
+    CsvLoader.load_invoice_items
+    CsvLoader.load_invoices
+		CsvLoader.load_transactions
+
+    item = Item.find_by_name "Item Accusamus Ut"
+    date = Date.parse "Sat, 24 Mar 2012"
+
+    assert_equal date, item.best_day
+
   end
 end
