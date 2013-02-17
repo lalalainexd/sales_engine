@@ -73,20 +73,6 @@ class Merchant
     revenue
   end
 
-
-  # def self.revenue(date)
-  #   #find all invoice items that fit the date
-  #   items = InvoiceItem.find_all_by_created_at(date)
-  #   #for each item create daily sales, find revenue
-  #   puts "date: #{date}"
-  #   #puts "#{formatted_date} formated date"
-  #   total_revenue = 0
-  #   items.each do |item|
-  #     thing = DailyItemSales.new(item, date)
-  #     total_revenue += thing.reveneue
-  #   end
-  #   total_revenue
-  # end
   def self.revenue(date)
     daily_revenue = 0
     @@merchants.each do |merchant|
@@ -102,5 +88,16 @@ class Merchant
 
   def customers_with_pending_invoices
     invoices.find_all {|invoice| invoice.success? == false}
+  end
+
+  def favorite_customer
+    customers = invoices.collect{|invoice| Customer.find_by_id invoice.customer_id}
+    customer_set = customers & customers
+    customers = customer_set.sort_by {|customer| successful_invoices_with_customer customer.id}
+
+    customers.last
+    end
+  def successful_invoices_with_customer customer_id
+    invoices.count{|invoice| invoice.success? && invoice.customer_id == customer_id}
   end
 end

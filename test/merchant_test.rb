@@ -113,6 +113,18 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 4, merchant.customers_with_pending_invoices.size
   end
 
+  def test_it_returns_a_merchants_most_loyal_customer
+    CsvLoader.load_merchants
+    CsvLoader.load_transactions
+    CsvLoader.load_invoices
+    CsvLoader.load_invoice_items
+    CsvLoader.load_customers
+
+
+    merchant = Merchant.find_by_name("Terry-Moore")
+    assert_equal "Jayme" , merchant.favorite_customer.first_name
+  end
+
 ########### THIS IS COMMENTED OUT TO SHORTEN TEST TIME #############
   # def test_it_returns_top_X_merchants_by_revenue
   #   CsvLoader.load_invoices
