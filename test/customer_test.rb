@@ -110,7 +110,9 @@ class CustomerTest < MiniTest::Unit::TestCase
   def test_it_returns_the_customers_favorite_merchant
     CsvLoader.load_customers #loading real data instead
     CsvLoader.load_invoices
+    CsvLoader.load_transactions
     CsvLoader.load_merchants
+
 
     customer = Customer.find_by_id('2')
     merchant = Merchant.find_by_name 'Shields, Hirthe and Smith'
