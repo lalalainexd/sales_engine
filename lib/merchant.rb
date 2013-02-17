@@ -1,6 +1,8 @@
 require 'date'
+require 'bigdecimal'
 require './lib/item'
 require "./lib/invoice"
+
 class Merchant
 
   @@merchants = nil
@@ -70,15 +72,16 @@ class Merchant
     invoices.each do |invoice|
       revenue += invoice.subtotal
     end
-    revenue
+    revenue = BigDecimal.new(revenue) / 100
+    revenue.to_f
   end
 
   def self.revenue(date)
     daily_revenue = 0
     @@merchants.each do |merchant|
-      daily_revenue += merchant.revenue(date)
+      daily_revenue += merchant.revenue(date)*100
     end
-    daily_revenue
+    daily_revenue / 100
   end
 
   def self.most_revenue(x)
