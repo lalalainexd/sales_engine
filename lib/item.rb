@@ -117,17 +117,17 @@ class Item
   end
 
   def best_day
-    daily_revenues.max_by{|daily_revenue| daily_revenue.revenue}.date.to_date
+    daily_quantity.max_by{|daily_quantity| daily_quantity.quantity}.date.to_date
   end
 
 
-  def daily_revenues
-    invoice_items.collect{|i| DailyItemRevenue.new self, i.invoice.created_at}
+  def daily_quantity
+    invoice_items.collect{|i| DailyItemSales.new self, i.invoice.created_at}
   end
 
 end
 
-class DailyItemRevenue
+class DailyItemSales
 
   attr_reader :date
 
@@ -136,8 +136,8 @@ class DailyItemRevenue
     @date = date
   end
 
-  def revenue
-    invoice_items.inject(0){|revenue, i| revenue + (i.quantity * i.unit_price)}
+  def quantity
+    invoice_items.inject(0){|quantity, i| quantity + i.quantity}
 
   end
 
