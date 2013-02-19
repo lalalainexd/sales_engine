@@ -14,23 +14,24 @@ class Invoice
 	extend InvoiceFinder
 
   def initialize(input)
-    @id = input[:id].to_i
+
+    @id = input[:id].nil? ? Invoice.get_next_id : input[:id].to_i
+
     @customer_id = input[:customer_id].to_i
     @merchant_id = input[:merchant_id].to_i
     @status = input[:status]
 
     created_date = input[:created_at]
-    @created_at = clean_date created_date unless created_date.nil?
+    @created_at = created_date.nil? ? Date.today : clean_date(created_date)
 
     updated_date = input[:updated_at]
-    @updated_at = clean_date updated_date unless updated_date.nil?
+    @updated_at = updated_date.nil? ? Date.today : clean_date(updated_date)
+
   end
 
   def clean_date date
-    if date.class == String
-      date = Date.parse date
-    end
-     date
+    Date.parse date
+    
   end
 
 	def self.invoices
@@ -89,20 +90,15 @@ class Invoice
   end
 
   def self.create input
-    new_input = {
-      id: get_next_id,
-      customer_id: input[:customer].id,
-      merchant_id: input[:merchant].id,
-      status: input[:status],
-      created_at: Date.today,
-      updated_at: Date.today,
-    }
+    input[:customer_id] = input[:customer].id
+    input[:merchant_id] = input[:merchant].id
 
-    invoice = Invoice.new new_input
+    invoice = Invoice.new input
+    
     Invoice.add_invoice invoice
 
     create_invoice_items count_unique(input[:items]), invoice
-
+    @invoice_subtotal = nil
     return invoice
   end
 
