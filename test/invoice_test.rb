@@ -18,8 +18,8 @@ class InvoiceTest < MiniTest::Unit::TestCase
   def test_it_is_initialized_from_a_hash_of_data
     invoice = Invoice.new(
       id: '1',
-      customer_id: 'customer_id',
-      merchant_id: 'merchant_id',
+      customer_id: '1',
+      merchant_id: '1',
       status: 'status',
       created_at: '2012-03-28 14:54:09 UTC',
       updated_at: '2012-03-28 14:54:09 UTC'
@@ -27,16 +27,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
     date = DateTime.parse('2012-03-28 14:54:09 UTC')
 
     assert_equal 1, invoice.id
-    assert_equal 'customer_id', invoice.customer_id
-    assert_equal 'merchant_id', invoice.merchant_id
+    assert_equal 1, invoice.customer_id
+    assert_equal 1, invoice.merchant_id
     assert_equal 'status', invoice.status
     assert_equal date, invoice.created_at
     assert_equal date, invoice.updated_at
 
     invoice = Invoice.new(
       id: '2',
-      customer_id: 'customer_id2',
-      merchant_id: 'merchant_id2',
+      customer_id: '2',
+      merchant_id: '2',
       status: 'status2',
       created_at: '2012-03-29 14:54:09 UTC',
       updated_at: '2012-03-29 14:54:09 UTC'
@@ -44,8 +44,8 @@ class InvoiceTest < MiniTest::Unit::TestCase
     date = DateTime.parse('2012-03-29 14:54:09 UTC')
 
     assert_equal 2, invoice.id
-    assert_equal 'customer_id2', invoice.customer_id
-    assert_equal 'merchant_id2', invoice.merchant_id
+    assert_equal 2, invoice.customer_id
+    assert_equal 2, invoice.merchant_id
     assert_equal 'status2', invoice.status
     assert_equal date, invoice.created_at
     assert_equal date, invoice.updated_at
@@ -115,12 +115,12 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_customer_id
-    customer_id = "1"
+    customer_id = 1
     invoices = Invoice.find_all_by_customer_id customer_id
     assert_equal 8, invoices.size
     assert_equal 1, invoices.sample.customer_id
 
-    customer_id = "2"
+    customer_id = 2
     invoices = Invoice.find_all_by_customer_id customer_id
     assert_equal 1, invoices.size
     assert_equal 2, invoices.sample.customer_id
@@ -128,7 +128,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_customer_id
-    customer_id = "0"
+    customer_id = 0
     invoices = Invoice.find_all_by_customer_id customer_id
     assert_equal 0, invoices.size
 
