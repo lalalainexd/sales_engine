@@ -26,7 +26,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
       updated_at: '2012-03-27 14:54:09 UTC'
     )
 
-    date = DateTime.parse('2012-03-27 14:54:09 UTC')
+    date = Date.parse('2012-03-27 14:54:09 UTC')
 
     assert_equal 1, invoice_item.id
     assert_equal 1, invoice_item.item_id
@@ -46,7 +46,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
       updated_at: '2012-03-28 14:54:09 UTC'
     )
 
-    date = DateTime.parse('2012-03-28 14:54:09 UTC')
+    date = Date.parse('2012-03-28 14:54:09 UTC')
 
     assert_equal 2, invoice_item.id
     assert_equal 2, invoice_item.item_id

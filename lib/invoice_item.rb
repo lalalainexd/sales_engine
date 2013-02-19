@@ -23,17 +23,15 @@ class InvoiceItem
     @unit_price = input[:unit_price].to_i unless input[:unit_price].nil?
 
     created_date = input[:created_at]
-    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    @created_at = clean_date created_date unless created_date.nil?
 
     updated_date = input[:updated_at]
-    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
+    @updated_at = clean_date updated_date unless updated_date.nil?
   end
 
   def clean_date date
     if date.class == String
-      date = DateTime.parse date
-    elsif date.class == Time
-      date = date.to_datetime
+      date = Date.parse date
     end
      date
   end
@@ -74,7 +72,7 @@ class InvoiceItem
     quantity = input[:quantity]
     unit_price = input[:item].unit_price
 
-    add_invoice_item InvoiceItem.new id: id, item_id: item_id, invoice_id: invoice_id, quantity: quantity, unit_price: unit_price
+    add_invoice_item InvoiceItem.new id: id, item_id: item_id, invoice_id: invoice_id, quantity: quantity, unit_price: unit_price, created_at: Date.today, updated_at: Date.today
   end
 
   def self.get_next_id
