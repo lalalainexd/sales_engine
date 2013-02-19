@@ -40,10 +40,7 @@ class Customer
   end
 
   def self.random
-    pick_number = customers.size
-    random_number = rand(pick_number)
-    random_customer = customers[random_number]
-    random_customer
+    customers.sample
   end
 
 
@@ -55,20 +52,28 @@ class Customer
    invoices.collect{|invoice| invoice.transactions}
   end
 
-  def favorite_merchant
-    merchants = invoices.collect do |invoice| 
+  def merchants
+
+    merchants = invoices.collect do |invoice|
       Merchant.find_by_id invoice.merchant_id
     end
 
-    merchant_set = merchants & merchants
-    merchants = merchant_set.sort_by do |merchant|
-      successful_invoices_with_merchant merchant.id
+    remove_duplicate_merchants merchants
+  end
+
+  def favorite_merchant
+    merchants.sort_by do |merchant|
+      successful_invoices_with_merchant_count merchant.id
     end
 
     merchants.last
   end
 
-  def successful_invoices_with_merchant merchant_id
+  def remove_duplicate_merchants merchants
+    merchants & merchants
+  end
+
+  def successful_invoices_with_merchant_count merchant_id
     invoices.count do |invoice|
       invoice.success? && invoice.merchant_id == merchant_id
     end
