@@ -52,7 +52,7 @@ class Customer
   end
 
   def merchants
-    invoices.inject(Set.new)do |set, invoice|
+    invoices.inject(Set.new) do |set, invoice|
       set.add Merchant.find_by_id invoice.merchant_id
     end
   end

@@ -61,17 +61,13 @@ class Merchant
   end
 
   def revenue(date = nil)
-    if date.nil?
-      @found_invoices = successful_invoices
-    else
-      @found_invoices = successful_invoices_for_a_(date)
-    end
-    calculate_revenue
+    invces = date.nil? ? successful_invoices : successful_invoices_for_a_(date)
+    calculate_revenue_for(invces)
   end
 
-  def calculate_revenue
-    revenue = @found_invoices.inject(0) do |revenue, invoice|
-      revenue + invoice.subtotal
+  def calculate_revenue_for(invoices)
+    revenue = invoices.inject(0) do |sum, invoice|
+      sum + invoice.subtotal
     end
     (BigDecimal.new(revenue) / 100).to_f
   end
@@ -84,10 +80,13 @@ class Merchant
   end
 
   def self.most_revenue(x)
-    sorted_merchants = merchants.sort do |merchA, merchB|
-      merchB.revenue <=> merchA.revenue
+    merchants_with_revenue = merchants.each_with_object({}) do |merchant, hsh|
+      hsh[merchant.id] = merchant.revenue
+    end.sort {|(id_a, rev_a), (id_b, rev_b)| rev_b <=> rev_a }.take(x)
+
+    merchants_with_revenue.map do |arr|
+      self.find_by_id(arr[0])
     end
-    sorted_merchants.take x
   end
 
   def self.most_items(x)

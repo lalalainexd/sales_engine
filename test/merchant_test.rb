@@ -134,16 +134,15 @@ class MerchantTest < MiniTest::Unit::TestCase
     assert_equal 2549722.91, Merchant.revenue(date)
   end
 
-########### THIS IS COMMENTED OUT TO SHORTEN TEST TIME #############
-  # def test_it_returns_top_X_merchants_by_revenue
-  #   CsvLoader.load_invoices
-  #   CsvLoader.load_invoice_items
-  #   CsvLoader.load_transactions
-  #   CsvLoader.load_merchants
-  #   top3 = Merchant.most_revenue(3)
-  #   assert_equal 3, top3.size
-  #   assert_equal "Dicki-Bednar" , top3[0].name
-  # end
+  def test_it_returns_top_X_merchants_by_revenue
+    CsvLoader.load_invoices
+    CsvLoader.load_invoice_items
+    CsvLoader.load_transactions
+    CsvLoader.load_merchants
+    top3 = Merchant.most_revenue(3)
+    assert_equal 3, top3.size
+    assert_equal "Dicki-Bednar" , top3[0].name
+  end
 
   # def test_it_returns_the_top_X_merchants_based_on_number_of_items_sold
   #   CsvLoader.load_invoices

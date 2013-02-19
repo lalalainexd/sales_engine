@@ -83,9 +83,9 @@ class Invoice
   end
 
   def subtotal
-    @invoice_subtotal = 0
-    invoice_items.each {|item| @invoice_subtotal += item.item_subtotal}
-    @invoice_subtotal
+    @invoice_subtotal ||= invoice_items.inject(0) do |sum, item|
+      sum += item.item_subtotal
+    end
   end
 
   def self.create input
@@ -130,6 +130,10 @@ class Invoice
 
   def count_items_on_invoice
     invoice_items.inject(0) {|sum, invoice_item| sum + invoice_item.quantity}
+  end
+
+  def self.successful
+    @successful_invoices ||= invoices.select {|i| i.success? }
   end
 end
 

@@ -86,7 +86,7 @@ class InvoiceItem
   end
 
   def item_subtotal
-    @item_subtotal = @quantity * @unit_price
+    @item_subtotal ||= @quantity * @unit_price
   end
 
   def success?

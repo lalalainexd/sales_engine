@@ -1,3 +1,5 @@
+$LOAD_PATH << './lib/'
+
 require 'csv_loader'
 
 class SalesEngine
