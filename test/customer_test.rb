@@ -16,7 +16,7 @@ class CustomerTest < MiniTest::Unit::TestCase
 
  def test_it_is_initialized_from_a_hash_of_data
     customer = Customer.new(
-                            id: 'id',
+                            id: '1',
                             first_name: 'first_name',
                             last_name: 'last_name',
                             created_at: '2012-03-27 14:54:09 UTC',
@@ -25,14 +25,14 @@ class CustomerTest < MiniTest::Unit::TestCase
     created_date =  DateTime.parse("2012-03-27 14:54:09 UTC")
     updated_date = DateTime.parse("2012-03-27 14:54:09 UTC")
 
-    assert_equal 'id', customer.id
+    assert_equal 1, customer.id
     assert_equal 'first_name', customer.first_name
     assert_equal 'last_name', customer.last_name
     assert_equal created_date, customer.created_at
     assert_equal updated_date, customer.updated_at
 
     customer = Customer.new(
-                          id: 'id2', first_name: 'first_name2',
+                          id: '2', first_name: 'first_name2',
                           last_name: 'last_name2',
                             created_at: '2012-03-28 14:54:09 UTC',
                             updated_at: '2012-03-29 14:54:09 UTC' )
@@ -40,7 +40,7 @@ class CustomerTest < MiniTest::Unit::TestCase
     created_date =  DateTime.parse("2012-03-28 14:54:09 UTC")
     updated_date = DateTime.parse("2012-03-29 14:54:09 UTC")
 
-    assert_equal 'id2', customer.id
+    assert_equal 2, customer.id
     assert_equal 'first_name2', customer.first_name
     assert_equal 'last_name2', customer.last_name
     assert_equal created_date, customer.created_at
@@ -48,7 +48,7 @@ class CustomerTest < MiniTest::Unit::TestCase
     end
 
  def test_it_stores_customers_from_an_array
-   data = [Customer.new( id: 'id2',
+   data = [Customer.new( id: '2',
                         first_name: 'first_name2',
                         last_name: 'last_name2',
                         created_at: '2012-03-28 14:54:09 UTC',
@@ -77,8 +77,8 @@ class CustomerTest < MiniTest::Unit::TestCase
   end
 
   def test_it_can_find_customer_by_id
-    customer = Customer.find_by_id("10")
-    assert_equal "10", customer.id
+    customer = Customer.find_by_id(10)
+    assert_equal 0, customer.id
   end
 
   def test_it_can_find_customer_by_last_name
@@ -94,7 +94,7 @@ class CustomerTest < MiniTest::Unit::TestCase
 
   def test_it_returns_invoices_associated_with_a_customer
     CsvLoader.load_invoices('./test/support/invoices.csv')
-    customer = Customer.find_by_id("1")
+    customer = Customer.find_by_id(1)
     assert_equal 8 , customer.invoices.size
   end
 
@@ -103,7 +103,7 @@ class CustomerTest < MiniTest::Unit::TestCase
     CsvLoader.load_invoices
     CsvLoader.load_transactions
 
-    customer = Customer.find_by_id('2')
+    customer = Customer.find_by_id(2)
     assert_equal 1, customer.transactions.size
   end
 
@@ -114,7 +114,7 @@ class CustomerTest < MiniTest::Unit::TestCase
     CsvLoader.load_merchants
 
 
-    customer = Customer.find_by_id('2')
+    customer = Customer.find_by_id(2)
     merchant = Merchant.find_by_name 'Shields, Hirthe and Smith'
     assert_equal merchant, customer.favorite_merchant
   end

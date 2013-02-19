@@ -16,7 +16,7 @@ class InvoiceItem
   extend InvoiceItemFinder
 
   def initialize(input)
-    @id =input[:id]
+    @id =input[:id].to_i
     @item_id = input[:item_id]
     @invoice_id = input[:invoice_id]
     @quantity = input[:quantity].to_i unless input[:quantity].nil?

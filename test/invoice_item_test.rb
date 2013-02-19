@@ -17,7 +17,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
 
   def test_it_is_initialized_from_a_hash_of_data
     invoice_item = InvoiceItem.new(
-      id: 'id',
+      id: '1',
       item_id: 'item_id',
       invoice_id: 'invoice_id',
       quantity: '2',
@@ -28,7 +28,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
 
     date = DateTime.parse('2012-03-27 14:54:09 UTC')
 
-    assert_equal 'id', invoice_item.id
+    assert_equal 1, invoice_item.id
     assert_equal 'item_id', invoice_item.item_id
     assert_equal 'invoice_id', invoice_item.invoice_id
     assert_equal 2, invoice_item.quantity
@@ -37,7 +37,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     assert_equal date, invoice_item.updated_at
 
     invoice_item = InvoiceItem.new(
-      id: 'id2',
+      id: '2',
       item_id: 'item_id2',
       invoice_id: 'invoice_id2',
       quantity: '1',
@@ -48,7 +48,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
 
     date = DateTime.parse('2012-03-28 14:54:09 UTC')
 
-    assert_equal 'id2', invoice_item.id
+    assert_equal 2, invoice_item.id
     assert_equal 'item_id2', invoice_item.item_id
     assert_equal 'invoice_id2', invoice_item.invoice_id
     assert_equal 1, invoice_item.quantity
@@ -58,7 +58,7 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_stores_invoice_items_from_an_array
-    data = [InvoiceItem.new( id: 'id2',
+    data = [InvoiceItem.new( id: 2,
                             item_id: 'item_id4',
                             invoice_id: 'invoice_id4',
                             quantity: '4',
@@ -89,15 +89,15 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   def test_it_returns_the_invoice_associated_with_the_invoice_item
     CsvLoader.load_invoices './test/support/invoices.csv'
 
-    invoice_item = InvoiceItem.find_by_id '1'
-    invoice = Invoice.find_by_id '1'
+    invoice_item = InvoiceItem.find_by_id 1
+    invoice = Invoice.find_by_id 1
     assert_equal  invoice, invoice_item.invoice
   end
 
   def test_it_returns_an_item_associated_with_the_invoice_item
     CsvLoader.load_items './test/support/items.csv'
-    invoice_item = InvoiceItem.find_by_id '1'
-    item = Item.find_by_id '1'
+    invoice_item = InvoiceItem.find_by_id 1
+    item = Item.find_by_id 1
     assert_equal  item, invoice_item.item
   end
 

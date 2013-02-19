@@ -14,7 +14,7 @@ class Invoice
 	extend InvoiceFinder
 
   def initialize(input)
-    @id = input[:id]
+    @id = input[:id].to_i
     @customer_id = input[:customer_id]
     @merchant_id = input[:merchant_id]
     @status = input[:status]
@@ -121,8 +121,7 @@ class Invoice
   end
 
   def self.get_next_id
-    id = invoices.max_by{|invoice| invoice.id.to_i}.id.to_i + 1
-    id.to_s
+    invoices.max_by{|invoice| invoice.id}.id + 1
   end
 
   def charge input
@@ -130,7 +129,6 @@ class Invoice
     Transaction.create input
 
   end
-
 
   def count_items_on_invoice
     invoice_items.inject(0) {|sum, invoice_item| sum + invoice_item.quantity}
