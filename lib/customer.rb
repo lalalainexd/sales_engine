@@ -9,7 +9,7 @@ class Customer
 	extend CustomerFinder
 
   def initialize(input)
-    @id = input[:id]
+    @id = input[:id].to_i
     @first_name = input[:first_name]
     @last_name = input[:last_name]
     created_date = input[:created_at]
