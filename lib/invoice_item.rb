@@ -1,10 +1,9 @@
 require 'date'
 require './lib/item'
 require './lib/invoice'
+require './lib/invoice_item_finder'
 
 class InvoiceItem
-
-  @@invoice_items = nil
 
   attr_accessor :id,
     :item_id,
@@ -13,6 +12,8 @@ class InvoiceItem
     :unit_price,
     :created_at,
     :updated_at
+
+  extend InvoiceItemFinder
 
   def initialize(input)
     @id =input[:id]
@@ -28,32 +29,25 @@ class InvoiceItem
     @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
+  def self.invoice_items
+    @invoice_items ||= []
+  end
+
   def self.add(array_of_data)
-    @@invoice_items = array_of_data
+    invoice_items.clear
+    array_of_data.each{|invoice_item| add_invoice_item invoice_item}
+  end
+
+  def self.add_invoice_item invoice_item
+    invoice_items << invoice_item
   end
 
   def self.size
-    @@invoice_items.size
+    invoice_items.size
   end
 
   def self.clear
-    @@invoice_items.clear unless @@invoice_items.nil?
-  end
-
-  def self.find_by_id(id)
-    @@invoice_items.find {|invoice_item| invoice_item.id == id}
-  end
-
-  def self.find_all_by_item_id(item_id)
-    @@invoice_items.find_all {|invoice_item| invoice_item.item_id == item_id}
-  end
-
-  def self.find_all_by_invoice_id(invoice_id)
-     @@invoice_items.find_all {|invoice_item| invoice_item.invoice_id == invoice_id}
-  end
-
-  def self.find_all_by_created_at(date)
-    @@invoice_items.find_all {|invoice_item| invoice_item.created_at.to_date == date}
+    invoice_items.clear unless invoice_items.nil?
   end
 
   def invoice
