@@ -82,7 +82,7 @@ class Invoice
   end
 
   def count_items_on_invoice
-    items.inject(0) {|sum, item| sum + item.quantity}
+    invoice_items.inject(0) {|sum, invoice_item| sum + invoice_item.quantity}
   end
 end
 
