@@ -13,7 +13,6 @@ class Merchant
   def initialize(input)
     @id = input[:id]
     @name = input[:name]
-
     created_date = input[:created_at]
     @created_at = DateTime.parse(created_date) unless created_date.nil?
     updated_date = input[:updated_at]
@@ -57,19 +56,26 @@ class Merchant
   end
 
   def successful_invoices
-    invoices.find_all {|invoice| invoice.success? == true}
+    invoices.find_all { |invoice| invoice.success? == true }
+  end
+  
+  def successful_invoices_for_a_(date)
+    successful_invoices.find_all {|invoice| invoice.created_at.to_date == date}
   end
 
   def revenue(date = nil)
     if date.nil?
-      invoices = successful_invoices
+      @found_invoices = successful_invoices
     else
-      invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == date}
+      @found_invoices = successful_invoices_for_a_(date)
     end
+    calculate_revenue
+  end
+
+  def calculate_revenue
     revenue = 0
-    invoices.each do |invoice|
-      revenue += invoice.subtotal
-    end
+    @found_invoices.each { |invoice| revenue += invoice.subtotal }
+
     revenue = BigDecimal.new(revenue) / 100
     revenue.to_f
   end
@@ -83,13 +89,17 @@ class Merchant
   end
 
   def self.most_revenue(x)
-    sorted_merchants = merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
+    sorted_merchants = merchants.sort do |merchA, merchB| 
+      merchB.revenue <=> merchA.revenue
+    end
     sorted_merchants.take x
   end
 
   def self.most_items(x)
-    sorted_merchants = merchants.sort {|merchA, merchB| merchB.total_items_sold <=> merchA.total_items_sold}
-    sorted_merchants. take x
+    sorted_merchants = merchants.sort do |merchA, merchB| 
+      merchB.total_items_sold <=> merchA.total_items_sold
+    end
+    sorted_merchants.take x
   end
 
   def total_items_sold
@@ -111,12 +121,13 @@ class Merchant
   end
 
   def favorite_customer
-    customers = invoices.collect{|invoice| Customer.find_by_id invoice.customer_id}
+    customers = invoices.collect {|invoice| Customer.find_by_id invoice.customer_id}
     customer_set = customers & customers
     customers = customer_set.sort_by {|customer| successful_invoices_with_customer customer.id}
 
     customers.last
-    end
+  end
+
   def successful_invoices_with_customer customer_id
     invoices.count{|invoice| invoice.success? && invoice.customer_id == customer_id}
   end

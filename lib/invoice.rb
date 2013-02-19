@@ -65,7 +65,9 @@ class Invoice
   end
 
   def items
-    invoice_items.inject([]){|items, invoice_item| items << Item.find_by_id(invoice_item.item_id)}
+    invoice_items.inject([]) do |items, invoice_item| 
+      items << Item.find_by_id(invoice_item.item_id)
+    end
   end
 
   def success?
@@ -75,10 +77,7 @@ class Invoice
 
   def subtotal
     @invoice_subtotal = 0
-    invoice_items.each do |item|
-      item_subtotal = item.quantity.to_i * item.unit_price.to_i
-      @invoice_subtotal += item_subtotal
-    end
+    invoice_items.each {|item| @invoice_subtotal += item.item_subtotal}
     @invoice_subtotal
   end
 
