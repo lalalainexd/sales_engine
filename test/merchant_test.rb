@@ -59,7 +59,7 @@ class MerchantTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_a_merchant_by_id
-    merchant = Merchant.find_by_id("10")
+    merchant = Merchant.find_by_id(10)
     assert_equal 10, merchant.id
   end
 
@@ -75,13 +75,13 @@ class MerchantTest < MiniTest::Unit::TestCase
 
   def test_it_returns_a_merchants_items_for_sale
     CsvLoader.load_items './test/support/items.csv'
-    merchant = Merchant.find_by_id("1")
+    merchant = Merchant.find_by_id(1)
     assert_equal 8 , merchant.items.size
   end
 
   def test_it_returns_a_merchants_associated_invoices
     CsvLoader.load_invoices './test/support/invoices.csv'
-    merchant = Merchant.find_by_id("1")
+    merchant = Merchant.find_by_id(1)
     assert_equal 1 , merchant.invoices.size
   end
   

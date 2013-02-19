@@ -270,7 +270,7 @@ class ItemTest < MiniTest::Unit::TestCase
     items = Item.most_revenue(1)
 
     assert_equal 1, items.size
-    assert_equal '2', items.first.id
+    assert_equal 2, items.first.id
 
   end
 
@@ -282,8 +282,8 @@ class ItemTest < MiniTest::Unit::TestCase
     items = Item.most_revenue(3)
 
     assert_equal 3, items.size
-    assert_equal '2', items.first.id
-    assert_equal '1', items[1].id
+    assert_equal 2, items.first.id
+    assert_equal 1, items[1].id
 
   end
 
