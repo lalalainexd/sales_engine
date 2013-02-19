@@ -2,7 +2,9 @@ require 'date'
 require 'bigdecimal'
 require './lib/merchant_finder'
 
+
 class Merchant
+  extend MerchantFinder
 
   attr_accessor :id, :name, :created_at, :updated_at
 
@@ -19,7 +21,7 @@ class Merchant
   end
 
   def self.merchants
-    @merchants ||= []
+    @merchants ||=[]
   end
 
   def self.add(array_of_data)
@@ -27,7 +29,7 @@ class Merchant
     array_of_data.each{|merchant| add_merchant(merchant)}
   end
 
-  def self.add_merchant merchant
+  def self.add_merchant(merchant)
     merchants << merchant
   end
 
