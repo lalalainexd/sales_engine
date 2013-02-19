@@ -15,8 +15,8 @@ class Invoice
 
   def initialize(input)
     @id = input[:id].to_i
-    @customer_id = input[:customer_id]
-    @merchant_id = input[:merchant_id]
+    @customer_id = input[:customer_id].to_i
+    @merchant_id = input[:merchant_id].to_i
     @status = input[:status]
 
     created_date = input[:created_at]

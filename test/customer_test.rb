@@ -78,7 +78,7 @@ class CustomerTest < MiniTest::Unit::TestCase
 
   def test_it_can_find_customer_by_id
     customer = Customer.find_by_id(10)
-    assert_equal 0, customer.id
+    assert_equal 10, customer.id
   end
 
   def test_it_can_find_customer_by_last_name
