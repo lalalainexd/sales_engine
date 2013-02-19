@@ -53,20 +53,17 @@ class Customer
   end
 
   def merchants
+   invoices.inject(Set.new)do |set, invoice|
+    set.add Merchant.find_by_id invoice.merchant_id
+   end
 
-    merchants = invoices.collect do |invoice|
-      Merchant.find_by_id invoice.merchant_id
-    end
-
-    remove_duplicate_merchants merchants
   end
 
   def favorite_merchant
-    merchants.sort_by do |merchant|
+   merchants.max_by do |merchant|
       successful_invoices_with_merchant_count merchant.id
     end
 
-    merchants.last
   end
 
   def remove_duplicate_merchants merchants
