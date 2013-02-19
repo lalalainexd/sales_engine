@@ -30,7 +30,7 @@ class Transaction
 
   def clean_date date
     if date.class == String
-      date = DateTime.parse date
+      date = Date.parse date
     end
      date
   end
@@ -62,7 +62,7 @@ class Transaction
   end
 
   def self.create input
-    input[:created_at] = DateTime.now
+    input[:created_at] = Date.today
     input[:update_at] = input[:created_at]
     input[:id] = get_next_id
 
