@@ -81,6 +81,8 @@ class Invoice
     @invoice_subtotal
   end
 
-
+  def count_items_on_invoice
+    items.inject(0) {|sum, item| sum + item.quantity}
+  end
 end
 

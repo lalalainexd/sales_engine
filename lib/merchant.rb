@@ -104,16 +104,7 @@ class Merchant
 
   def total_items_sold
     invoices = successful_invoices
-    total_items = 0
-    invoices.each do |invoice|
-      items = invoice.invoice_items
-      invoice_total_items = 0
-      items.each do |item|
-        invoice_total_items += item.quantity
-      end
-      total_items +=invoice_total_items
-    end
-    total_items
+    invoices.inject(0) {|sum, invoice| sum + invoice.count_items_on_invoice}
   end
 
   def customers_with_pending_invoices
