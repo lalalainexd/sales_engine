@@ -73,11 +73,8 @@ class Merchant
   end
 
   def calculate_revenue
-    revenue = 0
-    @found_invoices.each { |invoice| revenue += invoice.subtotal }
-
-    revenue = BigDecimal.new(revenue) / 100
-    revenue.to_f
+    revenue = @found_invoices.inject(0) { |revenue, invoice| revenue + invoice.subtotal }
+    (BigDecimal.new(revenue) / 100).to_f
   end
 
   def self.revenue(date)
