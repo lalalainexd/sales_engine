@@ -2,12 +2,13 @@ require 'date'
 require 'set'
 require './lib/invoice_item'
 require './lib/merchant'
+require './lib/item_finder'
 
 class Item
 
-  @@items = nil
-
   attr_accessor :id, :name, :description, :unit_price, :merchant_id, :created_at, :updated_at
+
+  extend ItemFinder
 
   def initialize(input)
     @id =input[:id]
@@ -24,64 +25,29 @@ class Item
     #parse dates in date or datetime, whichever it is
   end
 
+  def self.items
+    @items ||= []
+  end
+
   def self.add(array_of_data)
-    @@items = array_of_data
+    items.clear
+    array_of_data.each{|item| add_item(item)}
+  end
+
+  def self.add_item(item)
+    items << item
   end
 
   def self.size
-    @@items.size
+    items.size
   end
 
 	def self.clear
-		@@items.clear unless @@items.nil?
+		items.clear unless items.nil?
 	end
 
   def self.random
-    @@items.sample
-  end
-
-  def self.find_by_id id
-    @@items.find{|item| item.id == id}
-  end
-
-  def self.find_by_name name
-    @@items.find{|item| item.name == name}
-  end
-
-  def self.find_by_description description
-    @@items.find{|item| item.description == description}
-  end
-
-  def self.find_by_unit_price unit_price
-    @@items.find{|item| item.unit_price == unit_price}
-  end
-
-  def self.find_by_merchant_id merchant_id
-    @@items.find{|item| item.merchant_id == merchant_id}
-  end
-
-  def self.find_all_by_name name
-    @@items.find_all{|item|item.name == name}
-  end
-
-  def self.find_all_by_merchant_id merchant_id
-    @@items.find_all{|item|item.merchant_id == merchant_id}
-  end
-
-  def self.find_all_by_unit_price unit_price
-    @@items.find_all{|item|item.unit_price == unit_price}
-  end
-
-  def self.find_all_by_description description
-    @@items.find_all{|item|item.description == description}
-  end
-
-  def self.find_all_by_created_at date
-    @@items.find_all{|invoice| invoice.created_at == date}
-  end
-
-  def self.find_all_by_updated_at date
-    @@items.find_all{|invoice| invoice.updated_at == date}
+    items.sample
   end
 
   def invoice_items
@@ -93,7 +59,7 @@ class Item
   end
 
   def self.most_revenue num_items
-    @@items.sort_by{|item| item.total_revenue}.reverse.take num_items
+    items.sort_by{|item| item.total_revenue}.reverse.take num_items
 
   end
 
@@ -105,7 +71,7 @@ class Item
   end
 
   def self.most_items num_items
-    @@items.sort_by{|item| item.total_sold}.reverse.take num_items
+    items.sort_by{|item| item.total_sold}.reverse.take num_items
 
   end
 
