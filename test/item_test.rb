@@ -26,7 +26,7 @@ class ItemTest < MiniTest::Unit::TestCase
       updated_at: '2012-03-27 14:53:59 UTC'
     )
 
-    date = DateTime.parse('2012-03-27 14:53:59 UTC')
+    date = Date.parse('2012-03-27 14:53:59 UTC')
 
     assert_equal 1, item.id
     assert_equal 'name', item.name
@@ -46,7 +46,7 @@ class ItemTest < MiniTest::Unit::TestCase
       updated_at: '2012-03-28 14:53:59 UTC'
     )
 
-    date = DateTime.parse('2012-03-28 14:53:59 UTC')
+    date = Date.parse('2012-03-28 14:53:59 UTC')
 
     assert_equal 2, item.id
     assert_equal 'name2', item.name
@@ -209,40 +209,40 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    date = DateTime.parse("2012-03-27 14:53:59 UTC")
+    date = Date.parse("2012-03-27 14:53:59 UTC")
     items = Item.find_all_by_created_at date
-    assert_equal 8, items.size
+    assert_equal 9, items.size
     assert_equal date, items.sample.created_at
 
-    date = DateTime.parse("2012-03-27 14:54:08 UTC")
+    date = Date.parse("2012-03-27 14:54:08 UTC")
     items = Item.find_all_by_created_at date
-    assert_equal 1, items.size
+    assert_equal 9, items.size
     assert_equal date, items.sample.created_at
   end
 
   def test_returns_empty_array_with_non_existing_created_date
     merchant = "0"
-    date = DateTime.parse "1999-03-06 15:55:33 UTC"
+    date = Date.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_created_at date
     assert_equal 0, items.size
 
   end
 
   def test_it_finds_all_by_updated_at
-    date = DateTime.parse "2012-03-27 14:53:59 UTC"
+    date = Date.parse "2012-03-27 14:53:59 UTC"
     items = Item.find_all_by_updated_at date
-    assert_equal 8, items.size
+    assert_equal 9, items.size
     assert_equal date, items.sample.updated_at
 
-    date = DateTime.parse "2012-03-27 14:54:00 UTC"
+    date = Date.parse "2012-03-27 14:54:00 UTC"
     items = Item.find_all_by_updated_at date
-    assert_equal 1, items.size
+    assert_equal 9, items.size
     assert_equal date, items.sample.updated_at
   end
 
   def test_returns_empty_array_with_non_existing_updated_date
     merchant = "0"
-    date = DateTime.parse "1999-03-06 15:55:33 UTC"
+    date = Date.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 0, items.size
 

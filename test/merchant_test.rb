@@ -23,7 +23,7 @@ class MerchantTest < MiniTest::Unit::TestCase
       updated_at: '2012-03-27 14:53:59 UTC'
     )
 
-    date = DateTime.parse '2012-03-27 14:53:59 UTC'
+    date = Date.parse '2012-03-27 14:53:59 UTC'
     assert_equal 1, merchant.id
     assert_equal 'name', merchant.name
     assert_equal date, merchant.created_at
@@ -35,7 +35,7 @@ class MerchantTest < MiniTest::Unit::TestCase
       created_at: '2012-03-28 14:53:59 UTC',
       updated_at: '2012-03-28 14:53:59 UTC'
     )
-    date = DateTime.parse '2012-03-28 14:53:59 UTC'
+    date = Date.parse '2012-03-28 14:53:59 UTC'
 
     assert_equal 2, merchant.id
     assert_equal 'name2', merchant.name
