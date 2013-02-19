@@ -1,11 +1,12 @@
 require 'date'
 require 'set'
+require './lib/customer_finder'
 
 class Customer
 
-  @@customers = nil
-
   attr_accessor :id, :first_name, :last_name, :created_at, :updated_at
+
+	extend CustomerFinder
 
   def initialize(input)
     @id = input[:id]
@@ -17,44 +18,34 @@ class Customer
     @updated_at = DateTime.parse updated_date unless updated_date.nil?
   end
 
+	def self.customers
+		@customers ||= []
+	end
+
   def self.add(array_of_data)
-    @@customers = array_of_data
+		customers.clear
+		array_of_data.each{|customer| add_customer customer}
   end
 
+	def self.add_customer customer
+		customers << customer
+	end
+
   def self.clear
-    @@customers.clear unless @@customers.nil?
+    customers.clear unless customers.nil?
   end
 
   def self.size
-    @@customers.size
+    customers.size
   end
 
   def self.random
-    pick_number = @@customers.size
+    pick_number = customers.size
     random_number = rand(pick_number)
-    random_customer = @@customers[random_number]
+    random_customer = customers[random_number]
     random_customer
   end
 
-  def self.find_by_id(id)
-    @@customers.find{|customer| customer.id == id}
-  end
-
-  def self.find_by_first_name(first_name)
-    @@customers.find {|customer| customer.first_name == first_name}
-  end
-
-  def self.find_all_by_first_name(first_name)
-    @@customers.find_all {|customer| customer.first_name == first_name}
-  end
-
-  def self.find_by_last_name(last_name)
-    @@customers.find {|customer| customer.last_name == last_name}
-  end
-
-  def self.find_all_by_last_name(last_name)
-    @@customers.find_all {|customer| customer.last_name == last_name}
-  end
 
   def invoices
     Invoice.find_all_by_customer_id @id
