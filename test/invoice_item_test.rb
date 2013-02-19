@@ -18,8 +18,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   def test_it_is_initialized_from_a_hash_of_data
     invoice_item = InvoiceItem.new(
       id: '1',
-      item_id: 'item_id',
-      invoice_id: 'invoice_id',
+      item_id: '1',
+      invoice_id: '1',
       quantity: '2',
       unit_price: '1',
       created_at: '2012-03-27 14:54:09 UTC',
@@ -29,8 +29,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     date = DateTime.parse('2012-03-27 14:54:09 UTC')
 
     assert_equal 1, invoice_item.id
-    assert_equal 'item_id', invoice_item.item_id
-    assert_equal 'invoice_id', invoice_item.invoice_id
+    assert_equal 1, invoice_item.item_id
+    assert_equal 1, invoice_item.invoice_id
     assert_equal 2, invoice_item.quantity
     assert_equal 1, invoice_item.unit_price
     assert_equal date, invoice_item.created_at
@@ -38,8 +38,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
 
     invoice_item = InvoiceItem.new(
       id: '2',
-      item_id: 'item_id2',
-      invoice_id: 'invoice_id2',
+      item_id: '2',
+      invoice_id: '2',
       quantity: '1',
       unit_price: '2',
       created_at: '2012-03-28 14:54:09 UTC',
@@ -49,8 +49,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     date = DateTime.parse('2012-03-28 14:54:09 UTC')
 
     assert_equal 2, invoice_item.id
-    assert_equal 'item_id2', invoice_item.item_id
-    assert_equal 'invoice_id2', invoice_item.invoice_id
+    assert_equal 2, invoice_item.item_id
+    assert_equal 2, invoice_item.invoice_id
     assert_equal 1, invoice_item.quantity
     assert_equal 2, invoice_item.unit_price
     assert_equal date, invoice_item.created_at
@@ -59,8 +59,8 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
 
   def test_it_stores_invoice_items_from_an_array
     data = [InvoiceItem.new( id: 2,
-                            item_id: 'item_id4',
-                            invoice_id: 'invoice_id4',
+                            item_id: '4',
+                            invoice_id: '4',
                             quantity: '4',
                             unit_price: '4',
                             created_at: '2012-03-28 14:54:09 UTC',
@@ -76,13 +76,13 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_all_invoice_items_by_invoice_id
-    found_invoice_items = InvoiceItem.find_all_by_invoice_id("1")
+    found_invoice_items = InvoiceItem.find_all_by_invoice_id(1)
     assert_equal 8, found_invoice_items.size
   end
 
   def test_it_returns_all_invoice_items_by_item_id
     #CsvLoader.load_items './test/support/items.csv'
-    found_invoice_items = InvoiceItem.find_all_by_item_id("534")
+    found_invoice_items = InvoiceItem.find_all_by_item_id(534)
     assert_equal 1, found_invoice_items.size
   end
 
