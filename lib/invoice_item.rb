@@ -80,5 +80,8 @@ class InvoiceItem
   def self.get_next_id
     id = invoice_items.size == 0? 1 : invoice_items.max_by{|invoice| invoice.id.to_i}.id.to_i + 1
     id.to_s
+
+  def item_subtotal
+    @item_subtotal = @quantity * @unit_price
   end
 end

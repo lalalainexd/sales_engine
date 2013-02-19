@@ -56,17 +56,22 @@ class Customer
   end
 
   def favorite_merchant
-    merchants = invoices.collect{|invoice| Merchant.find_by_id invoice.merchant_id}
+    merchants = invoices.collect do |invoice| 
+      Merchant.find_by_id invoice.merchant_id
+    end
+
     merchant_set = merchants & merchants
-    merchants = merchant_set.sort_by {|merchant| successful_invoices_with_merchant merchant.id}
+    merchants = merchant_set.sort_by do |merchant|
+      successful_invoices_with_merchant merchant.id
+    end
 
     merchants.last
-
-
   end
 
   def successful_invoices_with_merchant merchant_id
-    invoices.count{|invoice| invoice.success? && invoice.merchant_id == merchant_id}
+    invoices.count do |invoice|
+      invoice.success? && invoice.merchant_id == merchant_id
+    end
   end
 
 end

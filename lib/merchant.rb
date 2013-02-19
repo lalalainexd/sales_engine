@@ -13,7 +13,6 @@ class Merchant
   def initialize(input)
     @id = input[:id]
     @name = input[:name]
-
     created_date = input[:created_at]
     @created_at = DateTime.parse(created_date) unless created_date.nil?
     updated_date = input[:updated_at]
@@ -57,19 +56,26 @@ class Merchant
   end
 
   def successful_invoices
-    invoices.find_all {|invoice| invoice.success? == true}
+    invoices.find_all { |invoice| invoice.success? == true }
+  end
+  
+  def successful_invoices_for_a_(date)
+    successful_invoices.find_all {|invoice| invoice.created_at.to_date == date}
   end
 
   def revenue(date = nil)
     if date.nil?
-      invoices = successful_invoices
+      @found_invoices = successful_invoices
     else
-      invoices = successful_invoices.find_all {|invoice| invoice.created_at.to_date == date}
+      @found_invoices = successful_invoices_for_a_(date)
     end
+    calculate_revenue
+  end
+
+  def calculate_revenue
     revenue = 0
-    invoices.each do |invoice|
-      revenue += invoice.subtotal
-    end
+    @found_invoices.each { |invoice| revenue += invoice.subtotal }
+
     revenue = BigDecimal.new(revenue) / 100
     revenue.to_f
   end
@@ -83,27 +89,22 @@ class Merchant
   end
 
   def self.most_revenue(x)
-    sorted_merchants = merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
+    sorted_merchants = merchants.sort do |merchA, merchB| 
+      merchB.revenue <=> merchA.revenue
+    end
     sorted_merchants.take x
   end
 
   def self.most_items(x)
-    sorted_merchants = merchants.sort {|merchA, merchB| merchB.total_items_sold <=> merchA.total_items_sold}
-    sorted_merchants. take x
+    sorted_merchants = merchants.sort do |merchA, merchB| 
+      merchB.total_items_sold <=> merchA.total_items_sold
+    end
+    sorted_merchants.take x
   end
 
   def total_items_sold
     invoices = successful_invoices
-    total_items = 0
-    invoices.each do |invoice|
-      items = invoice.invoice_items
-      invoice_total_items = 0
-      items.each do |item|
-        invoice_total_items += item.quantity
-      end
-      total_items +=invoice_total_items
-    end
-    total_items
+    invoices.inject(0) {|sum, invoice| sum + invoice.count_items_on_invoice}
   end
 
   def customers_with_pending_invoices
@@ -111,13 +112,17 @@ class Merchant
   end
 
   def favorite_customer
-    customers = invoices.collect{|invoice| Customer.find_by_id invoice.customer_id}
-    customer_set = customers & customers
-    customers = customer_set.sort_by {|customer| successful_invoices_with_customer customer.id}
-
-    customers.last
+    custs = invoices.collect {|invoice| Customer.find_by_id invoice.customer_id}
+    customer_set = custs & custs
+    customers = customer_set.sort_by do |customer| 
+      successful_invoices_with_customer(customer.id)
     end
-  def successful_invoices_with_customer customer_id
-    invoices.count{|invoice| invoice.success? && invoice.customer_id == customer_id}
+    customers.last
+  end
+
+  def successful_invoices_with_customer(customer_id)
+    invoices.count do |invoice| 
+      invoice.success? && invoice.customer_id == customer_id
+    end
   end
 end
