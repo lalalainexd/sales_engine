@@ -22,11 +22,11 @@ class TransactionTest < MiniTest::Unit::TestCase
       credit_card_number: 'credit_card_number',
       credit_card_expiration_date: 'credit_card_expdate',
       result: 'result',
-      created_at: '2012-03-27 14:53:59 UTC',
-      updated_at: '2012-03-27 14:53:59 UTC'
+      created_at: '2012-03-27',
+      updated_at: '2012-03-27'
     )
 
-    date = DateTime.parse('2012-03-27 14:53:59 UTC')
+    date = Date.parse('2012-03-27 14:53:59 UTC')
 
     assert_equal 1 , transaction.id
     assert_equal 1, transaction.invoice_id
@@ -46,7 +46,7 @@ class TransactionTest < MiniTest::Unit::TestCase
       updated_at: '2012-03-29 14:53:59 UTC'
     )
 
-    date = DateTime.parse('2012-03-29 14:53:59 UTC')
+    date = Date.parse('2012-03-29 14:53:59 UTC')
 
       assert_equal 2, transaction.id
       assert_equal 2, transaction.invoice_id

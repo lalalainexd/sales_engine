@@ -24,9 +24,9 @@ class Item
     @merchant_id = input[:merchant_id].to_i
 
     created_date = input[:created_at]
-    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    @created_at = Date.parse(created_date) unless created_date.nil?
     updated_date = input[:updated_at]
-    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
+    @updated_at = Date.parse(updated_date) unless updated_date.nil?
 
     #parse dates in date or datetime, whichever it is
   end

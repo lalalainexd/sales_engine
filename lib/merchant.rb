@@ -14,9 +14,9 @@ class Merchant
     @id = input[:id].to_i
     @name = input[:name]
     created_date = input[:created_at]
-    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    @created_at = Date.parse(created_date) unless created_date.nil?
     updated_date = input[:updated_at]
-    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
+    @updated_at = Date.parse(updated_date) unless updated_date.nil?
   end
 
   def self.merchants
@@ -60,7 +60,7 @@ class Merchant
   end
   
   def successful_invoices_for_a_(date)
-    successful_invoices.find_all {|invoice| invoice.created_at.to_date == date}
+    successful_invoices.find_all {|invoice| invoice.created_at == date}
   end
 
   def revenue(date = nil)
