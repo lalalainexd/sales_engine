@@ -1,8 +1,8 @@
 require 'date'
+require './lib/transaction_finder'
 
 class Transaction
 
-  @@transactions = nil
 
   attr_accessor :id,
     :invoice_id,
@@ -11,6 +11,8 @@ class Transaction
     :result,
     :created_at,
     :updated_at
+
+  extend TransactionFinder
 
   def initialize(input)
     @id = input[:id]
@@ -25,28 +27,30 @@ class Transaction
     @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
+  def self.transactions
+    @transactions ||= []
+  end
 
   def self.add(array_of_data)
-    @@transactions = array_of_data
+    transactions.clear
+    array_of_data.each{|transaction| add_transaction transaction}
+  end
+
+  def self.add_transaction transaction
+    transactions << transaction
   end
 
 	def self.clear
-		@@transactions.clear unless @@transactions.nil?
+		transactions.clear unless transactions.nil?
 	end
 
   def self.size
-    @@transactions.size
+    transactions.size
   end
 
-  def self.find_by_id id
-    @@transactions.find {|transaction| transaction.id == id}
-  end
 
   def invoice
     Invoice.find_by_id @invoice_id
   end
 
-  def self.find_all_by_invoice_id(id)
-    @@transactions.find_all {|transaction| transaction.invoice_id == id}
-  end
 end
