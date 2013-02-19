@@ -22,8 +22,8 @@ class CustomerTest < MiniTest::Unit::TestCase
                             created_at: '2012-03-27 14:54:09 UTC',
                             updated_at: '2012-03-27 14:54:09 UTC' )
 
-    created_date =  DateTime.parse("2012-03-27 14:54:09 UTC")
-    updated_date = DateTime.parse("2012-03-27 14:54:09 UTC")
+    created_date =  Date.parse("2012-03-27 14:54:09 UTC")
+    updated_date = Date.parse("2012-03-27 14:54:09 UTC")
 
     assert_equal 1, customer.id
     assert_equal 'first_name', customer.first_name
@@ -37,8 +37,8 @@ class CustomerTest < MiniTest::Unit::TestCase
                             created_at: '2012-03-28 14:54:09 UTC',
                             updated_at: '2012-03-29 14:54:09 UTC' )
 
-    created_date =  DateTime.parse("2012-03-28 14:54:09 UTC")
-    updated_date = DateTime.parse("2012-03-29 14:54:09 UTC")
+    created_date =  Date.parse("2012-03-28 14:54:09 UTC")
+    updated_date = Date.parse("2012-03-29 14:54:09 UTC")
 
     assert_equal 2, customer.id
     assert_equal 'first_name2', customer.first_name

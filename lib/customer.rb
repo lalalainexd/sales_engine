@@ -14,8 +14,8 @@ class Customer
     @last_name = input[:last_name]
     created_date = input[:created_at]
     updated_date = input[:updated_at]
-    @created_at = DateTime.parse created_date  unless created_date.nil?
-    @updated_at = DateTime.parse updated_date unless updated_date.nil?
+    @created_at = Date.parse created_date  unless created_date.nil?
+    @updated_at = Date.parse updated_date unless updated_date.nil?
   end
 
 	def self.customers
