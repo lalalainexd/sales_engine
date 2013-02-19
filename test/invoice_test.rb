@@ -224,6 +224,133 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert invoice.success?
 
   end
+
+  def test_it_creates_an_invoice_with_a_unique_id
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+
+    customer = Customer.find_by_id '1'
+    merchant = Merchant.find_by_id '1'
+
+    items = []
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: items,
+    )
+
+    assert_equal '11', invoice.id
+  end
+
+  def test_it_includes_the_customer_id
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: []
+    )
+
+    assert_equal customer.id, invoice.customer_id
+  end
+
+  def test_it_includes_the_merchant_id
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: []
+    )
+
+    assert_equal merchant.id, invoice.merchant_id
+  end
+
+  def test_it_includes_the_status
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: [],
+      status: "shipped"
+    )
+
+    assert_equal "shipped", invoice.status
+  end
+
+  def test_it_includes_the_created_date
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: [],
+    )
+
+    assert_equal Time.now.to_date, invoice.created_at.to_date
+  end
+
+  def test_it_includes_the_updated_date
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: []
+    )
+
+    assert_equal Time.now.to_date, invoice.updated_at.to_date
+  end
+
+  def test_it_creates_invoice_items
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+    CsvLoader.load_items './test/support/items.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+    item1 = Item.find_all_by_merchant_id('1').sample
+    item2 = Item.find_all_by_merchant_id('1').sample
+
+    items = [item1, item2, item2]
+
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: items
+    )
+
+    assert_equal 2, InvoiceItem.size
+
+  end
+
+
 end
 
 

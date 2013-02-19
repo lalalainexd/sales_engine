@@ -29,6 +29,15 @@ class InvoiceItem
     @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
+  def clean_date date
+    if date.class == String
+      date = DateTime.parse date
+    elsif date.class == Time
+      date = date.to_datetime
+    end
+     date
+  end
+
   def self.invoice_items
     @invoice_items ||= []
   end
@@ -56,5 +65,20 @@ class InvoiceItem
 
   def item
     Item.find_by_id(@item_id)
+  end
+
+  def self.create input
+    id = get_next_id
+    item_id = input[:item].id
+    invoice_id = input[:invoice].id
+    quantity = input[:quantity]
+    unit_price = input[:item].unit_price
+
+    add_invoice_item InvoiceItem.new id: id, item_id: item_id, invoice_id: invoice_id, quantity: quantity, unit_price: unit_price
+  end
+
+  def self.get_next_id
+    id = invoice_items.size == 0? 1 : invoice_items.max_by{|invoice| invoice.id.to_i}.id.to_i + 1
+    id.to_s
   end
 end

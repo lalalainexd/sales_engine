@@ -20,10 +20,19 @@ class Invoice
     @status = input[:status]
 
     created_date = input[:created_at]
-    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    @created_at = clean_date created_date unless created_date.nil?
 
     updated_date = input[:updated_at]
-    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
+    @updated_at = clean_date updated_date unless updated_date.nil?
+  end
+
+  def clean_date date
+    if date.class == String
+      date = DateTime.parse date
+    elsif date.class == Time
+      date = date.to_datetime
+    end
+     date
   end
 
 	def self.invoices
@@ -81,6 +90,42 @@ class Invoice
     end
     @invoice_subtotal
   end
+
+  def self.create input
+    new_input = {
+      id: get_next_id,
+      customer_id: input[:customer].id,
+      merchant_id: input[:merchant].id,
+      status: input[:status],
+      created_at: Time.now,
+      updated_at: Time.now,
+    }
+
+    invoice = Invoice.new new_input
+    Invoice.add_invoice invoice
+
+    create_invoice_items count_unique(input[:items]), invoice
+
+    return invoice
+  end
+
+  def self.create_invoice_items items, invoice
+    items.each do |(item, quantity)|
+      InvoiceItem.create item: item, quantity: quantity, invoice: invoice
+    end
+  end
+
+  def self.count_unique items
+    items.each_with_object(Hash.new(0)) do
+      |item, hash| hash[item] += 1
+    end
+  end
+
+  def self.get_next_id
+    id = invoices.max_by{|invoice| invoice.id.to_i}.id.to_i + 1
+    id.to_s
+  end
+
 
 
 end

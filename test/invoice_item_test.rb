@@ -100,4 +100,15 @@ class InvoiceItemTest < MiniTest::Unit::TestCase
     item = Item.find_by_id '1'
     assert_equal  item, invoice_item.item
   end
+
+  def test_it_creates_an_invoice_item
+    CsvLoader.load_items './test/support/items.csv'
+
+    invoice = Invoice.new id: '1'
+
+    item = Item.random
+
+    invoice_item = InvoiceItem.create item: item, quantity: '1', unit_price: '123', invoice: invoice
+    assert_equal 11, InvoiceItem.size
+  end
 end
