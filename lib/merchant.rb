@@ -2,10 +2,10 @@ require 'date'
 require 'bigdecimal'
 require './lib/item'
 require "./lib/invoice"
+require './lib/merchant_finder'
 
 class Merchant
-
-  @@merchants = nil
+  extend MerchantFinder
 
   attr_accessor :id, :name, :created_at, :updated_at
 
@@ -19,35 +19,32 @@ class Merchant
     @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
   end
 
+  def self.merchants
+    @merchants ||=[]
+  end
+  
   def self.add(array_of_data)
-    @@merchants = array_of_data
+    merchants.clear
+    array_of_data.each{|merchant| add_merchant(merchant)}
+  end
+
+  def self.add_merchant(merchant)
+    merchants << merchant
   end
 
   def self.clear
-    @@merchants.clear unless @@merchants.nil?
+    @merchants.clear unless @merchants.nil?
   end
 
   def self.size
-    @@merchants.size
+    @merchants.size
   end
 
   def self.random
-    pick_number = @@merchants.size
+    pick_number = @merchants.size
     random_number = rand(pick_number)
-    random_merchant = @@merchants[random_number]
+    random_merchant = @merchants[random_number]
     random_merchant
-  end
-
-  def self.find_by_id(id)
-    @@merchants.find {|merchant| merchant.id == id}
-  end
-
-  def self.find_by_name(name)
-    @@merchants.find {|merchant| merchant.name == name}
-  end
-
-  def self.find_all_by_name(name)
-    @@merchants.find_all {|merchant| merchant.name == name}
   end
 
   def items
@@ -78,19 +75,19 @@ class Merchant
 
   def self.revenue(date)
     daily_revenue = 0
-    @@merchants.each do |merchant|
+    @merchants.each do |merchant|
       daily_revenue += merchant.revenue(date)*100
     end
     daily_revenue / 100
   end
 
   def self.most_revenue(x)
-    sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
+    sorted_merchants = @merchants.sort {|merchA, merchB| merchB.revenue <=> merchA.revenue}
     sorted_merchants.take x
   end
 
   def self.most_items(x)
-    sorted_merchants = @@merchants.sort {|merchA, merchB| merchB.total_items_sold <=> merchA.total_items_sold}
+    sorted_merchants = @merchants.sort {|merchA, merchB| merchB.total_items_sold <=> merchA.total_items_sold}
     sorted_merchants. take x
   end
 
