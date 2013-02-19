@@ -33,7 +33,7 @@ class InvoiceItem
     if date.class == String
       date = Date.parse date
     end
-     date
+    date
   end
 
   def self.invoice_items
@@ -73,20 +73,27 @@ class InvoiceItem
     unit_price = input[:item].unit_price
 
     add_invoice_item InvoiceItem.new id: id,
-			item_id: item_id,
-			invoice_id: invoice_id,
-			quantity: quantity,
-			unit_price: unit_price,
-			created_at: Date.today,
-			updated_at: Date.today
+      item_id: item_id,
+      invoice_id: invoice_id,
+      quantity: quantity,
+      unit_price: unit_price,
+      created_at: Date.today,
+      updated_at: Date.today
   end
 
   def self.get_next_id
-    id = invoice_items.size == 0? 1 : invoice_items.max_by{|invoice| invoice.id.to_i}.id.to_i + 1
-    id.to_s
+    invoice_items.empty? ? 1 : invoice_items.max_by{|invoice| invoice.id}.id + 1
   end
 
   def item_subtotal
     @item_subtotal = @quantity * @unit_price
+  end
+
+  def success?
+    invoice.success?
+  end
+
+  def invoice_date
+    invoice.created_at
   end
 end

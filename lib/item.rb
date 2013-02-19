@@ -6,12 +6,12 @@ require './lib/item_finder'
 
 class Item
 
-  attr_accessor :id, 
-                :name, 
-                :description, 
-                :unit_price, 
-                :merchant_id, 
-                :created_at, 
+  attr_accessor :id,
+                :name,
+                :description,
+                :unit_price,
+                :merchant_id,
+                :created_at,
                 :updated_at
 
   extend ItemFinder
@@ -28,7 +28,6 @@ class Item
     updated_date = input[:updated_at]
     @updated_at = Date.parse(updated_date) unless updated_date.nil?
 
-    #parse dates in date or datetime, whichever it is
   end
 
   def self.items
@@ -66,13 +65,12 @@ class Item
 
   def self.most_revenue num_items
     items.sort_by{|item| item.total_revenue}.reverse.take num_items
-
   end
 
   def total_revenue
     invoice_items = InvoiceItem.find_all_by_item_id @id
     invoice_items.inject(0) do |rev,invoice_item|
-      rev + invoice_item.quantity * invoice_item.unit_price if invoice_item.invoice.success?
+      rev + invoice_item.item_subtotal if invoice_item.success?
     end
   end
 
@@ -84,7 +82,7 @@ class Item
   def total_sold
     invoice_items = InvoiceItem.find_all_by_item_id @id
     invoice_items.inject(0) do |total,invoice_item|
-      total + invoice_item.quantity if invoice_item.invoice.success?
+      total + invoice_item.quantity if invoice_item.success?
     end
   end
 
@@ -94,7 +92,7 @@ class Item
 
 
   def daily_quantity
-    invoice_items.collect{|i| DailyItemSales.new self, i.invoice.created_at}
+    invoice_items.collect{|i| DailyItemSales.new self, i.invoice_date}
   end
 
 end
@@ -115,11 +113,10 @@ class DailyItemSales
 
   def reveneue
     invoice_items.inject(0){|reveneue, i| reveneue + (i.revenue * i.quantity)}
-
   end
 
   def invoice_items
-    @item.invoice_items.find_all{|i| i.invoice.success? && i.invoice.created_at == @date}
+    @item.invoice_items.find_all{|i| i.success? && i.invoice_date == @date}
   end
 
 end

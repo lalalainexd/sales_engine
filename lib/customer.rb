@@ -64,10 +64,6 @@ class Customer
 
   end
 
-  def remove_duplicate_merchants merchants
-    merchants & merchants
-  end
-
   def successful_invoices_with_merchant_count merchant_id
     invoices.count do |invoice|
       invoice.success? && invoice.merchant_id == merchant_id

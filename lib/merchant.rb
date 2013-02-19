@@ -41,10 +41,7 @@ class Merchant
   end
 
   def self.random
-    pick_number = merchants.size
-    random_number = rand(pick_number)
-    random_merchant = merchants[random_number]
-    random_merchant
+    merchants.sample
   end
 
   def items
@@ -58,7 +55,7 @@ class Merchant
   def successful_invoices
     invoices.find_all { |invoice| invoice.success? == true }
   end
-  
+
   def successful_invoices_for_a_(date)
     successful_invoices.find_all {|invoice| invoice.created_at == date}
   end
@@ -73,29 +70,28 @@ class Merchant
   end
 
   def calculate_revenue
-    revenue = @found_invoices.inject(0) do |revenue, invoice| 
-      revenue + invoice.subtotal 
+    revenue = @found_invoices.inject(0) do |revenue, invoice|
+      revenue + invoice.subtotal
     end
     (BigDecimal.new(revenue) / 100).to_f
   end
 
   def self.revenue(date)
-    daily_revenue = 0
-    merchants.each do |merchant|
-      daily_revenue += merchant.revenue(date)*100
+    daily_rev = merchants.inject(0) do |revenue, merchant|
+      revenue + merchant.revenue(date)*100
     end
-    daily_revenue / 100
+      daily_rev/100
   end
 
   def self.most_revenue(x)
-    sorted_merchants = merchants.sort do |merchA, merchB| 
+    sorted_merchants = merchants.sort do |merchA, merchB|
       merchB.revenue <=> merchA.revenue
     end
     sorted_merchants.take x
   end
 
   def self.most_items(x)
-    sorted_merchants = merchants.sort do |merchA, merchB| 
+    sorted_merchants = merchants.sort do |merchA, merchB|
       merchB.total_items_sold <=> merchA.total_items_sold
     end
     sorted_merchants.take x
@@ -113,14 +109,14 @@ class Merchant
   def favorite_customer
     custs = invoices.collect {|invoice| Customer.find_by_id invoice.customer_id}
     customer_set = custs & custs
-    customers = customer_set.sort_by do |customer| 
+    customers = customer_set.sort_by do |customer|
       successful_invoices_with_customer(customer.id)
     end
     customers.last
   end
 
   def successful_invoices_with_customer(customer_id)
-    invoices.count do |invoice| 
+    invoices.count do |invoice|
       invoice.success? && invoice.customer_id == customer_id
     end
   end
