@@ -28,9 +28,7 @@ class Invoice
 
   def clean_date date
     if date.class == String
-      date = DateTime.parse date
-    elsif date.class == Time
-      date = date.to_datetime
+      date = Date.parse date
     end
      date
   end
@@ -96,8 +94,8 @@ class Invoice
       customer_id: input[:customer].id,
       merchant_id: input[:merchant].id,
       status: input[:status],
-      created_at: Time.now,
-      updated_at: Time.now,
+      created_at: Date.today,
+      updated_at: Date.today,
     }
 
     invoice = Invoice.new new_input

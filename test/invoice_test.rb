@@ -24,7 +24,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
       created_at: '2012-03-28 14:54:09 UTC',
       updated_at: '2012-03-28 14:54:09 UTC'
     )
-    date = DateTime.parse('2012-03-28 14:54:09 UTC')
+    date = Date.parse('2012-03-28 14:54:09 UTC')
 
     assert_equal 1, invoice.id
     assert_equal 1, invoice.customer_id
@@ -41,7 +41,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
       created_at: '2012-03-29 14:54:09 UTC',
       updated_at: '2012-03-29 14:54:09 UTC'
     )
-    date = DateTime.parse('2012-03-29 14:54:09 UTC')
+    date = Date.parse('2012-03-29 14:54:09 UTC')
 
     assert_equal 2, invoice.id
     assert_equal 2, invoice.customer_id
@@ -99,17 +99,17 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_invoice_by_created_at
-    date = DateTime.parse("2012-03-25 09:54:09 UTC")
+    date = Date.parse("2012-03-25 09:54:09 UTC")
     invoice = Invoice.find_by_created_at(date)
     assert_equal date, invoice.created_at
 
-    date = DateTime.parse("2012-03-13 16:54:10 UTC")
+    date = Date.parse("2012-03-13 16:54:10 UTC")
     invoice = Invoice.find_by_created_at(date)
     assert_equal date, invoice.created_at
   end
 
   def test_it_finds_an_invoice_by_update_at
-    date = DateTime.parse("2012-03-13 16:54:10 UTC")
+    date = Date.parse("2012-03-13 16:54:10 UTC")
     invoice = Invoice.find_by_updated_at(date)
     assert_equal date, invoice.updated_at
   end
@@ -154,12 +154,12 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_created_at
-    date = DateTime.parse("2012-03-25 09:54:09 UTC")
+    date = Date.parse("2012-03-25 09:54:09 UTC")
     invoices = Invoice.find_all_by_created_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.created_at
 
-    date = DateTime.parse("2012-03-09 01:54:10 UTC")
+    date = Date.parse("2012-03-09 01:54:10 UTC")
     invoices = Invoice.find_all_by_created_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.created_at
@@ -172,19 +172,19 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_all_by_updated_at
-    date = DateTime.parse("2012-03-12 05:54:09 UTC")
+    date = Date.parse("2012-03-12 05:54:09 UTC")
     invoices = Invoice.find_all_by_updated_at date
     assert_equal 1, invoices.size
     assert_equal date, invoices.sample.updated_at
 
-    date = DateTime.parse("2012-03-07 12:54:10 UTC")
+    date = Date.parse("2012-03-07 12:54:10 UTC")
     invoices = Invoice.find_all_by_updated_at date
-    assert_equal 1, invoices.size
+    assert_equal 3, invoices.size
     assert_equal date, invoices.sample.updated_at
   end
 
   def test_returns_empty_array_with_non_existing_updated_date
-    date = DateTime.parse("1999-03-06 15:55:33 UTC")
+    date = Date.parse("1999-03-06 15:55:33 UTC")
     invoices = Invoice.find_all_by_updated_at date
     assert_equal 0, invoices.size
   end
@@ -303,7 +303,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
       items: [],
     )
 
-    assert_equal Time.now.to_date, invoice.created_at.to_date
+    assert_equal Date.today, invoice.created_at.to_date
   end
 
   def test_it_includes_the_updated_date
@@ -320,7 +320,7 @@ class InvoiceTest < MiniTest::Unit::TestCase
       items: []
     )
 
-    assert_equal Time.now.to_date, invoice.updated_at.to_date
+    assert_equal Date.today, invoice.updated_at.to_date
   end
 
   def test_it_creates_invoice_items
@@ -375,7 +375,3 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
 
 end
-
-
-
-
