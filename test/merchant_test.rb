@@ -17,27 +17,27 @@ class MerchantTest < MiniTest::Unit::TestCase
 
   def test_it_is_initialized_from_a_hash_of_data
     merchant = Merchant.new(
-      id: 'id',
+      id: '1',
       name: 'name',
       created_at: '2012-03-27 14:53:59 UTC',
       updated_at: '2012-03-27 14:53:59 UTC'
     )
 
     date = DateTime.parse '2012-03-27 14:53:59 UTC'
-    assert_equal 'id', merchant.id
+    assert_equal 1, merchant.id
     assert_equal 'name', merchant.name
     assert_equal date, merchant.created_at
     assert_equal date, merchant.updated_at
 
     merchant = Merchant.new(
-      id: 'id2',
+      id: '2',
       name: 'name2',
       created_at: '2012-03-28 14:53:59 UTC',
       updated_at: '2012-03-28 14:53:59 UTC'
     )
     date = DateTime.parse '2012-03-28 14:53:59 UTC'
 
-    assert_equal 'id2', merchant.id
+    assert_equal 2, merchant.id
     assert_equal 'name2', merchant.name
     assert_equal date, merchant.created_at
     assert_equal date, merchant.updated_at
@@ -45,7 +45,7 @@ class MerchantTest < MiniTest::Unit::TestCase
 
   def test_it_stores_merchants_from_an_array
     data = [Merchant.new(
-      id: 'id',
+      id: '1',
       name: 'name',
     )]
     Merchant.add data
@@ -60,7 +60,7 @@ class MerchantTest < MiniTest::Unit::TestCase
 
   def test_it_finds_a_merchant_by_id
     merchant = Merchant.find_by_id("10")
-    assert_equal "10", merchant.id
+    assert_equal 10, merchant.id
   end
 
   def test_if_returns_a_merchant_by_name

@@ -15,8 +15,8 @@ class Transaction
   extend TransactionFinder
 
   def initialize(input)
-    @id = input[:id]
-    @invoice_id = input[:invoice_id]
+    @id = input[:id].to_i
+    @invoice_id = input[:invoice_id].to_i
     @credit_card_number = input[:credit_card_number]
     @credit_card_expiration_date = input[:credit_card_expiration_date]
     @result = input[:result]
@@ -75,7 +75,7 @@ class Transaction
 
   def self.get_next_id
     if transactions.empty?
-      id = '1'
+      id = 1
     else
       id = transactions.max_by{|transaction| transaction.id.to_i}.id.to_i + 1
       id.to_s

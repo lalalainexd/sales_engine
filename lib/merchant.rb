@@ -11,7 +11,7 @@ class Merchant
   extend MerchantFinder
 
   def initialize(input)
-    @id = input[:id]
+    @id = input[:id].to_i
     @name = input[:name]
     created_date = input[:created_at]
     @created_at = DateTime.parse(created_date) unless created_date.nil?
@@ -73,7 +73,9 @@ class Merchant
   end
 
   def calculate_revenue
-    revenue = @found_invoices.inject(0) { |revenue, invoice| revenue + invoice.subtotal }
+    revenue = @found_invoices.inject(0) do |revenue, invoice| 
+      revenue + invoice.subtotal 
+    end
     (BigDecimal.new(revenue) / 100).to_f
   end
 

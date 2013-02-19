@@ -17,49 +17,49 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_is_initialized_from_a_hash_of_data
     item = Item.new(
-      id: 'id',
+      id: '1',
       name: 'name',
       description: 'description',
       unit_price: 'unit_price',
-      merchant_id: 'merchant_id',
+      merchant_id: '1',
       created_at: '2012-03-27 14:53:59 UTC',
       updated_at: '2012-03-27 14:53:59 UTC'
     )
 
     date = DateTime.parse('2012-03-27 14:53:59 UTC')
 
-    assert_equal 'id', item.id
+    assert_equal 1, item.id
     assert_equal 'name', item.name
     assert_equal 'description', item.description
     assert_equal 'unit_price', item.unit_price
-    assert_equal 'merchant_id', item.merchant_id
+    assert_equal 1, item.merchant_id
     assert_equal date, item.created_at
     assert_equal date, item.updated_at
 
     item = Item.new(
-      id: 'id2',
+      id: '2',
       name: 'name2',
       description: 'description2',
       unit_price: 'unit_price2',
-      merchant_id: 'merchant_id2',
+      merchant_id: '2',
       created_at: '2012-03-28 14:53:59 UTC',
       updated_at: '2012-03-28 14:53:59 UTC'
     )
 
     date = DateTime.parse('2012-03-28 14:53:59 UTC')
 
-    assert_equal 'id2', item.id
+    assert_equal 2, item.id
     assert_equal 'name2', item.name
     assert_equal 'description2', item.description
     assert_equal 'unit_price2', item.unit_price
-    assert_equal 'merchant_id2', item.merchant_id
+    assert_equal 2, item.merchant_id
     assert_equal date, item.created_at
     assert_equal date, item.updated_at
   end
 
   def test_it_stores_items_from_an_array
     data = [Item.new(
-      id: 'id',
+      id: '1',
       name: 'name',
       description: 'description',
       unit_price: 'unit_price',
@@ -82,11 +82,11 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_finds_an_item_by_id
 
-    id = "1"
+    id = 1
     item = Item.find_by_id id
     assert_equal id, item.id
 
-    id = "2"
+    id = 2
     item = Item.find_by_id id
     assert_equal id, item.id
   end
@@ -127,11 +127,11 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_finds_an_item_by_merchant_id
 
-    merchant_id = "1"
+    merchant_id = 1
     item = Item.find_by_merchant_id merchant_id
     assert_equal merchant_id, item.merchant_id
 
-    merchant_id = "2"
+    merchant_id = 2
     item = Item.find_by_merchant_id merchant_id
     assert_equal merchant_id, item.merchant_id
   end
@@ -158,11 +158,11 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_find_all_items_by_merchant_id
 
-    merchant_id = "1"
+    merchant_id = 1
     items = Item.find_all_by_merchant_id merchant_id
     assert_equal 8, items.size
 
-    merchant_id = "2"
+    merchant_id = 2
     items = Item.find_all_by_merchant_id merchant_id
     assert_equal 1, items.size
 
@@ -250,15 +250,15 @@ class ItemTest < MiniTest::Unit::TestCase
 
   def test_it_returns_a_collection_of_associated_invoice_items
     CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
-    item = Item.find_by_id '1'
+    item = Item.find_by_id 1
     assert_equal 3, item.invoice_items.size
   end
 
 
   def test_it_returns_the_associated_merchant
     CsvLoader.load_merchants('./test/support/merchants.csv')
-    item = Item.find_by_id '1'
-    merchant = Merchant.find_by_id '1'
+    item = Item.find_by_id 1
+    merchant = Merchant.find_by_id 1
     assert_equal merchant, item.merchant
   end
 
@@ -295,7 +295,7 @@ class ItemTest < MiniTest::Unit::TestCase
     items = Item.most_items(1)
 
     assert_equal 1, items.size
-    assert_equal '1', items.first.id
+    assert_equal 1, items.first.id
 
   end
 
@@ -307,8 +307,8 @@ class ItemTest < MiniTest::Unit::TestCase
     items = Item.most_items(3)
 
     assert_equal 3, items.size
-    assert_equal '1', items.first.id
-    assert_equal '2', items[1].id
+    assert_equal 1, items.first.id
+    assert_equal 2, items[1].id
 
   end
 

@@ -17,11 +17,11 @@ class Item
   extend ItemFinder
 
   def initialize(input)
-    @id =input[:id]
+    @id =input[:id].to_i
     @name = input[:name]
     @description = input[:description]
     @unit_price = input[:unit_price]
-    @merchant_id = input[:merchant_id]
+    @merchant_id = input[:merchant_id].to_i
 
     created_date = input[:created_at]
     @created_at = DateTime.parse(created_date) unless created_date.nil?

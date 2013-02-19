@@ -17,8 +17,8 @@ class TransactionTest < MiniTest::Unit::TestCase
 
   def test_it_is_initialized_from_a_hash_of_data
     transaction = Transaction.new(
-      id: 'id',
-      invoice_id: 'invoice_id',
+      id: '1',
+      invoice_id: '1',
       credit_card_number: 'credit_card_number',
       credit_card_expiration_date: 'credit_card_expdate',
       result: 'result',
@@ -28,8 +28,8 @@ class TransactionTest < MiniTest::Unit::TestCase
 
     date = DateTime.parse('2012-03-27 14:53:59 UTC')
 
-    assert_equal 'id', transaction.id
-    assert_equal 'invoice_id', transaction.invoice_id
+    assert_equal 1 , transaction.id
+    assert_equal 1, transaction.invoice_id
     assert_equal 'credit_card_number', transaction.credit_card_number
     assert_equal 'credit_card_expdate', transaction.credit_card_expiration_date
     assert_equal 'result', transaction.result
@@ -37,8 +37,8 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_equal date, transaction.updated_at
 
     transaction = Transaction.new(
-      id: 'id2',
-      invoice_id: 'invoice_id2',
+      id: '2',
+      invoice_id: '2',
       credit_card_number: 'credit_card_number2',
       credit_card_expiration_date: 'credit_card_expiration_date2',
       result: 'result2',
@@ -48,8 +48,8 @@ class TransactionTest < MiniTest::Unit::TestCase
 
     date = DateTime.parse('2012-03-29 14:53:59 UTC')
 
-      assert_equal 'id2', transaction.id
-      assert_equal 'invoice_id2', transaction.invoice_id
+      assert_equal 2, transaction.id
+      assert_equal 2, transaction.invoice_id
       assert_equal 'credit_card_number2', transaction.credit_card_number
       assert_equal 'credit_card_expiration_date2', transaction.credit_card_expiration_date
       assert_equal 'result2', transaction.result
@@ -73,20 +73,20 @@ class TransactionTest < MiniTest::Unit::TestCase
   end
 
   def test_it_can_find_a_transaction_by_id
-    transaction = Transaction.find_by_id '1'
-    assert_equal '1', transaction.id
+    transaction = Transaction.find_by_id 1
+    assert_equal 1, transaction.id
   end
 
   def test_it_returns_an_assoiated_invoice
     CsvLoader.load_invoices('./test/support/invoices.csv')
-    transaction = Transaction.find_by_id '1'
-    invoice = Invoice.find_by_id '1'
+    transaction = Transaction.find_by_id 1
+    invoice = Invoice.find_by_id 1
     assert_equal invoice, transaction.invoice
   end
 
   def test_it_finds_all_transactions_by_invoice_id
     CsvLoader.load_invoices('./test/support/invoices.csv')
-    transactions = Transaction.find_all_by_invoice_id("12")
+    transactions = Transaction.find_all_by_invoice_id(12)
     assert_equal 3 , transactions.size
   end
 
@@ -95,7 +95,7 @@ class TransactionTest < MiniTest::Unit::TestCase
     credit_card_number = '1111222233334444'
     expiration_date = '10/13'
     result = 'success'
-    invoice_id = '1'
+    invoice_id = 1
 
     transaction = Transaction.create invoice_id: invoice_id,
       credit_card_number: credit_card_number,
@@ -106,6 +106,6 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_equal credit_card_number, transaction.credit_card_number
     assert_equal expiration_date, transaction.credit_card_expiration_date
     assert_equal result, transaction.result
-    assert_equal '14', transaction.id
+    assert_equal 14, transaction.id
   end
 end
