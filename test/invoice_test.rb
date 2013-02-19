@@ -334,8 +334,8 @@ class InvoiceTest < MiniTest::Unit::TestCase
     customer = Customer.find_by_id '2'
     merchant = Merchant.find_by_id '1'
 
-    item1 = Item.find_all_by_merchant_id('1').sample
-    item2 = Item.find_all_by_merchant_id('1').sample
+    item1 = Item.find_by_id('1')
+    item2 = Item.find_by_id('2')
 
     items = [item1, item2, item2]
 
@@ -347,6 +347,32 @@ class InvoiceTest < MiniTest::Unit::TestCase
     )
 
     assert_equal 2, InvoiceItem.size
+
+  end
+
+  def test_it_charges_the_invoice
+    CsvLoader.load_customers './test/support/customers.csv'
+    CsvLoader.load_merchants './test/support/merchants.csv'
+    CsvLoader.load_items './test/support/items.csv'
+
+    customer = Customer.find_by_id '2'
+    merchant = Merchant.find_by_id '1'
+
+    items = []
+
+
+    invoice = Invoice.create(
+      customer: customer,
+      merchant: merchant,
+      items: items
+    )
+
+    invoice.charge(credit_card_number: "4444333322221111",
+                   credit_card_expiration: "10/13",
+                   result: "success")
+
+    assert_equal 1, Transaction.size
+
 
   end
 

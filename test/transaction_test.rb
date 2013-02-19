@@ -90,4 +90,22 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_equal 3 , transactions.size
   end
 
+  def test_it_creates_and_adds_a_transaction
+
+    credit_card_number = '1111222233334444'
+    expiration_date = '10/13'
+    result = 'success'
+    invoice_id = '1'
+
+    transaction = Transaction.create invoice_id: invoice_id,
+      credit_card_number: credit_card_number,
+      credit_card_expiration_date: expiration_date,
+      result: result
+
+    assert_equal 13, Transaction.size
+    assert_equal credit_card_number, transaction.credit_card_number
+    assert_equal expiration_date, transaction.credit_card_expiration_date
+    assert_equal result, transaction.result
+    assert_equal '14', transaction.id
+  end
 end

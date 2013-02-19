@@ -126,6 +126,11 @@ class Invoice
     id.to_s
   end
 
+  def charge input
+    input[:invoice_id] = @id
+    Transaction.create input
+
+  end
 
 
 end

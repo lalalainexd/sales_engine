@@ -22,9 +22,17 @@ class Transaction
     @result = input[:result]
 
     created_date = input[:created_at]
-    @created_at = DateTime.parse(created_date) unless created_date.nil?
+    @created_at = clean_date created_date unless created_date.nil?
+
     updated_date = input[:updated_at]
-    @updated_at = DateTime.parse(updated_date) unless updated_date.nil?
+    @updated_at = clean_date updated_date unless updated_date.nil?
+  end
+
+  def clean_date date
+    if date.class == String
+      date = DateTime.parse date
+    end
+     date
   end
 
   def self.transactions
@@ -52,5 +60,27 @@ class Transaction
   def invoice
     Invoice.find_by_id @invoice_id
   end
+
+  def self.create input
+    input[:created_at] = DateTime.now
+    input[:update_at] = input[:created_at]
+    input[:id] = get_next_id
+
+    transaction = Transaction.new input
+    add_transaction transaction
+
+    return transaction
+
+  end
+
+  def self.get_next_id
+    if transactions.empty?
+      id = '1'
+    else
+      id = transactions.max_by{|transaction| transaction.id.to_i}.id.to_i + 1
+      id.to_s
+    end
+  end
+
 
 end
