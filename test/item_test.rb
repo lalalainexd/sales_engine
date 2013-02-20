@@ -21,7 +21,7 @@ module SalesEngine
       assert_equal params[:id].to_i , item.id
       assert_equal params[:name], item.name
       assert_equal params[:description], item.description
-      assert_equal params[:unit_price], item.unit_price
+      assert_equal BigDecimal.new(params[:unit_price])/100, item.unit_price
       assert_equal params[:merchant_id].to_i, item.merchant_id
       assert_equal Date.parse(params[:created_at]), item.created_at
       assert_equal Date.parse(params[:updated_at]), item.updated_at
@@ -89,13 +89,13 @@ module SalesEngine
     end
 
     def test_it_finds_an_item_by_unit_price
-      unit_price = "75107"
+      unit_price = BigDecimal.new("751.07")
       item = Item.find_by_unit_price unit_price
-      assert_equal unit_price, item.unit_price
+      assert_equal 1, item.id
 
-      unit_price = "68723"
+      unit_price = BigDecimal.new("687.23")
       item = Item.find_by_unit_price unit_price
-      assert_equal unit_price, item.unit_price
+      assert_equal 5, item.id
     end
 
     def test_it_finds_an_item_by_merchant_id
@@ -141,11 +141,11 @@ module SalesEngine
     end
 
     def test_it_find_all_items_by_unit_price
-      unit_price = "75107"
+      unit_price = BigDecimal.new("751.07")
       items = Item.find_all_by_unit_price unit_price
       assert_equal 2, items.size
 
-      unit_price = "68723"
+      unit_price = BigDecimal.new("687.23")
       items = Item.find_all_by_unit_price unit_price
       assert_equal 2, items.size
     end

@@ -19,13 +19,23 @@ module SalesEngine
       @id =input[:id].to_i
       @name = input[:name]
       @description = input[:description]
-      @unit_price = input[:unit_price]
+      @unit_price = clean_price input[:unit_price]
       @merchant_id = input[:merchant_id].to_i
 
       created_date = input[:created_at]
       @created_at = Date.parse(created_date) unless created_date.nil?
       updated_date = input[:updated_at]
       @updated_at = Date.parse(updated_date) unless updated_date.nil?
+
+    end
+
+    def clean_price price
+
+      if price.class != BigDecimal && !price.nil?
+        BigDecimal.new(price)/100
+      else
+        price
+      end
 
     end
 

@@ -246,10 +246,23 @@ module SalesEngine
       assert_equal date, invoices.sample.updated_at
     end
 
+
+
     def test_returns_empty_array_with_non_existing_updated_date
       date = Date.parse("1999-03-06 15:55:33 UTC")
       invoices = Invoice.find_all_by_updated_at date
       assert_equal 0, invoices.size
+    end
+
+    def test_it_finds_all_by_status
+      status = "shipped"
+      invoices = Invoice.find_all_by_status status
+      assert_equal 10, invoices.size
+      assert_equal status, invoices.sample.status
+
+      status = "pending"
+      invoices = Invoice.find_all_by_status status
+      assert invoices.empty?
     end
 
     def test_it_creates_an_invoice
