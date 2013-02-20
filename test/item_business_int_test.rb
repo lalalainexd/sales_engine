@@ -12,13 +12,6 @@ module SalesEngine
       clear_all
     end
 
-    def test_it_returns_the_highest_revenue_item
-      items = Item.most_revenue(1)
-
-      assert_equal 1, items.size
-      assert_equal 2, items.first.id
-    end
-
     def test_it_returns_the_three_highest_revenue_item
       CsvLoader.load_items
       CsvLoader.load_invoice_items
@@ -32,19 +25,16 @@ module SalesEngine
       assert_equal 'Item Amet Accusamus', items.last.name
     end
 
-    def test_it_returns_the_most_sold_item
-      items = Item.most_items(1)
-
-      assert_equal 1, items.size
-      assert_equal 1, items.first.id
-    end
-
     def test_it_returns_the_three_most_sold_items
-      items = Item.most_items(3)
+      CsvLoader.load_items
+      CsvLoader.load_invoice_items
+      CsvLoader.load_transactions
+      CsvLoader.load_invoices
 
-      assert_equal 3, items.size
-      assert_equal 1, items.first.id
-      assert_equal 2, items[1].id
+      items = Item.most_items(37)
+
+      assert_equal 'Item Nam Magnam', items.first.name
+      assert_equal 'Item Ut Quaerat', items.last.name
     end
 
     def test_it_returns_the_date_with_most_sales

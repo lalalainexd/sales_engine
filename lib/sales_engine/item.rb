@@ -64,7 +64,7 @@ module SalesEngine
     end
 
     def invoice_items
-      @invoice_items ||= InvoiceItem.find_all_by_item_id @id
+      InvoiceItem.find_all_by_item_id @id
     end
 
     def merchant
@@ -95,6 +95,10 @@ module SalesEngine
     end
 
     def total_sold
+      @total_sold ||= calc_total_sold
+    end
+
+    def calc_total_sold
       invoice_items.inject(0) do |total,invoice_item|
         if invoice_item.success?
           total + invoice_item.item_subtotal
@@ -102,6 +106,7 @@ module SalesEngine
           total
         end
       end
+
     end
 
     def best_day
