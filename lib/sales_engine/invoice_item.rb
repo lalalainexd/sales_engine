@@ -19,7 +19,8 @@ module SalesEngine
       @item_id = input[:item_id].to_i
       @invoice_id = input[:invoice_id].to_i
       @quantity = input[:quantity].to_i unless input[:quantity].nil?
-      @unit_price = input[:unit_price].to_i unless input[:unit_price].nil?
+      unit_price = BigDecimal.new(input[:unit_price])/100
+      @unit_price = unit_price unless input[:unit_price].nil?
 
       created_date = input[:created_at]
       @created_at = clean_date created_date unless created_date.nil?
