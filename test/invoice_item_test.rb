@@ -65,7 +65,7 @@ module SalesEngine
       assert_equal params[:item_id].to_i, invoice_item.item_id
       assert_equal params[:invoice_id].to_i, invoice_item.invoice_id
       assert_equal params[:quantity].to_i, invoice_item.quantity
-      assert_equal params[:unit_price].to_i, invoice_item.unit_price
+      assert_equal BigDecimal.new(params[:unit_price])/100, invoice_item.unit_price
       assert_equal Date.parse(params[:created_at]), invoice_item.created_at
       assert_equal Date.parse(params[:updated_at]), invoice_item.updated_at
     end

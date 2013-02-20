@@ -83,6 +83,10 @@ class Invoice
     transactions.any?{|transaction| transaction.result == 'success'}
   end
 
+  def pending?
+    transactions.all? {|transaction| transaction.result == 'failed'}
+  end
+
   def subtotal
     @invoice_subtotal ||= invoice_items.inject(0) do |sum, item|
       sum += item.item_subtotal

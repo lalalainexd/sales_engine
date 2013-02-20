@@ -206,7 +206,14 @@ module SalesEngine
       merchant = 0
       invoices = Invoice.find_all_by_merchant_id merchant
       assert_equal 0, invoices.size
+    end
 
+    def test_it_finds_all_invoices_by_status
+      invoices =Invoice.find_all_by_status("shipped")
+      assert_equal 10 , invoices.size
+
+      invoices2 =Invoice.find_all_by_status("failed")
+      assert_equal 0 , invoices2.size
     end
 
     def test_it_finds_all_by_created_at

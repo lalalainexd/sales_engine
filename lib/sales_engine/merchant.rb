@@ -69,14 +69,14 @@ module SalesEngine
       revenue = invoices.inject(0) do |sum, invoice|
         sum + invoice.subtotal
       end
-      (BigDecimal.new(revenue) / 100).to_f
+      revenue
     end
 
     def self.revenue(date)
       daily_rev = merchants.inject(0) do |revenue, merchant|
-        revenue + merchant.revenue(date)*100
+        revenue + merchant.revenue(date)
       end
-        daily_rev/100
+        daily_rev
     end
 
     def self.most_revenue(x)
@@ -106,7 +106,8 @@ module SalesEngine
     end
 
     def customers_with_pending_invoices
-      invoices.find_all {|invoice| invoice.success? == false}
+      invcs = invoices.find_all {|invoice| invoice.pending?}
+      invcs.map {|i| i.customer}
     end
 
     def favorite_customer
