@@ -89,9 +89,11 @@ module SalesEngine
     end
 
     def test_it_finds_an_item_by_unit_price
-      unit_price = BigDecimal.new("751.07")
+      CsvLoader.load_items
+
+      unit_price = BigDecimal.new("935.19")
       item = Item.find_by_unit_price unit_price
-      assert_equal 1, item.id
+      assert_equal 'Item Alias Nihil', item.name
 
       unit_price = BigDecimal.new("687.23")
       item = Item.find_by_unit_price unit_price

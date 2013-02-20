@@ -90,7 +90,7 @@ module SalesEngine
     end
 
     def self.most_items num_items
-      items.sort_by{|item| item.total_sold}.reverse.take num_items
+      items.sort{|a, b| b.total_sold <=> a.total_sold}.take num
 
     end
 
