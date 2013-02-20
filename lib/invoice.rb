@@ -1,7 +1,7 @@
 require 'date'
 require './lib/invoice_finder'
 
-
+module SalesEngine
 class Invoice
 
   attr_accessor :id,
@@ -132,4 +132,4 @@ class Invoice
     @successful_invoices ||= invoices.select {|i| i.success? }
   end
 end
-
+end

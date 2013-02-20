@@ -3,9 +3,9 @@ require './test/test_helper'
 module SalesEngine
   class SalesEngineTest < Minitest::Unit::TestCase
 
-    def teardown
-      clear_all
-    end
+    # def teardown
+    #   clear_all
+    # end
 
     def test_it_loads_all_data_when_startup_called
       SalesEngine.startup
