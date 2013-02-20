@@ -20,11 +20,16 @@ module SalesEngine
     end
 
     def test_it_returns_the_three_highest_revenue_item
-      items = Item.most_revenue(3)
+      CsvLoader.load_items
+      CsvLoader.load_invoice_items
+      CsvLoader.load_transactions
+      CsvLoader.load_invoices
 
-      assert_equal 3, items.size
-      assert_equal 2, items.first.id
-      assert_equal 1, items[1].id
+      items = Item.most_revenue(5)
+
+      assert_equal 5, items.size
+      assert_equal 'Item Dicta Autem', items.first.name
+      assert_equal 'Item Amet Accusamus', items.last.name
     end
 
     def test_it_returns_the_most_sold_item

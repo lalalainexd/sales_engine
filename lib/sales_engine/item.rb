@@ -19,7 +19,6 @@ module SalesEngine
       @id =input[:id].to_i
       @name = input[:name]
       @description = input[:description]
-      @unit_price = clean_price input[:unit_price]
       @merchant_id = input[:merchant_id].to_i
 
       created_date = input[:created_at]
@@ -65,21 +64,28 @@ module SalesEngine
     end
 
     def invoice_items
-      InvoiceItem.find_all_by_item_id @id
+      @invoice_items ||= InvoiceItem.find_all_by_item_id @id
     end
 
     def merchant
       Merchant.find_by_id @merchant_id
     end
 
-    def self.most_revenue num_items
-      items.sort_by{|item| item.total_revenue}.reverse.take num_items
+    def self.most_revenue num
+      items.sort{|a, b| b.total_revenue <=> a.total_revenue}.take num
     end
 
     def total_revenue
-      invoice_items = InvoiceItem.find_all_by_item_id @id
+      @total_revenue ||= calc_revenue
+    end
+
+    def calc_revenue
       invoice_items.inject(0) do |rev,invoice_item|
-        rev + invoice_item.item_subtotal if invoice_item.success?
+        if invoice_item.success?
+          rev + invoice_item.item_subtotal
+        else
+          rev
+        end
       end
     end
 
@@ -89,16 +95,19 @@ module SalesEngine
     end
 
     def total_sold
-      invoice_items = InvoiceItem.find_all_by_item_id @id
       invoice_items.inject(0) do |total,invoice_item|
-        total + invoice_item.quantity if invoice_item.success?
+        if invoice_item.success?
+          total + invoice_item.item_subtotal
+        else
+          total
+        end
       end
     end
 
     def best_day
       daily_quantity.max_by do |daily_quantity|
         daily_quantity.quantity
-      end.date.to_date
+      end.date
     end
 
 
