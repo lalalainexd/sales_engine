@@ -1,5 +1,5 @@
 require 'date'
-require './lib/sales_engine/transaction_finder'
+require 'sales_engine/transaction_finder'
 
 module SalesEngine
   class Transaction

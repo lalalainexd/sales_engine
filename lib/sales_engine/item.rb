@@ -1,6 +1,6 @@
 require 'date'
 require 'set'
-require './lib/sales_engine/item_finder'
+require 'sales_engine/item_finder'
 
 module SalesEngine
   class Item
@@ -86,7 +86,7 @@ module SalesEngine
     end
 
     def best_day
-      daily_quantity.max_by do |daily_quantity| 
+      daily_quantity.max_by do |daily_quantity|
         daily_quantity.quantity
       end.date.to_date
     end
@@ -97,7 +97,7 @@ module SalesEngine
     end
 
   end
-  
+
   class DailyItemSales
 
     attr_reader :date

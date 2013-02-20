@@ -1,6 +1,6 @@
 require 'date'
 require 'bigdecimal'
-require './lib/sales_engine/merchant_finder'
+require 'sales_engine/merchant_finder'
 
 module SalesEngine
   class Merchant
@@ -100,7 +100,7 @@ module SalesEngine
     end
 
     def total_items_sold
-      successful_invoices.inject(0) do |sum, invoice| 
+      successful_invoices.inject(0) do |sum, invoice|
         sum + invoice.count_items_on_invoice
       end
     end

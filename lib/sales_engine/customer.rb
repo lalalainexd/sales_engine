@@ -1,6 +1,6 @@
 require 'date'
 require 'set'
-require './lib/sales_engine/customer_finder'
+require 'sales_engine/customer_finder'
 
 module SalesEngine
   class Customer

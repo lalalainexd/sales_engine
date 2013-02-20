@@ -1,5 +1,5 @@
 require 'date'
-require './lib/sales_engine/invoice_finder'
+require 'sales_engine/invoice_finder'
 
 module SalesEngine
 class Invoice

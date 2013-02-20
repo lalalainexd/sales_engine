@@ -1,5 +1,5 @@
 require 'date'
-require './lib/sales_engine/invoice_item_finder'
+require 'sales_engine/invoice_item_finder'
 
 module SalesEngine
   class InvoiceItem
@@ -81,7 +81,7 @@ module SalesEngine
     end
 
     def self.get_next_id
-      get_last_id + 1 
+      get_last_id + 1
     end
 
     def self.get_last_id
