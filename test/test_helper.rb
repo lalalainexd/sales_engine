@@ -7,14 +7,14 @@ require 'minitest/autorun'
 require 'minitest/pride'
 require 'date'
 
-require './lib/csv_loader'
-require './lib/merchant'
-require './lib/transaction'
-require './lib/invoice'
-require './lib/invoice_item'
-require './lib/item'
-require './lib/customer'
-require './sales_engine'
+require './lib/sales_engine/csv_loader'
+require './lib/sales_engine/merchant'
+require './lib/sales_engine/transaction'
+require './lib/sales_engine/invoice'
+require './lib/sales_engine/invoice_item'
+require './lib/sales_engine/item'
+require './lib/sales_engine/customer'
+require './lib/sales_engine'
 
 
 
