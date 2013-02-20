@@ -3,7 +3,7 @@ require './test/test_helper'
 class TransactionTest < MiniTest::Unit::TestCase
 
   def setup
-    @transactions = CsvLoader.load_transactions('./test/support/transactions.csv')
+    CsvLoader.load_transactions('./test/support/transactions.csv')
   end
 
   def test_it_exists
@@ -15,18 +15,31 @@ class TransactionTest < MiniTest::Unit::TestCase
     clear_all
   end
 
+  def assert_transaction_is_correctly_defined(transaction,params)
+    assert_equal params[:id].to_i , transaction.id
+    assert_equal params[:invoice_id].to_i, transaction.invoice_id
+    assert_equal params[:credit_card_number], transaction.credit_card_number
+    assert_equal 'credit_card_expdate', transaction.credit_card_expiration_date
+    assert_equal 'result', transaction.result
+    assert_equal Date.parse(params[:created_at]), transaction.created_at
+    assert_equal Date.parse(params[:updated_at]), transaction.updated_at
+  end
+
   def test_it_is_initialized_from_a_hash_of_data
-    transaction = Transaction.new(
-      id: '1',
+    transaction_params = { id: '1',
       invoice_id: '1',
       credit_card_number: 'credit_card_number',
       credit_card_expiration_date: 'credit_card_expdate',
       result: 'result',
       created_at: '2012-03-27',
       updated_at: '2012-03-27'
-    )
+    }
+
+    transaction = Transaction.new(transaction_params)
 
     date = Date.parse('2012-03-27 14:53:59 UTC')
+
+    assert_transaction_is_correctly_defined(transaction,transaction_params)
 
     assert_equal 1 , transaction.id
     assert_equal 1, transaction.invoice_id
@@ -91,7 +104,6 @@ class TransactionTest < MiniTest::Unit::TestCase
   end
 
   def test_it_creates_and_adds_a_transaction
-
     credit_card_number = '1111222233334444'
     expiration_date = '10/13'
     result = 'success'

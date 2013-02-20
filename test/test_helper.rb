@@ -25,3 +25,9 @@ def clear_all
   Item.clear
   Customer.clear
 end
+
+module TestFileLoader
+  def load_data_for(*names)
+    names.each {|name| CsvLoader.send("load_#{name}","./test/support/#{name}.csv") }
+  end
+end

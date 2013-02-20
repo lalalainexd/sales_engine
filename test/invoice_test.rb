@@ -1,6 +1,7 @@
 require './test/test_helper'
 
 class InvoiceTest < MiniTest::Unit::TestCase
+  include TestFileLoader
 
   def setup
     CsvLoader.load_invoices('./test/support/invoices.csv')
@@ -222,8 +223,16 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
   end
 
-  def test_it_creates_an_invoice_with_a_unique_id
+  def load_customers!
     CsvLoader.load_customers './test/support/customers.csv'
+  end
+
+  def load_data_for(*names)
+    names.each {|name| CsvLoader.send("load_#{name}","./test/support/#{name}.csv") }
+  end
+
+  def test_it_creates_an_invoice_with_a_unique_id
+    load_data_for :customers, :merchants
     CsvLoader.load_merchants './test/support/merchants.csv'
 
     customer = Customer.find_by_id 1
@@ -375,3 +384,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
 
 end
+
+
+# class TestForInvoice < WhateverThisIs
