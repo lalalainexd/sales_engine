@@ -52,6 +52,7 @@ class ItemTest < MiniTest::Unit::TestCase
 
     Item.add(data)
     assert_equal 1, Item.size
+    assert Item.find_by_id 1
   end
 
   def test_it_returns_a_random_item

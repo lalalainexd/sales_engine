@@ -51,16 +51,15 @@ class TransactionTest < MiniTest::Unit::TestCase
   end
 
   def test_it_stores_transactions_from_an_array
-    params = {id: '40',
+    transaction = Transaction.new(id: '40',
       invoice_id: 'invoice_id',
       credit_card_number: 'credit_card_number',
       credit_card_expiration_date: 'credit_card_expiration_date',
       result: 'result',
       created_at: '2012-03-29 14:53:59 UTC',
-      updated_at: '2012-03-29 14:53:59 UTC'}
+      updated_at: '2012-03-29 14:53:59 UTC')
 
-    Transaction.add [Transaction.new(params)]
-    assert_equal 1, Transaction.size
+    Transaction.add [transaction]
     assert Transaction.find_by_id 40
   end
 
