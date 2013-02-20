@@ -49,9 +49,9 @@ module SalesEngine
       transactions << transaction
     end
 
-  	def self.clear
-  		transactions.clear unless transactions.nil?
-  	end
+    def self.clear
+      transactions.clear unless transactions.nil?
+    end
 
     def self.size
       transactions.size

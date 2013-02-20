@@ -54,9 +54,9 @@ module SalesEngine
       items.size
     end
 
-  	def self.clear
-  		items.clear unless items.nil?
-  	end
+    def self.clear
+      items.clear unless items.nil?
+    end
 
     def self.random
       items.sample

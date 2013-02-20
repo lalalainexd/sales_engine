@@ -11,7 +11,7 @@ class Invoice
     :created_at,
     :updated_at
 
-	extend InvoiceFinder
+  extend InvoiceFinder
 
   def initialize(input)
 
@@ -34,19 +34,19 @@ class Invoice
 
   end
 
-	def self.invoices
-		@invoices ||= []
-	end
+  def self.invoices
+    @invoices ||= []
+  end
 
 
   def self.add(array_of_data)
-		invoices.clear
-		array_of_data.each{|invoice| add_invoice invoice}
+    invoices.clear
+    array_of_data.each{|invoice| add_invoice invoice}
   end
 
-	def self.add_invoice invoice
-		invoices << invoice
-	end
+  def self.add_invoice invoice
+    invoices << invoice
+  end
 
   def self.clear
     invoices.clear unless invoices.nil?
@@ -57,7 +57,7 @@ class Invoice
   end
 
   def self.random
-  invoices.sample
+    invoices.sample
   end
 
   def customer
