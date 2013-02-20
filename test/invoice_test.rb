@@ -220,15 +220,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
 
     invoice = Invoice.find_by_id 1
     assert invoice.success?
-
-  end
-
-  def load_customers!
-    CsvLoader.load_customers './test/support/customers.csv'
-  end
-
-  def load_data_for(*names)
-    names.each {|name| CsvLoader.send("load_#{name}","./test/support/#{name}.csv") }
   end
 
   def test_it_creates_an_invoice_with_a_unique_id
