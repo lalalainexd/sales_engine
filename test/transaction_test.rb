@@ -28,41 +28,40 @@ class TransactionTest < MiniTest::Unit::TestCase
 
   def test_it_is_initialized_from_a_hash_of_data
     transaction_params_1 = { id: '1',
-                            invoice_id: '1',
-                            credit_card_number: 'credit_card_number',
-                            credit_card_expiration_date: 'credit_card_expdate',
-                            result: 'result',
-                            created_at: '2012-03-27',
-                            updated_at: '2012-03-27'
-                            }
+      invoice_id: '1',
+      credit_card_number: 'credit_card_number',
+      credit_card_expiration_date: 'credit_card_expdate',
+      result: 'result',
+      created_at: '2012-03-27',
+      updated_at: '2012-03-27'
+    }
     transaction = Transaction.new(transaction_params_1)
     assert_transaction_is_correctly_defined(transaction,transaction_params_1)
 
     transaction_params_2 = {id: '2',
-                            invoice_id: '2',
-                            credit_card_number: 'credit_card_number2',
-                            credit_card_expiration_date: 'credit_card_expdate2',
-                            result: 'result2',
-                            created_at: '2012-03-29 14:53:59 UTC',
-                            updated_at: '2012-03-29 14:53:59 UTC'
-                          }
+      invoice_id: '2',
+      credit_card_number: 'credit_card_number2',
+      credit_card_expiration_date: 'credit_card_expdate2',
+      result: 'result2',
+      created_at: '2012-03-29 14:53:59 UTC',
+      updated_at: '2012-03-29 14:53:59 UTC'
+    }
     transaction = Transaction.new(transaction_params_2)
     assert_transaction_is_correctly_defined(transaction,transaction_params_2)
   end
 
   def test_it_stores_transactions_from_an_array
-    transaction = Transaction.new(
-                  id: 'id',
-                  invoice_id: 'invoice_id',
-                  credit_card_number: 'credit_card_number',
-                  credit_card_expiration_date: 'credit_card_expiration_date',
-                  result: 'result',
-                  created_at: '2012-03-29 14:53:59 UTC',
-                  updated_at: '2012-03-29 14:53:59 UTC'
-                  )
-      data = [transaction]
-      Transaction.add data
-      assert_equal 1, Transaction.size
+    params = {id: '40',
+      invoice_id: 'invoice_id',
+      credit_card_number: 'credit_card_number',
+      credit_card_expiration_date: 'credit_card_expiration_date',
+      result: 'result',
+      created_at: '2012-03-29 14:53:59 UTC',
+      updated_at: '2012-03-29 14:53:59 UTC'}
+
+    Transaction.add [Transaction.new(params)]
+    assert_equal 1, Transaction.size
+    assert Transaction.find_by_id 40
   end
 
   def test_it_can_find_a_transaction_by_id
