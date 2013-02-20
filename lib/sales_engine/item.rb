@@ -20,16 +20,15 @@ module SalesEngine
       @name = input[:name]
       @description = input[:description]
       @merchant_id = input[:merchant_id].to_i
-
+      price = input[:unit_price]
+      @unit_price = clean_price(price)
       created_date = input[:created_at]
       @created_at = Date.parse(created_date) unless created_date.nil?
       updated_date = input[:updated_at]
       @updated_at = Date.parse(updated_date) unless updated_date.nil?
-
     end
 
     def clean_price price
-
       if price.class != BigDecimal && !price.nil?
         BigDecimal.new(price)/100
       else
@@ -90,8 +89,7 @@ module SalesEngine
     end
 
     def self.most_items num_items
-      items.sort{|a, b| b.total_sold <=> a.total_sold}.take num
-
+      i = items.sort{|a, b| b.total_sold <=> a.total_sold}.take(num_items)
     end
 
     def total_sold
@@ -101,12 +99,11 @@ module SalesEngine
     def calc_total_sold
       invoice_items.inject(0) do |total,invoice_item|
         if invoice_item.success?
-          total + invoice_item.item_subtotal
+          total + invoice_item.quantity
         else
           total
         end
       end
-
     end
 
     def best_day
@@ -115,11 +112,9 @@ module SalesEngine
       end.date
     end
 
-
     def daily_quantity
       invoice_items.collect{|i| DailyItemSales.new self, i.invoice_date}
     end
-
   end
 
   class DailyItemSales
