@@ -36,11 +36,8 @@ class TransactionTest < MiniTest::Unit::TestCase
                             updated_at: '2012-03-27'
                             }
     transaction = Transaction.new(transaction_params_1)
-    date = Date.parse('2012-03-27 14:53:59 UTC')
-
     assert_transaction_is_correctly_defined(transaction,transaction_params_1)
 
-     
     transaction_params_2 = {id: '2',
                             invoice_id: '2',
                             credit_card_number: 'credit_card_number2',
@@ -50,7 +47,6 @@ class TransactionTest < MiniTest::Unit::TestCase
                             updated_at: '2012-03-29 14:53:59 UTC'
                           }
     transaction = Transaction.new(transaction_params_2)
-    date = Date.parse('2012-03-29 14:53:59 UTC')
     assert_transaction_is_correctly_defined(transaction,transaction_params_2)
   end
 
