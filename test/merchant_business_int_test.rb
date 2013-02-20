@@ -47,11 +47,11 @@ def test_it_returns_a_merchants_total_revenue
   #   assert_equal "Dicki-Bednar" , top3[0].name
   # end
 
-  # def test_it_returns_the_top_X_merchants_based_on_number_of_items_sold
-  #   top5 = Merchant.most_items(5)
-  #   assert_equal 5, top5.size
-  #   assert_equal "Kassulke, O'Hara and Quitzon" , top5[0].name
-  #   assert_equal "Daugherty Group", top5[4].name
-  # end
+  def test_it_returns_the_top_X_merchants_based_on_number_of_items_sold
+    top5 = Merchant.most_items(5)
+    assert_equal 5, top5.size
+    assert_equal "Kassulke, O'Hara and Quitzon" , top5[0].name
+    assert_equal "Daugherty Group", top5[4].name
+  end
 
 end

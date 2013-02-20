@@ -90,15 +90,19 @@ class Merchant
   end
 
   def self.most_items(x)
-    sorted_merchants = merchants.sort do |merchA, merchB|
-      merchB.total_items_sold <=> merchA.total_items_sold
+    merchants_with_items = merchants.each_with_object({}) do |merchant, hsh|
+      hsh[merchant.id] = merchant.total_items_sold
+    end.sort {|(id_a, items_a),(id_b, items_b)| items_b <=> items_a }.take(x)
+
+    merchants_with_items.map do |arr|
+      self.find_by_id(arr[0])
     end
-    sorted_merchants.take x
   end
 
   def total_items_sold
-    invoices = successful_invoices
-    invoices.inject(0) {|sum, invoice| sum + invoice.count_items_on_invoice}
+    successful_invoices.inject(0) do |sum, invoice| 
+      sum + invoice.count_items_on_invoice
+    end
   end
 
   def customers_with_pending_invoices
