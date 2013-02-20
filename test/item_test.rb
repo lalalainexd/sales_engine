@@ -179,7 +179,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_created_date
-    merchant = "0"
     date = Date.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_created_at date
     assert_equal 0, items.size
@@ -198,7 +197,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_updated_date
-    merchant = "0"
     date = Date.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 0, items.size
