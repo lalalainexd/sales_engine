@@ -31,7 +31,7 @@ class Invoice
 
   def clean_date date
     Date.parse date
-    
+
   end
 
 	def self.invoices
@@ -74,7 +74,7 @@ class Invoice
 
   def items
     invoice_items.inject([]) do |items, invoice_item|
-      items << Item.find_by_id(invoice_item.item_id)
+      items <<  invoice_item.item
     end
   end
 
@@ -94,7 +94,7 @@ class Invoice
     input[:merchant_id] = input[:merchant].id
 
     invoice = Invoice.new input
-    
+
     Invoice.add_invoice invoice
 
     create_invoice_items count_unique(input[:items]), invoice

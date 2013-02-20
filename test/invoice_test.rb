@@ -4,7 +4,68 @@ class InvoiceTest < MiniTest::Unit::TestCase
   include TestFileLoader
 
   def setup
-    CsvLoader.load_invoices('./test/support/invoices.csv')
+    load_data_for :invoices
+  end
+
+  def teardown
+    clear_all
+  end
+
+
+  def test_it_returns_the_customer_associated_with_the_invoice
+    load_data_for :customers
+    invoice = Invoice.find_by_id(1)
+    assert_equal "Joey" , invoice.customer.first_name
+  end
+
+  def test_it_returns_transactions_associated_with_an_invoice
+    load_data_for :transactions
+    invoice = Invoice.find_by_id(1)
+    assert_equal 1 , invoice.transactions.size
+  end
+
+  def test_it_returns_a_collection_of_invoice_item_instances
+    load_data_for :items, :invoice_items
+    invoice = Invoice.find_by_id(2)
+    assert_equal 2 , invoice.invoice_items.size
+  end
+
+  def test_it_returns_a_collection_of_items_by_way_of_invoiceitem_objects
+    load_data_for :items, :invoice_items
+    invoice = Invoice.find_by_id(2)
+    assert_equal 2 , invoice.items.size
+  end
+
+  def test_it_knows_if_its_successful
+    load_data_for :transactions
+    invoice = Invoice.find_by_id 1
+    assert invoice.success?
+
+  end
+
+  def test_it_charges_the_invoice
+    load_data_for :customers, :merchants, :items
+
+    customer = Customer.find_by_id 2
+    merchant = Merchant.find_by_id 1
+
+    invoice = Invoice.create(customer: customer, merchant: merchant, items: [])
+
+    invoice.charge(credit_card_number: "4444333322221111",
+                   credit_card_expiration: "10/13", result: "success")
+
+    assert_equal 1, Transaction.size
+
+  end
+
+end
+
+#Tests class methods
+class InvoiceClassTest < MiniTest::Unit::TestCase
+  include TestFileLoader
+
+  def setup
+    load_data_for :invoices
   end
 
   def teardown
@@ -16,40 +77,34 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_kind_of Invoice, invoice
   end
 
+  def assert_valid_invoice params, invoice
+    assert_equal params[:id].to_i, invoice.id
+    assert_equal params[:customer_id].to_i, invoice.customer_id
+    assert_equal params[:merchant_id].to_i, invoice.merchant_id
+    assert_equal params[:status], invoice.status
+    assert_equal Date.parse(params[:created_at]), invoice.created_at
+    assert_equal Date.parse(params[:updated_at]), invoice.updated_at
+  end
+
   def test_it_is_initialized_from_a_hash_of_data
-    invoice = Invoice.new(
-      id: '1',
+    params = {id: '1',
       customer_id: '1',
       merchant_id: '1',
       status: 'status',
       created_at: '2012-03-28 14:54:09 UTC',
       updated_at: '2012-03-28 14:54:09 UTC'
-    )
-    date = Date.parse('2012-03-28 14:54:09 UTC')
+    }
 
-    assert_equal 1, invoice.id
-    assert_equal 1, invoice.customer_id
-    assert_equal 1, invoice.merchant_id
-    assert_equal 'status', invoice.status
-    assert_equal date, invoice.created_at
-    assert_equal date, invoice.updated_at
-
-    invoice = Invoice.new(
-      id: '2',
+    params2 = {id: '2',
       customer_id: '2',
       merchant_id: '2',
       status: 'status2',
       created_at: '2012-03-29 14:54:09 UTC',
-      updated_at: '2012-03-29 14:54:09 UTC'
-    )
-    date = Date.parse('2012-03-29 14:54:09 UTC')
+      updated_at: '2012-03-29 14:54:09 UTC'}
 
-    assert_equal 2, invoice.id
-    assert_equal 2, invoice.customer_id
-    assert_equal 2, invoice.merchant_id
-    assert_equal 'status2', invoice.status
-    assert_equal date, invoice.created_at
-    assert_equal date, invoice.updated_at
+    assert_valid_invoice params, Invoice.new(params)
+    assert_valid_invoice params2, Invoice.new(params2)
+
   end
 
   def test_it_stores_invoices_from_an_array
@@ -61,7 +116,6 @@ class InvoiceTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_a_random_invoice
-
     result1 = Invoice.random
     result2 = Invoice.random
 
@@ -190,152 +244,33 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal 0, invoices.size
   end
 
-  def test_it_returns_the_customer_associated_with_the_invoice
-    CsvLoader.load_customers('./test/support/customers.csv')
-    invoice = Invoice.find_by_id(1)
-    assert_equal "Joey" , invoice.customer.first_name
-  end
-
-  def test_it_returns_transactions_associated_with_an_invoice
-    CsvLoader.load_transactions('./test/support/transactions.csv')
-    invoice = Invoice.find_by_id(1)
-    assert_equal 1 , invoice.transactions.size
-  end
-
-  def test_it_returns_a_collection_of_invoice_item_instances
-    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
-     invoice = Invoice.find_by_id(2)
-    assert_equal 2 , invoice.invoice_items.size
-  end
-
-  def test_it_returns_a_collection_of_items_by_way_of_invoiceitem_objects
-    CsvLoader.load_items('./test/support/items.csv')
-    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
-    invoice = Invoice.find_by_id(2)
-    assert_equal 2 , invoice.items.size
-  end
-
-  def test_it_knows_if_its_successful
-    CsvLoader.load_transactions './test/support/transactions.csv'
-
-    invoice = Invoice.find_by_id 1
-    assert invoice.success?
-
-  end
-
-  def load_customers!
-    CsvLoader.load_customers './test/support/customers.csv'
-  end
-
-  def load_data_for(*names)
-    names.each {|name| CsvLoader.send("load_#{name}","./test/support/#{name}.csv") }
-  end
-
-  def test_it_creates_an_invoice_with_a_unique_id
+  def test_it_creates_an_invoice
     load_data_for :customers, :merchants
-    CsvLoader.load_merchants './test/support/merchants.csv'
-
-    customer = Customer.find_by_id 1
-    merchant = Merchant.find_by_id 1
-
-    items = []
-
-    invoice = Invoice.create(
-      customer: customer,
-      merchant: merchant,
-      items: items,
-    )
-
-    assert_equal 11, invoice.id
-  end
-
-  def test_it_includes_the_customer_id
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
-
     customer = Customer.find_by_id 2
     merchant = Merchant.find_by_id 1
 
-    invoice = Invoice.create(
-      customer: customer,
-      merchant: merchant,
-      items: []
-    )
-
-    assert_equal customer.id, invoice.customer_id
-  end
-
-  def test_it_includes_the_merchant_id
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
-
-    customer = Customer.find_by_id 2
-    merchant = Merchant.find_by_id 1
-
-    invoice = Invoice.create(
-      customer: customer,
-      merchant: merchant,
-      items: []
-    )
-
-    assert_equal merchant.id, invoice.merchant_id
-  end
-
-  def test_it_includes_the_status
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
-
-    customer = Customer.find_by_id 2
-    merchant = Merchant.find_by_id 1
-
-    invoice = Invoice.create(
+    params = {
       customer: customer,
       merchant: merchant,
       items: [],
       status: "shipped"
-    )
+    }
 
-    assert_equal "shipped", invoice.status
+    invoice = Invoice.create(params)
+
+    params[:customer_id] = customer.id
+    params[:merchant_id] = merchant.id
+    params[:created_at] = Date.today.to_s
+    params[:updated_at] = Date.today.to_s
+    params[:id] = '11'
+
+    assert_valid_invoice params, invoice
   end
 
-  def test_it_includes_the_created_date
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
 
-    customer = Customer.find_by_id 2
-    merchant = Merchant.find_by_id 1
-
-
-    invoice = Invoice.create(
-      customer: customer,
-      merchant: merchant,
-      items: [],
-    )
-
-    assert_equal Date.today, invoice.created_at.to_date
-  end
-
-  def test_it_includes_the_updated_date
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
-
-    customer = Customer.find_by_id 2
-    merchant = Merchant.find_by_id 1
-
-
-    invoice = Invoice.create(
-      customer: customer,
-      merchant: merchant,
-      items: []
-    )
-
-    assert_equal Date.today, invoice.updated_at.to_date
-  end
 
   def test_it_creates_invoice_items
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
-    CsvLoader.load_items './test/support/items.csv'
+    load_data_for :customers, :merchants, :items
 
     customer = Customer.find_by_id 2
     merchant = Merchant.find_by_id 1
@@ -355,35 +290,4 @@ class InvoiceTest < MiniTest::Unit::TestCase
     assert_equal 2, InvoiceItem.size
 
   end
-
-  def test_it_charges_the_invoice
-    CsvLoader.load_customers './test/support/customers.csv'
-    CsvLoader.load_merchants './test/support/merchants.csv'
-    CsvLoader.load_items './test/support/items.csv'
-
-    customer = Customer.find_by_id 2
-    merchant = Merchant.find_by_id 1
-
-    items = []
-
-
-    invoice = Invoice.create(
-      customer: customer,
-      merchant: merchant,
-      items: items
-    )
-
-    invoice.charge(credit_card_number: "4444333322221111",
-                   credit_card_expiration: "10/13",
-                   result: "success")
-
-    assert_equal 1, Transaction.size
-
-
-  end
-
-
 end
-
-
-# class TestForInvoice < WhateverThisIs
