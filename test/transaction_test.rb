@@ -99,5 +99,28 @@ module SalesEngine
       assert_equal result, transaction.result
       assert_equal 14, transaction.id
     end
+
+    def test_it_returns_a_random_transaction
+        transaction1 = Transaction.random
+        transaction2 = Transaction.random
+
+        refute_equal transaction1, transaction2
+
+    end
+
+    def test_it_can_find_by_credit_card_number
+        card_number = '4654405418249632'
+        transaction = Transaction.find_by_credit_card_number card_number
+
+        assert transaction
+        assert_equal card_number, transaction.credit_card_number
+    end
+
+    def test_it_can_find_all_by_result
+      transactions = Transaction.find_all_by_result "success"
+
+      assert_equal 10, transactions.size
+      assert_equal "success", transactions.sample.result
+    end
   end
 end
