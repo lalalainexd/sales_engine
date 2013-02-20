@@ -17,17 +17,20 @@ require './lib/customer'
 require './sales_engine'
 
 
-def clear_all
-  Invoice.clear
-  Merchant.clear
-  Transaction.clear
-  InvoiceItem.clear
-  Item.clear
-  Customer.clear
-end
 
-module TestFileLoader
-  def load_data_for(*names)
-    names.each {|name| CsvLoader.send("load_#{name}","./test/support/#{name}.csv") }
+module SalesEngine
+  module TestFileLoader
+    def load_data_for(*names)
+      names.each {|name| CsvLoader.send("load_#{name}","./test/support/#{name}.csv") }
+    end
+
+    def clear_all
+      Invoice.clear
+      Merchant.clear
+      Transaction.clear
+      InvoiceItem.clear
+      Item.clear
+      Customer.clear
+    end
   end
 end
