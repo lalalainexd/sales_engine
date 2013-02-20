@@ -37,6 +37,10 @@ module SalesEngine
       invoices.find_all{|invoice| invoice.created_at == date}
     end
 
+    def find_all_by_status status
+      invoices.find_all {|invoice| invoice.status == status}
+    end
+
     def find_all_by_updated_at date
       invoices.find_all{|invoice| invoice.updated_at == date}
     end
