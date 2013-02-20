@@ -106,7 +106,23 @@ module SalesEngine
 
       InvoiceItem.add [InvoiceItem.new(params)]
       assert_valid_invoice_item params, InvoiceItem.find_by_id(2)
+    end
 
+    def test_it_returns_a_random_invoice_item_when_random_is_called
+      random_1 = InvoiceItem.random
+      random_2 = InvoiceItem.random
+
+      refute_equal random_1, random_2
+    end
+
+    def test_it_can_find_all_invoice_items_by_a_quantity
+      invoice_items = InvoiceItem.find_all_by_quantity(4)
+      assert_equal 2, invoice_items.size
+    end
+
+    def test_it_can_find_an_invoice_item_by_item_id
+      invoice_item = InvoiceItem.find_by_item_id(1832)
+      assert_equal 9, invoice_item.id
     end
 
     def test_it_returns_all_invoice_items_by_a_created_at_date

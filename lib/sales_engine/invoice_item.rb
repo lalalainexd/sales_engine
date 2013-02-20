@@ -56,6 +56,10 @@ module SalesEngine
       invoice_items.clear unless invoice_items.nil?
     end
 
+    def self.random
+      invoice_items.sample
+    end
+
     def invoice
       Invoice.find_by_id(@invoice_id)
     end
