@@ -267,8 +267,6 @@ class InvoiceClassTest < MiniTest::Unit::TestCase
     assert_valid_invoice params, invoice
   end
 
-
-
   def test_it_creates_invoice_items
     load_data_for :customers, :merchants, :items
 

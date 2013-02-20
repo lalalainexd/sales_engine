@@ -1,9 +1,10 @@
 require './test/test_helper'
 
 class ItemTest < MiniTest::Unit::TestCase
+  include TestFileLoader
 
   def setup
-    CsvLoader.load_items('./test/support/items.csv')
+    load_data_for(:items)
   end
 
   def teardown
@@ -15,84 +16,57 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_kind_of = Item, item
   end
 
+  def assert_item_is_correctly_defined(item,params)
+    assert_equal params[:id].to_i , item.id
+    assert_equal params[:name], item.name
+    assert_equal params[:description], item.description
+    assert_equal params[:unit_price], item.unit_price
+    assert_equal params[:merchant_id].to_i, item.merchant_id
+    assert_equal Date.parse(params[:created_at]), item.created_at
+    assert_equal Date.parse(params[:updated_at]), item.updated_at
+  end
+
   def test_it_is_initialized_from_a_hash_of_data
-    item = Item.new(
-      id: '1',
-      name: 'name',
-      description: 'description',
-      unit_price: 'unit_price',
-      merchant_id: '1',
-      created_at: '2012-03-27 14:53:59 UTC',
-      updated_at: '2012-03-27 14:53:59 UTC'
-    )
+    params_1 = { id: '1', name: 'name', description: 'description',
+              unit_price: 'unit_price', merchant_id: '1',
+              created_at: '2012-03-27 14:53:59 UTC',
+              updated_at: '2012-03-27 14:53:59 UTC'
+              }
+    item = Item.new(params_1)
+    assert_item_is_correctly_defined(item, params_1)
 
-    date = Date.parse('2012-03-27 14:53:59 UTC')
-
-    assert_equal 1, item.id
-    assert_equal 'name', item.name
-    assert_equal 'description', item.description
-    assert_equal 'unit_price', item.unit_price
-    assert_equal 1, item.merchant_id
-    assert_equal date, item.created_at
-    assert_equal date, item.updated_at
-
-    item = Item.new(
-      id: '2',
-      name: 'name2',
-      description: 'description2',
-      unit_price: 'unit_price2',
-      merchant_id: '2',
-      created_at: '2012-03-28 14:53:59 UTC',
-      updated_at: '2012-03-28 14:53:59 UTC'
-    )
-
-    date = Date.parse('2012-03-28 14:53:59 UTC')
-
-    assert_equal 2, item.id
-    assert_equal 'name2', item.name
-    assert_equal 'description2', item.description
-    assert_equal 'unit_price2', item.unit_price
-    assert_equal 2, item.merchant_id
-    assert_equal date, item.created_at
-    assert_equal date, item.updated_at
+    params_2 = {id: '2', name: 'name2', description: 'description2',
+                unit_price: 'unit_price2', merchant_id: '2',
+                created_at: '2012-03-28 14:53:59 UTC',
+                updated_at: '2012-03-28 14:53:59 UTC'
+                }
+    item = Item.new(params_2)
+    assert_item_is_correctly_defined(item, params_2)
   end
 
   def test_it_stores_items_from_an_array
-    data = [Item.new(
-      id: '1',
-      name: 'name',
-      description: 'description',
-      unit_price: 'unit_price',
-      merchant_id: 'merchant_id',
-      created_at: '2012-03-28 14:53:59 UTC',
-      updated_at: '2012-03-28 14:53:59 UTC'
-    )]
+    data = [Item.new( id: '1', name: 'name', description: 'description',
+      unit_price: 'unit_price', merchant_id: 'merchant_id',
+      created_at: '2012-03-28 14:53:59 UTC', updated_at: '2012-03-28 14:53:59 UTC'
+      )]
 
     Item.add(data)
     assert_equal 1, Item.size
   end
 
   def test_it_returns_a_random_item
-
     item1 = Item.random
     item2 = Item.random
     refute_equal item1, item2
-
   end
 
   def test_it_finds_an_item_by_id
-
     id = 1
-    item = Item.find_by_id id
-    assert_equal id, item.id
-
-    id = 2
     item = Item.find_by_id id
     assert_equal id, item.id
   end
 
   def test_it_finds_an_item_by_name
-
     name = "Item Qui Esse"
     item = Item.find_by_name name
     assert_equal name, item.name
@@ -103,7 +77,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_item_by_description
-
     description = "Nihil autem sit odio inventore deleniti. Est laudantium ratione distinctio laborum. Minus voluptatem nesciunt assumenda dicta voluptatum porro."
     item = Item.find_by_description description
     assert_equal description, item.description
@@ -113,9 +86,7 @@ class ItemTest < MiniTest::Unit::TestCase
     assert_equal description, item.description
   end
 
-
   def test_it_finds_an_item_by_unit_price
-
     unit_price = "75107"
     item = Item.find_by_unit_price unit_price
     assert_equal unit_price, item.unit_price
@@ -126,7 +97,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_finds_an_item_by_merchant_id
-
     merchant_id = 1
     item = Item.find_by_merchant_id merchant_id
     assert_equal merchant_id, item.merchant_id
@@ -137,7 +107,6 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_it_find_all_items_by_name
-
     name = "Item Qui Esse"
     items = Item.find_all_by_name name
     assert_equal 1, items.size
@@ -145,19 +114,15 @@ class ItemTest < MiniTest::Unit::TestCase
     name = "Item Autem Minima"
     items = Item.find_all_by_name name
     assert_equal 1, items.size
-
   end
 
   def test_it_returns_empty_for_nonexistant_name
-
     name = "blah"
     items = Item.find_all_by_name name
     assert items.empty?
-
   end
 
   def test_it_find_all_items_by_merchant_id
-
     merchant_id = 1
     items = Item.find_all_by_merchant_id merchant_id
     assert_equal 8, items.size
@@ -165,18 +130,15 @@ class ItemTest < MiniTest::Unit::TestCase
     merchant_id = 2
     items = Item.find_all_by_merchant_id merchant_id
     assert_equal 1, items.size
-
   end
 
   def test_it_returns_empty_for_nonexistant_merchant_id
-
     merchant_id = "blah"
     items = Item.find_all_by_merchant_id merchant_id
     assert items.empty?
   end
 
   def test_it_find_all_items_by_unit_price
-
     unit_price = "75107"
     items = Item.find_all_by_unit_price unit_price
     assert_equal 2, items.size
@@ -184,25 +146,21 @@ class ItemTest < MiniTest::Unit::TestCase
     unit_price = "68723"
     items = Item.find_all_by_unit_price unit_price
     assert_equal 2, items.size
-
   end
 
   def test_it_returns_empty_for_nonexistant_unit_price
-
     unit_price = "23589012301"
     items = Item.find_all_by_unit_price unit_price
     assert items.empty?
   end
 
   def test_it_find_all_items_by_description
-
     description = "Sunt officia eum qui molestiae. Nesciunt quidem cupiditate reiciendis est commodi non. Atque eveniet sed. Illum excepturi praesentium reiciendis voluptatibus eveniet odit perspiciatis. Odio optio nisi rerum nihil ut."
     items = Item.find_all_by_description description
     assert_equal 1, items.size
   end
 
   def test_it_returns_empty_for_nonexistant_description
-
     description = "dadadad dadadad"
     items = Item.find_all_by_description description
     assert items.empty?
@@ -221,11 +179,9 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_created_date
-    merchant = "0"
     date = Date.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_created_at date
     assert_equal 0, items.size
-
   end
 
   def test_it_finds_all_by_updated_at
@@ -241,87 +197,21 @@ class ItemTest < MiniTest::Unit::TestCase
   end
 
   def test_returns_empty_array_with_non_existing_updated_date
-    merchant = "0"
     date = Date.parse "1999-03-06 15:55:33 UTC"
     items = Item.find_all_by_updated_at date
     assert_equal 0, items.size
-
   end
 
   def test_it_returns_a_collection_of_associated_invoice_items
-    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
+    load_data_for(:invoice_items)
     item = Item.find_by_id 1
     assert_equal 3, item.invoice_items.size
   end
 
-
   def test_it_returns_the_associated_merchant
-    CsvLoader.load_merchants('./test/support/merchants.csv')
+    load_data_for(:merchants)
     item = Item.find_by_id 1
     merchant = Merchant.find_by_id 1
     assert_equal merchant, item.merchant
-  end
-
-  def test_it_returns_the_highest_revenue_item
-    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
-    CsvLoader.load_transactions './test/support/transactions.csv'
-    CsvLoader.load_invoices './test/support/invoices.csv'
-
-    items = Item.most_revenue(1)
-
-    assert_equal 1, items.size
-    assert_equal 2, items.first.id
-
-  end
-
-  def test_it_returns_the_three_highest_revenue_item
-    CsvLoader.load_invoice_items('./test/support/invoice_items.csv')
-    CsvLoader.load_transactions './test/support/transactions.csv'
-    CsvLoader.load_invoices './test/support/invoices.csv'
-
-    items = Item.most_revenue(3)
-
-    assert_equal 3, items.size
-    assert_equal 2, items.first.id
-    assert_equal 1, items[1].id
-
-  end
-
-  def test_it_returns_the_most_sold_item
-    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
-    CsvLoader.load_transactions './test/support/transactions.csv'
-    CsvLoader.load_invoices './test/support/invoices.csv'
-
-    items = Item.most_items(1)
-
-    assert_equal 1, items.size
-    assert_equal 1, items.first.id
-
-  end
-
-  def test_it_returns_the_three_most_sold_items
-    CsvLoader.load_invoice_items './test/support/invoice_items.csv'
-    CsvLoader.load_transactions './test/support/transactions.csv'
-    CsvLoader.load_invoices './test/support/invoices.csv'
-
-    items = Item.most_items(3)
-
-    assert_equal 3, items.size
-    assert_equal 1, items.first.id
-    assert_equal 2, items[1].id
-
-  end
-
-  def test_it_returns_the_date_with_most_sales
-    CsvLoader.load_items
-    CsvLoader.load_invoice_items
-    CsvLoader.load_invoices
-		CsvLoader.load_transactions
-
-    item = Item.find_by_name "Item Accusamus Ut"
-    date = Date.parse "Sat, 24 Mar 2012"
-
-    assert_equal date, item.best_day
-
   end
 end

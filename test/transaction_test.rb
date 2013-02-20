@@ -1,9 +1,10 @@
 require './test/test_helper'
 
 class TransactionTest < MiniTest::Unit::TestCase
+  include TestFileLoader
 
   def setup
-    CsvLoader.load_transactions('./test/support/transactions.csv')
+    load_data_for(:transactions)
   end
 
   def test_it_exists
@@ -19,67 +20,46 @@ class TransactionTest < MiniTest::Unit::TestCase
     assert_equal params[:id].to_i , transaction.id
     assert_equal params[:invoice_id].to_i, transaction.invoice_id
     assert_equal params[:credit_card_number], transaction.credit_card_number
-    assert_equal 'credit_card_expdate', transaction.credit_card_expiration_date
-    assert_equal 'result', transaction.result
+    assert_equal params[:credit_card_expiration_date], transaction.credit_card_expiration_date
+    assert_equal params[:result], transaction.result
     assert_equal Date.parse(params[:created_at]), transaction.created_at
     assert_equal Date.parse(params[:updated_at]), transaction.updated_at
   end
 
   def test_it_is_initialized_from_a_hash_of_data
-    transaction_params = { id: '1',
-      invoice_id: '1',
-      credit_card_number: 'credit_card_number',
-      credit_card_expiration_date: 'credit_card_expdate',
-      result: 'result',
-      created_at: '2012-03-27',
-      updated_at: '2012-03-27'
-    }
+    transaction_params_1 = { id: '1',
+                            invoice_id: '1',
+                            credit_card_number: 'credit_card_number',
+                            credit_card_expiration_date: 'credit_card_expdate',
+                            result: 'result',
+                            created_at: '2012-03-27',
+                            updated_at: '2012-03-27'
+                            }
+    transaction = Transaction.new(transaction_params_1)
+    assert_transaction_is_correctly_defined(transaction,transaction_params_1)
 
-    transaction = Transaction.new(transaction_params)
-
-    date = Date.parse('2012-03-27 14:53:59 UTC')
-
-    assert_transaction_is_correctly_defined(transaction,transaction_params)
-
-    assert_equal 1 , transaction.id
-    assert_equal 1, transaction.invoice_id
-    assert_equal 'credit_card_number', transaction.credit_card_number
-    assert_equal 'credit_card_expdate', transaction.credit_card_expiration_date
-    assert_equal 'result', transaction.result
-    assert_equal date, transaction.created_at
-    assert_equal date, transaction.updated_at
-
-    transaction = Transaction.new(
-      id: '2',
-      invoice_id: '2',
-      credit_card_number: 'credit_card_number2',
-      credit_card_expiration_date: 'credit_card_expiration_date2',
-      result: 'result2',
-      created_at: '2012-03-29 14:53:59 UTC',
-      updated_at: '2012-03-29 14:53:59 UTC'
-    )
-
-    date = Date.parse('2012-03-29 14:53:59 UTC')
-
-      assert_equal 2, transaction.id
-      assert_equal 2, transaction.invoice_id
-      assert_equal 'credit_card_number2', transaction.credit_card_number
-      assert_equal 'credit_card_expiration_date2', transaction.credit_card_expiration_date
-      assert_equal 'result2', transaction.result
-      assert_equal date, transaction.created_at
-      assert_equal date, transaction.updated_at
+    transaction_params_2 = {id: '2',
+                            invoice_id: '2',
+                            credit_card_number: 'credit_card_number2',
+                            credit_card_expiration_date: 'credit_card_expdate2',
+                            result: 'result2',
+                            created_at: '2012-03-29 14:53:59 UTC',
+                            updated_at: '2012-03-29 14:53:59 UTC'
+                          }
+    transaction = Transaction.new(transaction_params_2)
+    assert_transaction_is_correctly_defined(transaction,transaction_params_2)
   end
 
   def test_it_stores_transactions_from_an_array
     transaction = Transaction.new(
-      id: 'id',
-      invoice_id: 'invoice_id',
-      credit_card_number: 'credit_card_number',
-      credit_card_expiration_date: 'credit_card_expiration_date',
-      result: 'result',
-      created_at: '2012-03-29 14:53:59 UTC',
-      updated_at: '2012-03-29 14:53:59 UTC'
-    )
+                  id: 'id',
+                  invoice_id: 'invoice_id',
+                  credit_card_number: 'credit_card_number',
+                  credit_card_expiration_date: 'credit_card_expiration_date',
+                  result: 'result',
+                  created_at: '2012-03-29 14:53:59 UTC',
+                  updated_at: '2012-03-29 14:53:59 UTC'
+                  )
       data = [transaction]
       Transaction.add data
       assert_equal 1, Transaction.size
@@ -91,14 +71,14 @@ class TransactionTest < MiniTest::Unit::TestCase
   end
 
   def test_it_returns_an_assoiated_invoice
-    CsvLoader.load_invoices('./test/support/invoices.csv')
+    load_data_for(:invoices)
     transaction = Transaction.find_by_id 1
     invoice = Invoice.find_by_id 1
     assert_equal invoice, transaction.invoice
   end
 
   def test_it_finds_all_transactions_by_invoice_id
-    CsvLoader.load_invoices('./test/support/invoices.csv')
+    load_data_for(:transactions)
     transactions = Transaction.find_all_by_invoice_id(12)
     assert_equal 3 , transactions.size
   end
