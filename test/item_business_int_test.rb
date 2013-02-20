@@ -33,7 +33,7 @@ module SalesEngine
 
       items = Item.most_items(37)
 
-      assert_equal 'Item Nam Magnam', items.first.name
+      assert_equal 'Item Nam Magnam', items[1].name
       assert_equal 'Item Ut Quaerat', items.last.name
     end
 
