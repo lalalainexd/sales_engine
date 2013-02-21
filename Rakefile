@@ -1,7 +1,15 @@
 require 'rake/testtask'
 
+task :default => :test
+
 Rake::TestTask.new do |t|
-  t.pattern = "test/*_test.rb"
+  t.libs = [ "lib", "test" ]
+  t.pattern = "test/**/*_test.rb"
+end
+
+Rake::TestTask.new "test:invoice" do |t|
+  t.libs = [ "lib", "test" ]
+  t.pattern = "test/invoice_test.rb"
 end
 
 task :gem do
