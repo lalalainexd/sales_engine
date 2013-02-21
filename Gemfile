@@ -1,6 +1,9 @@
 source 'https://rubygems.org'
 
-gem 'simplecov', :require => false, :group => :test
-gem 'cane'
-gem 'reek'
 gem 'rake'
+
+group :test do
+  gem 'simplecov', :require => false
+  gem 'cane'
+  gem 'reek'
+end
