@@ -1,21 +1,8 @@
-GIT
-  remote: git://github.com/lalalainexd/sales_engine.git
-  revision: d23e0e7f321630a5c1f258413dbe79bd7d0503ac
-  specs:
-    sales_engine (0.0.1)
-
-GIT
-  remote: https://github.com/JumpstartLab/sales_engine_spec_harness
-  revision: 19961734cadec4181fa002259f7d3ab672e99979
-  specs:
-    sales_engine_spec_harness (0.0.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
     cane (2.5.2)
       parallel
-    diff-lcs (1.1.3)
     multi_json (1.6.1)
     parallel (0.6.2)
     rake (10.0.3)
@@ -23,14 +10,6 @@ GEM
       ruby2ruby (~> 2.0.2)
       ruby_parser (~> 3.1.1)
       sexp_processor
-    rspec (2.12.0)
-      rspec-core (~> 2.12.0)
-      rspec-expectations (~> 2.12.0)
-      rspec-mocks (~> 2.12.0)
-    rspec-core (2.12.2)
-    rspec-expectations (2.12.1)
-      diff-lcs (~> 1.1.3)
-    rspec-mocks (2.12.2)
     ruby2ruby (2.0.3)
       ruby_parser (~> 3.1)
       sexp_processor (~> 4.0)
@@ -49,7 +28,4 @@ DEPENDENCIES
   cane
   rake
   reek
-  rspec
-  sales_engine!
-  sales_engine_spec_harness!
   simplecov
