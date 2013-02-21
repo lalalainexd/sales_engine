@@ -132,8 +132,5 @@ class Invoice
     invoice_items.inject(0) {|sum, invoice_item| sum + invoice_item.quantity}
   end
 
-  def self.successful
-    @successful_invoices ||= invoices.select {|i| i.success? }
-  end
 end
 end
